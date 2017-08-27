@@ -1,0 +1,85 @@
+@charset "utf-8";
+.nav_wrap { background: #fff; overflow: hidden; border-bottom: 1px solid #ddd; }
+.nav { display: table; }
+#nav { width: 1200px; margin: 0 auto; }
+#nav > ul { background: url(../../images/com/navline.gif) right top repeat-y; box-sizing: border-box; padding-right: 1px; }
+#nav > ul > li { font-size: 16px; font-weight: bold; display: table-cell; position: relative; box-sizing: border-box; background: url(../../images/com/navline.gif) left top repeat-y; }
+#nav > ul > li a { display: block; }
+#nav > ul > li.active > a { color: #fff; font-weight: bold; background: #1f2d5c; }
+#nav > ul > li > a { color: #fff; background: #364c86; line-height: 41px; height: 44px; display: inline-block; position: relative; transition: background 0.3s; width: 168px; box-sizing: border-box; vertical-align: top; }
+#nav > ul > li > a:before { content: ''; position: absolute; left: 0; top: 12px; width: 1px; height: 20px; display: inline-block; background-color: #5e709e; }
+#nav > ul > li:first-child > a:before { display: none; }
+#nav > ul > li.on > a, #nav > ul > li:hover > a { background-color: #1f2d5c; color: #fff; }
+#nav > ul > li > div { width: 168px; height: 100%; box-sizing: border-box; display: none; }
+#nav .nav.on > li > div { display: block; }
+#nav > ul > li.on, #nav > ul > li:hover { background: url(../../images/com/navline.gif) left top repeat-y #eef7fe; }
+#nav > ul > li > div > ul { width: 100%; box-sizing: border-box; padding: 12px 0; position: relative; transition: all 0.3s; height: 100%; }
+#nav > ul > li > div > ul > li { text-align: left; }
+#nav > ul > li > div > ul > li > a { font-size: 13px; color: #333; padding: 6px 30px 7px 16px; display: block; position: relative; transition: background 0.3s; }
+#nav > ul > li > div > ul > li > a:before { content: ''; background: url(../../images/com/iconset_main.png) no-repeat; background-position: -125px -25px; width: 6px; height: 9px; position: absolute; right: 10px; top: 50%; margin-top: -5px; }
+#nav > ul > li > div > ul > li > a:hover { background: #d2e6f9; font-weight: bold; }
+#nav > ul > li > div > ul > li:first-child > a { font-size: 16px; font-weight: bold; }
+#nav > ul > li > div > ul > li:first-child > a:before, #nav > ul > li > div > ul > li > a[target="_blank"]:before { display: none; }
+#nav > ul > li > div > ul > li.on > a { background: #4573ae; color: #fff; font-weight: bold; }
+#nav > ul > li > div > ul > li.on > a:before { content: ''; background: url(../../images/com/iconset_main.png) no-repeat; background-position: -150px -25px; width: 9px; height: 6px; position: absolute; right: 10px; top: 50%; margin-top: -3px; }
+#nav > ul > li > div > ul > li > ul { padding: 10px 5px 10px 18px; border-bottom: 1px solid #ddd; background: #fff; margin-left: 1px; display: none; }
+#nav > ul > li > div > ul > li.on > ul { display: block; }
+#nav > ul > li > div > ul > li > ul > li { position: relative; }
+#nav > ul > li > div > ul > li > ul > li > a { font-size: 12px; padding: 4px 0 4px 7px; line-height: 1.4; }
+#nav > ul > li > div > ul > li > ul > li > a:hover { color: #333; font-weight: bold; }
+#nav > ul > li > div > ul > li > ul > li:before { content: ''; position: absolute; left: 0; top: 10px; width: 3px; height: 3px; display: block; background-color: #5f5f5f; border-radius: 10px; }
+#nav > ul > li > div > ul > li > ul > li > ul { display: none; }
+#nav > ul > li > div li a { font-size: 13px; color: #555; font-weight: normal; }
+
+#nav,  .festival_news .inner,  .footer_menu,  .footer_address .inner { width: 748px; }
+#nav > ul > li { font-size: 15px; }
+#nav > ul > li > a { width: 125px; line-height: 44px; }
+#nav > ul > li > div { width: 125px; }
+#nav > ul > li > div > ul > li > a { font-size: 12px; padding: 6px 20px 7px 10px; }
+#nav > ul > li > div > ul > li > ul { padding: 6px 5px 7px 10px; }
+#nav > ul > li > div > ul > li > ul > li > a { font-size: 11px; }
+#nav > ul > li > div > ul > li:first-child > a { font-size: 14px; }
+.nav_top { display: block; background-color: #f0f1f5; height: 50px; color: #fff; border-bottom: 2px solid #1f2d5c; }
+.nav_top ul { position: absolute; left: 5px; top: 15px; }
+.nav_top ul li { display: inline-block; padding: 0 8px 0 11px; position: relative; vertical-align: middle; }
+.nav_top ul li:before { content: ''; position: absolute; left: 0; top: 3px; width: 1px; height: 12px; display: inline-block; background-color: #ddd; }
+.nav_top ul li a { color: #333; }
+.nav_top ul li:first-child:before { display: none; }
+.navbg { background-color: rgba(0,0,0,.7); opacity: .7; filter: alpha(opacity=70); position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 800; min-height: 100%; border: none; display: none; }
+#nav { background: #fff; position: absolute; left: 0; top: 0; z-index: 1000; width: 280px; height: 100%; overflow-y: auto; display: none; }
+#nav.on { display: block; height: 100vh; background-color: rgba(6,23,37,.8); position: fixed; padding-bottom:50px; }
+.nav_top { max-width: 255px; }
+.menuclose { left: 255px; right: auto; }
+#nav > ul { width: 100%; max-width: 255px; height: 100%; background-color: #fff; overflow-y: auto; padding-right: 0; }
+#nav > ul > li { display: block; width: 100%; text-align: left; border-bottom: 1px solid #ddd; padding: 0; height: auto; font-size: 15px; }
+#nav > ul > li > a { width: 100%; background: #fff; color: #333; padding-left: 15px; }
+#nav > ul > li.active > a { color: #333; background: #fff; }
+#nav > ul > li.on > a, #nav > ul > li.active.on > a { color: #fff; font-weight: bold; background: #364c86; }
+#nav > ul > li > a:before { background: url(../../images/com/iconset_main.png) no-repeat; background-position: -175px -75px; width: 17px; height: 7px; position: absolute; right: 15px; top: 50%; margin-top: -4px; left: auto; }
+#nav > ul > li.on > a:before { background-position: -200px -75px; }
+#nav > ul > li:first-child > a:before { display: block; }
+#nav ul li div { display: none; position: relative; top: auto; left: auto; min-height: inherit; height: inherit; margin: 0; background: #eef7fe; border-top: 1px solid #ddd; border-bottom: none; width: 100%; }
+#nav > ul > li.on > div { display: block; background: #f5f5f5; }
+#nav ul li div ul { position: relative; top: auto; left: auto; min-height: inherit; height: auto; border-left: none; padding: 0; margin: 0; width: auto; overflow: hidden; }
+#nav ul li div > ul > li.on > a { color: #fff; font-weight: bold; padding-right: 40px; }
+#nav > ul > li > div > ul > li > a:before, #nav > ul > li > div > ul > li.on > a:before { right: 15px; background-position: -200px -100px; width: 10px; height: 10px; margin-top: -5px; }
+#nav > ul > li > div > ul > li.on > a:before { background-position: -225px -100px; }
+#nav ul li div > ul > li >ul > li.on { font-weight: bold; }
+#nav ul li div > ul > li >ul > li.on > a { font-weight: bold; }
+#nav ul li div ul li a { padding: 10px 10px 10px 20px; font-size: 13px; }
+#nav ul li div ul li { margin: 0; padding: 0; text-align: left; font-size: 12px; display: block; border-top: 1px solid #ddd; width: 100%; background: none; line-height: 1.2; }
+#nav ul li div ul li:first-child { border-top: none; }
+#nav ul li div > ul > li:before { display: none; }
+#nav ul li div ul li a { display: block; padding-left: 20px; }
+#nav ul li div > ul > li.on > ul { display: block; }
+#nav ul li div > ul > li > ul { background: #fff; padding: 5px 0; border-top: 1px solid #ddd; border-bottom: none; }
+#nav ul li div > ul > li > ul li { border: none; position: relative; }
+#nav ul li div > ul > li > ul li:before { position: absolute; left: 26px; top: 11px; }
+#nav ul li div > ul > li > ul li:first-child:before { display: block; }
+#nav ul li div > ul > li > ul li a { padding: 6px 10px 6px 35px; font-size: 12px; position: relative; }
+#nav ul li div > ul > li > ul li.menu_toggle > a:before { content: ''; background: url(../../images/com/iconset_main.png) no-repeat; background-position: -200px -50px; width: 10px; height: 6px; position: absolute; right: 15px; top: 50%; margin-top: -3px; display: block; }
+#nav ul li div > ul > li > ul li.menu_toggle.on > a:before { background-position: -225px -50px; }
+#nav ul li div > ul > li > ul li.menu_toggle.on > ul { display: block; }
+#nav > ul > li > div > ul > li > ul > li > ul { padding: 7px; border: 1px dotted #ddd; background: #f9f9f9; margin: 2px 15px 5px 25px; }
+#nav > ul > li > div > ul > li > ul > li > ul a { padding-left: 10px; }
+#nav, .festival_news .inner, .footer_menu, .footer_address .inner { width: 100%; }

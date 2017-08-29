@@ -42,7 +42,7 @@
  * 초기화
  ******************************************************** */
 function fn_egov_init(){
-	alert('init');
+	//alert('init');
 	try{
 	 var multi_selector_1 = new MultiSelector( document.getElementById( 'egovComFileList_1' ), 1, 'file_label_1' );
 	 multi_selector_1.addElement( document.getElementById( 'egovfile_1' ) );
@@ -53,7 +53,7 @@ function fn_egov_init(){
  * 파일첨부 
  ******************************************************** */
 function makeFileAttachment(){
-	alert('ASDF');
+	//alert('ASDF');
 	 var maxFileNum = 1;
 	 var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
 	 multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
@@ -89,6 +89,9 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
   	document.articleForm.submit();
 }
 </script>
+<script type="text/javaScript" language="javascript">
+	parent._top.menuDspl("block",'${loginVO.name}');
+</script>
 </head>
 <body onload="fn_egov_init()">
 <!-- javascript warning tag  -->
@@ -97,7 +100,7 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 <form:form commandName="articleVO" action="${pageContext.request.contextPath}/cop/bbs/insertArticle.do" method="post" onSubmit="fn_egov_regist_article(document.forms[0]); return false;" enctype="multipart/form-data">
 
 <div class="board">
-	<h1 style = "margin-bottom:30px;">UPLOAD</h1>
+	<h1 style = "margin-bottom:30px;">평가실시</h1>
 
 	<input name="bbsId" type="hidden" value="${boardMasterVO.bbsId}">
 	</form>

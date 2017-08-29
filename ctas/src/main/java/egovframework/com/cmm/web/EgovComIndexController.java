@@ -69,7 +69,12 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovTop.do")
-	public String top() {
+	public String top(ModelMap model) {
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginVO", loginVO);
+		
+		LOGGER.debug("loginVO = ", loginVO);
+		
 		return "egovframework/com/cmm/EgovUnitTop";
 	}
 
@@ -83,15 +88,32 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		model.addAttribute("loginVO", loginVO);
+		
+		if (loginVO == null) {
+			return "egovframework/com/uat/uia/EgovLoginUsr";
+		}
+		
+		String strContent = "egovframework/com/cmm/UpLoad";
+		if ("GROUP_00000000000003".equalsIgnoreCase(loginVO.getGroupId())) {
+			//관리자
+			strContent = "egovframework/com/cmm/UpLoad";
+		} else if ("GROUP_00000000000002".equalsIgnoreCase(loginVO.getGroupId())) {
+			//평가자
+			strContent = "egovframework/com/cmm/UpLoad";
+		} else if ("GROUP_00000000000001".equalsIgnoreCase(loginVO.getGroupId())) {
+			//피평가자
+			strContent = "egovframework/com/cmm/UpLoad";
+		}
 
-		return "egovframework/com/cmm/EgovUnitContent";
+
+		return strContent;
 	}
 
 	@RequestMapping("/UpLoad.do")
 	public String upLoadMenu(ModelMap model) {
 
-		//LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		//model.addAttribute("loginVO", loginVO);
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginVO", loginVO);
 
 		return "egovframework/com/cmm/UpLoad";
 	}

@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>eGovFrame 공통 컴포넌트</title>
 <script type="text/javaScript" language="javascript">
+	
 	parent._top.menuDspl("block",'${loginVO.name}');
 </script>
 </head>

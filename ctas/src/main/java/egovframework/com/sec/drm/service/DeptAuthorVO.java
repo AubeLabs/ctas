@@ -42,6 +42,28 @@ public class DeptAuthorVO extends DeptAuthor {
 	 */
 	private String deptNm;
 	
+	private String ATCH_FILE_CNT;
+	private String ASSESS_FILE_CNT;
+	private String SCORE_CNT;
+	
+	public String getATCH_FILE_CNT() {
+		return ATCH_FILE_CNT;
+	}
+	public void setATCH_FILE_CNT(String aTCH_FILE_CNT) {
+		ATCH_FILE_CNT = aTCH_FILE_CNT;
+	}
+	public String getASSESS_FILE_CNT() {
+		return ASSESS_FILE_CNT;
+	}
+	public void setASSESS_FILE_CNT(String aSSESS_FILE_CNT) {
+		ASSESS_FILE_CNT = aSSESS_FILE_CNT;
+	}
+	public String getSCORE_CNT() {
+		return SCORE_CNT;
+	}
+	public void setSCORE_CNT(String sCORE_CNT) {
+		SCORE_CNT = sCORE_CNT;
+	}
 	/**
 	 * deptAuthorList attribute 를 리턴한다.
 	 * @return List<DeptAuthorVO>

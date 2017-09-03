@@ -65,12 +65,12 @@
 			else foo.children[i].className = "";
 		}
 
-		if(objName == "0"){//평가실시
+		if(objName == "0"){//HOME
+			parent._content.location.href = "${pageContext.request.contextPath}/EgovContent.do"
+		}else if(objName == "1"){//UPLOAD
 			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do"
-		}else if(objName == "1"){
-			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000001"
 		}else if(objName == "2"){
-			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000002"
+		 	
 		}
 		
 	}
@@ -78,38 +78,42 @@
 		document.getElementById("menu_wrapper").style.display=param1;
 		document.getElementById("welcome").style.display=param1;
 		//alert('${loginVO.name }');
-		document.getElementById("welcome").innerHTML = param2+" 님 환영합니다. <a href='javascript:contentLogout();''>로그아웃</a>";
+		document.getElementById("welcome").innerHTML = param2+"님 환영합니다. <a href='javascript:contentLogout();''>로그아웃</a>";
 		document.getElementById("menu").children[0].className = "active";
 		
 	}
 	function contentLogout(){
 		parent._content.location.href = "${pageContext.request.contextPath }/uat/uia/actionLogout.do"
 	}
-
 </script>
 </head>
-<body onload="menuDspl('block','${loginVO.name}')">
+<body>
 <div id="header">
 	<div class="header_box"> 
-		<h1>
-			<a href="<c:url value='/EgovContent.do' />" target="_content"><img src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe"></a>
-		</h1>
-		<div style="margin-top:13px; float: left; width: 50%;"><strong class="top_title_strong">CTAS | 민원서비스 종합평가</strong></div>
-		
-		<div style="margin-top:30px; display:none;float: right; width: 20%; " id="welcome">
-			<%-- ${loginVO.name }님 환영합니다. <a href="javascript:contentLogout();">로그아웃</a> --%>
-		</div>
-		
-		<br/>
+	<h1>
+		<a href="<c:url value='/EgovContent.do' />" target="_content"><img src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe"></a>
+	</h1>
+	<div style="margin-top:13px; float: left; width: 50%;"><strong class="top_title_strong">민원서비스 종합평가</strong></div>
+	
 
+	<div style="margin-top:30px; display:none;float: right; width: 20%; " id="welcome">
+		<%-- ${loginVO.name }님 환영합니다. <a href="javascript:contentLogout();">로그아웃</a> --%>
 	</div>
+
+	
+	<br/>
+
+</div>
 	<!-- Blue Menu -->
 	<div id="menu_wrapper" class="blue">
-		<div class="left"></div>
+	<div class="left"></div>
 		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0);">평가실시</a></li>
-			<li><a href="javascript:fnMenuSelect(1);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(2);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(0);">Home</a></li>
+			<li><a href="javascript:fnMenuSelect(1);">UPLOAD</a></li>
+			<li><a href="javascript:fnMenuSelect(2);">MENU3</a></li>
+			<li><a href="javascript:fnMenuSelect(3);">MENU4</a></li>
+			<li><a href="javascript:fnMenuSelect(4);">MENU5</a></li>
+			<li><a href="javascript:fnMenuSelect(5);">MENU6</a></li>
 		</ul>
 	</div>
 </body>

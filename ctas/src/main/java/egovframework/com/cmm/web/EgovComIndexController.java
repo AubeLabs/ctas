@@ -28,27 +28,68 @@ package egovframework.com.cmm.web;
  */
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
+
+import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.IncludedCompInfoVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.cop.bbs.service.BoardMaster;
+import egovframework.com.cop.bbs.service.BoardMasterVO;
+import egovframework.com.cop.bbs.service.BoardVO;
+import egovframework.com.sec.drm.service.DeptAuthorVO;
+import egovframework.com.sec.drm.service.EgovDeptAuthorService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import egovframework.com.cmm.service.CtasService;
+import egovframework.com.cmm.service.CtasVO;
 
 @Controller
 public class EgovComIndexController implements ApplicationContextAware, InitializingBean {
 
+	@Resource(name = "CtasService")
+    private CtasService CtasService;
+	
+    @Resource(name = "EgovFileMngService")
+    private EgovFileMngService fileMngService;
+    
+    @Resource(name = "EgovFileMngUtil")
+    private EgovFileMngUtil fileUtil;
+    
+    @Resource(name = "egovDeptAuthorService")
+    private EgovDeptAuthorService egovDeptAuthorService;
+    
+    @Resource(name="egovMessageSource")
+    EgovMessageSource egovMessageSource;
+    
+    @Autowired
+    private DefaultBeanValidator beanValidator;
+    
 	private ApplicationContext applicationContext;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovComIndexController.class);
@@ -69,12 +110,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovTop.do")
-	public String top(ModelMap model) {
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		model.addAttribute("loginVO", loginVO);
-		
-		LOGGER.debug("loginVO = ", loginVO);
-		
+	public String top() {
 		return "egovframework/com/cmm/EgovUnitTop";
 	}
 
@@ -84,40 +120,130 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovContent.do")
-	public String setContent(ModelMap model) {
+	public String setContent( ModelMap model) {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		model.addAttribute("loginVO", loginVO);
-		
-		if (loginVO == null) {
-			return "egovframework/com/uat/uia/EgovLoginUsr";
-		}
-		
-		String strContent = "egovframework/com/cmm/UpLoad";
-		if ("GROUP_00000000000003".equalsIgnoreCase(loginVO.getGroupId())) {
-			//관리자
-			strContent = "egovframework/com/cmm/UpLoad";
-		} else if ("GROUP_00000000000002".equalsIgnoreCase(loginVO.getGroupId())) {
-			//평가자
-			strContent = "egovframework/com/cmm/UpLoad";
-		} else if ("GROUP_00000000000001".equalsIgnoreCase(loginVO.getGroupId())) {
-			//피평가자
-			strContent = "egovframework/com/cmm/UpLoad";
-		}
 
-
-		return strContent;
+		return "egovframework/com/cmm/EgovUnitContent";
 	}
 
 	@RequestMapping("/UpLoad.do")
-	public String upLoadMenu(ModelMap model) {
+	public String upLoadMenu(@ModelAttribute("ctasVO") CtasVO ctasVO, ModelMap model) {
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		Map hm = new HashMap();
+		hm.put("ORG", loginVO.getOrgnztId());
+		hm.put("SRCHORG", ctasVO.getSrchOrg());
+		List uploadList = CtasService.selectUploadList(hm);
+		
+		//
+		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
 		model.addAttribute("loginVO", loginVO);
-
+		model.addAttribute("ctasVO", ctasVO);
+		model.addAttribute("uploadList", uploadList);
+		model.addAttribute("GUBUN", loginVO.getOrgnztId().substring(0, 1));
+		
 		return "egovframework/com/cmm/UpLoad";
 	}
 	
+    /**
+     * 게시물을 등록한다.
+     * 
+     * @param boardVO
+     * @param board
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/insertUpLoad.do")
+    public String insertUpLoad(final MultipartHttpServletRequest multiRequest
+    		, @ModelAttribute("ctasVO") CtasVO vo,
+	    ModelMap model) throws Exception {
+
+    	//System.out.println(vo);
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+	    List<FileVO> result = null;
+	    String atchFileId = "";
+	    
+	    final Map<String, MultipartFile> files = multiRequest.getFileMap();
+	    if (!files.isEmpty()) {
+	    	result = fileUtil.parseFileInf(files, "BBS_", 0, "", "");
+	    	atchFileId = fileMngService.insertFileInfs(result);
+	    }
+	    
+	    Map hm = new HashMap();
+	    hm.put("ORGNZT_ID", user.getOrgnztId());//조직코드
+	    hm.put("AI_CD", vo.getCtacd().substring(1, 2));//평가지표코드
+	    //hm.put("C", user.getOrgnztId()); //일련번호 쿼리에서
+	    hm.put("FILE_ID", atchFileId);//파일ID
+		hm.put("USER_ID", user.getId());//등록자
+		
+	    if (vo.getCtacd().substring(0, 1).equals("0")){ //보고서
+	    	CtasService.insertUploadFile0(hm);
+	    }else{ //실적증빙
+	    	CtasService.insertUploadFile1(hm);
+	    }
+	    
+		return "forward:/UpLoad.do";
+    }
+    
+    /**
+     * 점수등록
+     * 
+     * @param boardVO
+     * @param board
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/goRate.do")
+    public String goRate(final MultipartHttpServletRequest multiRequest
+    		, @ModelAttribute("ctasVO") CtasVO vo,
+	    ModelMap model) throws Exception {
+
+    	//System.out.println(vo);
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+	    CtasService.insertRate(vo.getRate());
+
+		return "forward:/UpLoad.do";
+    }
+    
+	/**
+	 * 기관목록 조회
+	 * @param deptAuthorVO DeptAuthorVO
+	 * @return String
+	 * @exception Exception
+	 */
+    @RequestMapping(value="/OrgSearchList.do")
+	public String selectDeptList(@ModelAttribute("deptAuthorVO") DeptAuthorVO deptAuthorVO,
+			                             ModelMap model) throws Exception {
+
+    	/** paging */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(deptAuthorVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(deptAuthorVO.getPageUnit());
+		paginationInfo.setPageSize(deptAuthorVO.getPageSize());
+		
+		deptAuthorVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		deptAuthorVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		deptAuthorVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		deptAuthorVO.setDeptList(egovDeptAuthorService.selectDeptList(deptAuthorVO));
+        model.addAttribute("deptList", deptAuthorVO.getDeptList());
+        
+        int totCnt = egovDeptAuthorService.selectDeptListTotCnt(deptAuthorVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+
+        model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        
+        return "egovframework/com/cmm/EgovOrgSearch";
+	}
+    
 	@RequestMapping("/EgovLeft.do")
 	public String setLeftMenu(ModelMap model) {
 

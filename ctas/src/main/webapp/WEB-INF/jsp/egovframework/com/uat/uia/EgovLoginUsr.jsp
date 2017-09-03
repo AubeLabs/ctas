@@ -89,9 +89,9 @@ function goRegiUsr() {
         document.loginForm.action="<c:url value='/uss/umt/EgovStplatCnfirmMber.do'/>";
         document.loginForm.submit();
     // 기업회원
-    //} else if (userSe == "ENT") {
-    //    document.loginForm.action="<c:url value='/uss/umt/EgovStplatCnfirmEntrprs.do'/>";
-    //    document.loginForm.submit();
+    } else if (userSe == "ENT") {
+        document.loginForm.action="<c:url value='/uss/umt/EgovStplatCnfirmEntrprs.do'/>";
+        document.loginForm.submit();
     // 업무사용자
     } else if (userSe == "USR") {
     	<%-- 업무사용자는 별도의 회원가입이 필요하지 않습니다. --%>

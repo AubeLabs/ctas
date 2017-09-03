@@ -19,8 +19,7 @@
 		<result property="password" column="password"/>
 		<result property="userSe" column="userSe"/>
 		<result property="orgnztId" column="orgnztId"/>
-		<result property="uniqId" column="uniqId"/>
-		<result property="groupId" column="groupId"/>
+		<result property="uniqId" column="uniqId"/>		
 	</resultMap>
 	
 	<!-- 아이디 찾기를 위한 resultMap -->
@@ -88,38 +87,24 @@
 	
 	<!-- 일반 로그인 -->
 	<select id="actionLogin" resultMap="login">
-		<!-- 일반회원 - 관리자 -->
+		<!-- 일반회원 -->
 		<if test="userSe != null and userSe == 'GNR'">
 			
-			SELECT emplyr_id AS id
-			     , user_nm AS name
+			SELECT mber_id AS id
+			     , mber_nm AS name
+			     , ihidNum AS ihidNum
 			     , password AS password
-			     , ihidnum AS ihidNum
-			     , email_adres AS email
+			     , mber_email_adres AS email
 			     , 'GNR' AS userSe
-			     , orgnzt_id AS orgnztId
+			     , '-' AS orgnztId
 			     , esntl_id AS uniqId
-			     , group_id AS groupId
-			  FROM COMTNEMPLYRINFO
-			 WHERE emplyr_id = #{id}
-			   AND password = #{password}
-			   AND emplyr_sttus_code = 'P'
-			   
-<!-- 			SELECT mber_id AS id -->
-<!-- 			     , mber_nm AS name -->
-<!-- 			     , ihidNum AS ihidNum -->
-<!-- 			     , password AS password -->
-<!-- 			     , mber_email_adres AS email -->
-<!-- 			     , 'GNR' AS userSe -->
-<!-- 			     , '-' AS orgnztId -->
-<!-- 			     , esntl_id AS uniqId -->
-<!-- 			  FROM COMTNGNRLMBER -->
-<!-- 			 WHERE mber_id = #{id} -->
-<!-- 			   /*AND password = {password}*/ -->
-<!-- 			   AND mber_sttus = 'P' -->
+			  FROM COMTNGNRLMBER
+			 WHERE mber_id = #{id}
+			   /*AND password = {password}*/
+			   AND mber_sttus = 'P'
 			
 		</if>
-		<!-- 기업회원 
+		<!-- 기업회원 -->
 		<if test="userSe != null and userSe == 'ENT'">
 			
 			SELECT ENTRPRS_MBER_ID AS id
@@ -135,7 +120,7 @@
 			   AND entrprs_mber_password = #{password}
 			   AND entrprs_mber_sttus = 'P'
 			
-		</if>-->
+		</if>
 		<!-- 업무사용자 -->
 		<if test="userSe != null and userSe == 'USR'">
 			
@@ -147,10 +132,9 @@
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , esntl_id AS uniqId
-			     , group_id AS groupId
 			  FROM COMTNEMPLYRINFO
 			 WHERE emplyr_id = #{id}
-			   /*AND password = #{password}*/
+			   /*AND password = {password}*/
 			   AND emplyr_sttus_code = 'P'
 			
 		
@@ -182,7 +166,6 @@
 		     , 'USR' AS userSe
 		     , orgnzt_id AS orgnztId
 		     , esntl_id AS uniqId
-		     , group_id AS groupId
 		  FROM COMTNEMPLYRINFO
 		 WHERE CRTFC_DN_VALUE = #{dn}
 		

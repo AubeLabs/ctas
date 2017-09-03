@@ -16,6 +16,9 @@
     <resultMap id="dept" type="egovframework.com.sec.drm.service.DeptAuthorVO">
         <result property="deptCode" column="DEPT_CODE"/>
         <result property="deptNm" column="DEPT_NM"/>
+        <result property="ATCH_FILE_CNT" column="ATCH_FILE_CNT"/>
+        <result property="ASSESS_FILE_CNT" column="ASSESS_FILE_CNT"/>
+        <result property="SCORE_CNT" column="SCORE_CNT"/>
     </resultMap>
 
     <select id="selectDeptAuthorList" parameterType="egovframework.com.sec.drm.service.DeptAuthorVO" resultMap="deptAuthor">
@@ -83,9 +86,16 @@
 
     <select id="selectDeptList" parameterType="egovframework.com.sec.drm.service.DeptAuthorVO" resultMap="dept">
             SELECT ORGNZT_ID AS DEPT_CODE,
-                   ORGNZT_NM AS DEPT_NM
-              FROM COMTNORGNZTINFO             
-             WHERE 1 = 1 
+                   ORGNZT_NM AS DEPT_NM,
+                   ATCH_FILE_CNT,
+                   ASSESS_FILE_CNT,
+                   SCORE_CNT
+              FROM COMTNORGNZTINFO A
+              LEFT OUTER JOIN (SELECT ORGNZT_ID B_ORGNZT_ID, COUNT(ATCH_FILE_ID) ATCH_FILE_CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID) B
+                ON ORGNZT_ID = B_ORGNZT_ID
+              LEFT OUTER JOIN (SELECT ORGNZT_ID C_ORGNZT_ID, COUNT(IF(ASSESS_FILE_ID='',NULL,ASSESS_FILE_ID)) ASSESS_FILE_CNT, COUNT(RATING_SCORE) SCORE_CNT FROM ASSESSMENT GROUP BY ORGNZT_ID) C
+		          ON ORGNZT_ID = C_ORGNZT_ID
+             WHERE 1 = 1
             <if test="searchCondition == 1">AND
                 ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             </if>             

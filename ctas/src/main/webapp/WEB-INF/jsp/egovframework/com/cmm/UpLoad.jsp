@@ -32,245 +32,320 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
-<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile2.js'/>" ></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/utl/EgovCmmUtl.js'/>" ></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <script type="text/javascript">
 /*********************************************************
- * 초기화
+ * init
  ******************************************************** */
 function fn_egov_init(){
-	//alert('init');
-	try{
-	 var multi_selector_1 = new MultiSelector( document.getElementById( 'egovComFileList_1' ), 1, 'file_label_1' );
-	 multi_selector_1.addElement( document.getElementById( 'egovfile_1' ) );
-	// 첫 입력란에 포커스..
-	}catch(e){alert(e);}
+	//alert('GUBUN:${GUBUN}');
 }
 /* ********************************************************
- * 파일첨부 
+ * 파일첨부 버튼클릭시
  ******************************************************** */
-function makeFileAttachment(){
-	//alert('ASDF');
-	 var maxFileNum = 1;
-	 var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
-	 multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
-}
-/* excel download function */
-function fn_egov_excel(){
-	document.listForm.action = "<c:url value='/gds/excelDownload.do'/>";
-   	document.listForm.submit();
-}
-/*********************************************************
- * 페이징 처리 함수
- ******************************************************** */
-function fn_egov_select_linkPage(pageNo){
-	document.articleForm.pageIndex.value = pageNo;
-	document.articleForm.action = "<c:url value='/cop/bbs/selectArticleList.do'/>";
-   	document.articleForm.submit();
-}
-/*********************************************************
- * 조회 처리 함수
- ******************************************************** */
-function fn_egov_search_article(){
-	document.articleForm.pageIndex.value = 1;
-	document.articleForm.submit();
+function makeFileAttachment(idx, flag){ //01~09:보고서, 10~19:실적증빙
+	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
+	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
+	document.getElementById("ctacd").value=idx;
 }
 /* ********************************************************
- * 상세회면 처리 함수
+ * 파일선택시
  ******************************************************** */
-function fn_egov_inquire_articledetail(bbsId, nttId) {
-	// 사이트 키값(siteId) 셋팅.
-	document.articleForm.bbsId.value = bbsId;
-	document.articleForm.nttId.value = nttId;
-  	document.articleForm.action = "<c:url value='/cop/bbs/selectArticleDetail.do'/>";
-  	document.articleForm.submit();
+function goSubmit(){
+	document.ctasForm.submit();
 }
-</script>
-<script type="text/javaScript" language="javascript">
-	parent._top.menuDspl("block",'${loginVO.name}');
+/* ********************************************************
+ * 파일 다운로드
+ ******************************************************** */
+function fn_egov_downFile(atchFileId, fileSn){
+	window.open("<c:url value='/cmm/fms/FileDown.do?atchFileId="+atchFileId+"&fileSn="+fileSn+"'/>");
+}
+/* ********************************************************
+ * 파일삭제그림버튼
+ ******************************************************** */
+function fn_egov_deleteFile(atchFileId, fileSn, fileStreCours, streFileNm, fileNm) {
+	if(!confirm(fileNm+" 파일을 삭제하시겠습니까?")) return;
+	//alert(atchFileId+"    "+fileSn+"    "+path+"    "+nm);
+	document.getElementById("atchFileId").value=atchFileId;
+	document.getElementById("fileSn").value=fileSn;
+	document.getElementById("fileStreCours").value=fileStreCours;
+	document.getElementById("streFileNm").value=streFileNm;
+	ctasVO.action = "<c:url value='/cmm/fms/deleteFile.do'/>";
+	ctasVO.submit();
+}
+/* ********************************************************
+ * 등록 버튼클릭시
+ ******************************************************** */
+function RATING(){
+	if(str == ""){
+		alert("등록할 자료가없습니다.");
+		return;
+	}
+	if(!confirm("입력한 점수를 등록하시겠습니까?")) return;
+
+	document.getElementById("rate").value=str;
+	ctasVO.action = "<c:url value='/goRate.do'/>";
+	ctasVO.submit();
+}
+/* ********************************************************
+ * 조회
+ ******************************************************** */
+function goSearch(){
+	ctasVO.action = "<c:url value='/UpLoad.do'/>";
+	ctasVO.submit();
+}
+/* ********************************************************
+ * 기관조회
+ ******************************************************** */
+function fncSelectOrgPop() {
+
+    var url = "<c:url value='/OrgSearchList.do'/>";
+    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    window.open(url,"기관검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+
+}
+/* ********************************************************
+ * 점수입력시
+ ******************************************************** */
+var str = "";
+function setting(obj, org, pkstr, flag){
+	if(flag == 0){
+		alert("해당지표의 평가대상파일이 없습니다.");
+		obj.value = "";
+		return;
+	}
+	var arrRow = str.split("；");
+	str = "";
+	if(isNaN(obj.value)){//입력에러
+		alert("점수를 입력하세요");
+		obj.value = "";
+	}
+	for(var i = 0 ; i < arrRow.length-1; i++){
+		if(arrRow[i].indexOf(pkstr) == -1) str += arrRow[i]+"；"; 
+	}
+	if(obj.value == org){//원본
+		
+	}else{//update
+		str += pkstr+"，RATING_SCORE："+obj.value+"；";
+	}
+	//alert(str);
+}
 </script>
 </head>
 <body onload="fn_egov_init()">
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
-<form:form commandName="articleVO" action="${pageContext.request.contextPath}/cop/bbs/insertArticle.do" method="post" onSubmit="fn_egov_regist_article(document.forms[0]); return false;" enctype="multipart/form-data">
+<form:form commandName="ctasVO" name = "ctasForm" action="${pageContext.request.contextPath}/insertUpLoad.do" method="post" onSubmit="fn_egov_regist_article(document.forms[0]); return false;" enctype="multipart/form-data">
 
-<div class="board">
-	<h1 style = "margin-bottom:30px;">평가실시</h1>
+	<input name="ctacd" id="ctacd" type="hidden" value="<c:out value="${ctasVO.ctacd}"/>">
+	<input name="rate" id="rate" type="hidden" value="<c:out value="${ctasVO.rate}"/>">
 
-	<input name="bbsId" type="hidden" value="${boardMasterVO.bbsId}">
-	</form>
+	<input name="atchFileId" id="atchFileId" type="hidden" value="">
+	<input name="fileSn" id="fileSn" type="hidden" value="">
+	<input name="fileStreCours" id="fileStreCours" type="hidden" value="">
+	<input name="streFileNm" id="streFileNm" type="hidden" value="">
 	
+	<div class="board">
+	<h1 style = "margin-bottom:30px;">
+		<c:if test="${GUBUN == 'A'}">
+			평가실시
+		</c:if>
+		<c:if test="${GUBUN != 'A'}">
+			평정실시
+		</c:if>
+	</h1>
 
+	<br/><br/><br/>
+	
+	<!-- 검색영역 -->
+	<c:if test="${GUBUN != 'A'}">
+		<div class="search_box2" title="<spring:message code="common.searchCondition.msg" />">
+			<ul>
+				<li><div style="line-height:4px;">&nbsp;</div><div>기관 : </div></li><!-- 부서권한관리 -->
+				<!-- 검색키워드 및 조회버튼 -->
+				<li>
+					<input name="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="press();"  />
+					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관조회팝업" title="기관조회팝업" />
+					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
+					<input type="button" class="s_btn" onClick="RATING();return false;" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />
+				</li>
+			</ul>
+		</div>
+	</c:if>
+	
+	<br/><br/><br/>
+	
 	<!-- 목록영역 -->
 	<table class="board_list" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
 	<caption>${pageTitle} <spring:message code="title.list" /></caption>
 	<colgroup>
-		<col style="width: 15%;">
-		<col style="width: 15%;">
-		<col style="width: 40%;">
+		<c:if test="${GUBUN != 'A'}">
+			<col style="width: 10%;">
+		</c:if>
+		<col style="width: 10%;">
+		<col style="width: 10%;">
 		<col style="width: 30%;">
+		<col style="width: 18%;">
+		<col style="width: 18%;">
+		<col style="width: 14%;">
 	</colgroup>
 	<thead>
 	<tr>
-		<th>평가<br>분야</th><!-- 번호 -->
-		<th>평가<br>항목</th><!--글 제목  -->
-		<th>평가<br>지표</th><!-- 작성자명 -->
-		<th>첨부파일</th><!-- 작성시각 -->
+		<c:if test="${GUBUN != 'A'}">
+			<th>기관</th>
+		</c:if>
+		<th>평가<br>분야</th>
+		<th>평가<br>항목</th>
+		<th>평가<br>지표</th>
+		<th>보고서</th>
+		<th>실적증빙</th>
+		<th><c:if test="${GUBUN == 'A'}">등록</c:if><c:if test="${GUBUN != 'A'}">평가점수</c:if></th>
 	</tr>
 	</thead>
 	<tbody class="ov">
-	
-	<tr>
-		<td rowspan="4">민원<br>행정<br>관리<br>기반</td>
-		<td rowspan="4">민원<br>행정<br>전략 및<br>체계</td>
-		<td>민원행정 및 제도개선 계획수립의 적합성</td>
-		<td>			
-			<div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label_1"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList_1"></div>
-			</div>
-		</td>		
-	</tr>
-	<tr>
-		<td>기관장의 의지 및 관심도</td>
-		<td>			
-			<div>
-				<div class="egov_file_box">
-				<label for="egovfile_2" id="file_label_2"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_2" id="egovfile_2"> 
-				</div>
-				<div id="egovComFileList_2"></div>
-			</div>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원 우수 인센티브 제공</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원행정 수행기반</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td rowspan="4">민원<br>행정<br>활동</td>
-		<td rowspan="3">민원<br>제도<br>운영</td>
-		<td>민원정보 제공 및 민원법령 운영</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원처리상황 확인·점검</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원행정 및 제도개선</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원<br>처리</td>
-		<td>처리기간 준수율</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
-	<tr>
-		<td>민원<br>처리<br>성과</td>
-		<td>민원<br>만족도</td>
-		<td>자체포털민원 만족도</td>
-		<td>			
-			<%-- <div>
-				<div class="egov_file_box">
-				<label for="egovfile_1" id="file_label"><spring:message code="title.attachedFileSelect" /></label> 
-				<input type="file" name="file_1" id="egovfile_1"> 
-				</div>
-				<div id="egovComFileList"></div>
-			</div> --%>
-		</td>		
-	</tr>
+		<c:forEach items="${uploadList}" var="uploadInfo" varStatus="status">
+			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
+				<c:choose>
+					<c:when test = "${uploadInfo.CODE == 'CAI001'}">
+						<tr>
+							<c:if test="${GUBUN != 'A'}">
+								<td rowspan="9">${uploadInfo.ORGNZT_NM}</td>
+							</c:if>
+							<td rowspan="4">민원<br>행정<br>관리<br>기반</td>
+							<td rowspan="4">민원<br>행정<br>전략 및<br>체계</td>
+							<td>민원행정 및 제도개선 계획수립의 적합성</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI002'}">
+						<tr>
+							<td>기관장의 의지 및 관심도</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI003'}">
+						<tr>
+							<td>민원 우수 인센티브 제공</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI004'}">
+						<tr>
+							<td>민원행정 수행기반</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI005'}">
+						<tr>
+							<td rowspan="4">민원<br>행정<br>활동</td>
+							<td rowspan="3">민원<br>제도<br>운영</td>
+							<td>민원정보 제공 및 민원법령 운영</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI006'}">
+						<tr>
+							<td>민원처리상황 확인·점검</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI007'}">
+						<tr>
+							<td>민원행정 및 제도개선</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI008'}">
+						<tr>
+							<td>민원<br>처리</td>
+							<td>처리기간 준수율</td>
+							<td>
+					</c:when>
+					<c:when test = "${uploadInfo.CODE == 'CAI009'}">
+						<tr>
+							<td>민원<br>처리<br>성과</td>
+							<td>민원<br>만족도</td>
+							<td>자체포털민원 만족도</td>
+							<td>
+					</c:when>
+					<c:otherwise>
+		
+					</c:otherwise>
+				</c:choose>
+				<!-- 보고서 -->
+				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
+					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
+					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>&nbsp;byte]
+					</a>
+						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
+							<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
+							     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS2}"/>','<c:out value="${uploadInfo.STRE_FILE_NM2}"/>','${uploadInfo.ORIGNL_FILE_NM2}');" 
+							     alt="<spring:message code="title.attachedFileDelete" />">
+						</c:if>
+					<br>
+					
+				</c:if>
+				</td>
+				<td>
+			</c:if>
+			<!-- 실적증빙 -->
+			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL}">
+				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte]">
+				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 11}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte] --%>
+				</a>
+					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
+						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
+						     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS}"/>','<c:out value="${uploadInfo.STRE_FILE_NM}"/>','${uploadInfo.ORIGNL_FILE_NM}');" 
+						     alt="<spring:message code="title.attachedFileDelete" />">
+					</c:if>
+				<br>
+			</c:if>
+			
+			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MX == '1'}">
+				</td>
+				<td>
+					<c:if test="${GUBUN == 'A'}">
+						<div class="egov_file_box">
+						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
+							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('보고서 파일을 먼저삭제하세요.');" >&nbsp;보고서&nbsp;</label>
+						</c:if>
+						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 == NULL}">
+							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" >&nbsp;보고서&nbsp;</label>
+							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', ${uploadInfo.FLAG2});">
+						</c:if>
+						</div>
+						
+						<div id="egovComFileList0${uploadInfo.RN}" style="display:none;"></div>
+						
+						<div class="egov_file_box">
+						<c:if test="${uploadInfo.FLAG2 == 0}">
+							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('평가된 지표는 등록 할 수 없습니다.');">실적증빙</label> 
+						</c:if>
+						<c:if test="${uploadInfo.FLAG2 == 1}">
+							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}">실적증빙</label> 
+							<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', ${uploadInfo.FLAG2});">
+						</c:if>
+						
+						</div>
+						
+						<div id="egovComFileList1${uploadInfo.RN}" style="display:none;"></div>
+					</c:if>
+					<c:if test="${GUBUN != 'A'}">
+						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" 
+						onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
+					</c:if>
+				</td>
+				</tr>
+			</c:if>
+		</c:forEach>
+		<c:if test="${fn:length(uploadList) == 0}">
+			<tr>
+				<td colspan="7">기관명으로 조회하세요.</td>
+			</tr>
+		</c:if>
 	</tbody>
 	</table>
-	
-<input type="hidden" name="replyPosblAt" value="<c:out value='${boardMasterVO.replyPosblAt}'/>" />
-<input type="hidden" name="fileAtchPosblAt" value="<c:out value='${boardMasterVO.fileAtchPosblAt}'/>" />
-<input type="hidden" name="atchPosblFileNumber" value="<c:out value='${boardMasterVO.atchPosblFileNumber}'/>" />
-<input type="hidden" name="atchPosblFileSize" value="<c:out value='${boardMasterVO.atchPosblFileSize}'/>" />
-<input type="hidden" name="tmplatId" value="<c:out value='${boardMasterVO.tmplatId}'/>" />
+
+	<br/><br/><br/>
 </form:form>
 
-<%-- 
-	<!-- paging navigation -->
-	<div class="pagination">
-		<ul>
-		<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_egov_select_linkPage"/>
-		</ul>
-	</div>
-	
-	<!-- 등록버튼 -->
-	
-	<div class="btn">
-		<span class="btn_s"><a href="<c:url value='/cop/bbs/excelDownload.do' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
-	</div>
-	
-	
-</div>
-
-<input name="nttId" type="hidden" value="0">
-<input name="bbsId" type="hidden" value="${boardMasterVO.bbsId}">
-<input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>">
-
- --%>
 </body>
 </html>

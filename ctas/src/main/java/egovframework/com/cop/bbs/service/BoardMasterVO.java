@@ -23,16 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @SuppressWarnings("serial")
 public class BoardMasterVO extends BoardMaster implements Serializable {
     
-	private String bbsNm = "";
-    public String getBbsNm() {
-		return bbsNm;
-	}
-
-	public void setBbsNm(String bbsNm) {
-		this.bbsNm = bbsNm;
-	}
-
-	/** 검색시작일 */
+    /** 검색시작일 */
     private String searchBgnDe = "";
     
     /** 검색조건 */

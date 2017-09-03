@@ -52,17 +52,6 @@ public class LoginVO implements Serializable{
 	private String ip;
 	/** GPKI인증 DN */
 	private String dn;
-	
-	private String groupId;
-	
-	
-	
-	public String getGroupId() {
-		return groupId;
-	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
 	/**
 	 * id attribute 를 리턴한다.
 	 * @return String

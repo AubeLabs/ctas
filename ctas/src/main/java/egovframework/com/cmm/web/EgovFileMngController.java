@@ -1,8 +1,10 @@
 package egovframework.com.cmm.web;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.com.cmm.service.CtasService;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
@@ -39,6 +41,9 @@ public class EgovFileMngController {
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileService;
 
+	@Resource(name = "CtasService")
+    private CtasService CtasService;
+	
     /**
      * 첨부파일에 대한 목록을 조회한다.
      *
@@ -138,6 +143,41 @@ public class EgovFileMngController {
 		////------------------------------------------
     }
 
+    /**
+     * 첨부파일에 대한 삭제를 처리한다.
+     *
+     * @param fileVO
+     * @param returnUrl
+     * @param sessionVO
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/cmm/fms/deleteFile.do")
+    public String deleteFile(@ModelAttribute("searchVO") FileVO fileVO,
+	    //SessionVO sessionVO,
+	    HttpServletRequest request,
+	    ModelMap model) throws Exception {
+
+		File file = new File(fileVO.getFileStreCours()+fileVO.getStreFileNm());
+		
+		System.out.println("삭제경로:"+fileVO.getFileStreCours()+fileVO.getStreFileNm());
+		
+		if( file.exists() ){
+		    if(file.delete()){
+		        System.out.println("파일삭제 성공");
+		        //ctas에서 삭제
+		        CtasService.deleteUploadFile(fileVO);
+		    }else{
+		        System.out.println("파일삭제 실패");
+		    }
+		}else{
+		    System.out.println("파일이 존재하지 않습니다.");
+		}
+
+		return "forward:/UpLoad.do";
+    }
+    
     /**
      * 이미지 첨부파일에 대한 목록을 조회한다.
      *

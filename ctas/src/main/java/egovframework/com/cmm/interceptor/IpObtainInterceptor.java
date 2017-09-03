@@ -6,6 +6,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.MDC;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  
 /**
@@ -31,6 +32,26 @@ public class IpObtainInterceptor extends HandlerInterceptorAdapter {
  
 		String clientIp = request.getRemoteAddr();
  
+		String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("Proxy-Client-IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("WL-Proxy-Client-IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("HTTP_CLIENT_IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getRemoteAddr(); 
+        }
+        clientIp = ip;
+        
+        MDC.put("ClientIP", ip);
+        
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
  
 		if (loginVO != null) {

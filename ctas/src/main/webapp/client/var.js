@@ -17,7 +17,7 @@ var gpkiScriptBase   = '/ctas/client';     // * 스크립트에서 사용하는 
 var clientModulePath = gpkiScriptBase + '/setup';	// * 클라이언트 설치 파일의 게시 경로. (cab, exe, dmg, rpm, deb)
 
 var ClientInstallPage   = '/ctas/install.html';    // * 설치 페이지 경로
-var ServiceStartPageURL = '/ctas/index.html';      // * 설치완료후 이동할 페이지
+var ServiceStartPageURL = '/ctas/index.do';      // * 설치완료후 이동할 페이지
 
 
 //-----------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed May 11 15:49:38 KST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CtasUpload">
+
+	<select id="selectUploadList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT SUBSTR(A.CODE, 6, 1) RN
+		     , A.CODE
+		     , A.CODE_NM
+		     , A2.ORGNZT_ID
+		     , A2.ORGNZT_NM
+		     , B.SEQ_NO
+		     , CASE WHEN B.SEQ_NO = B2.MN THEN 1 END MN
+		     , CASE WHEN B.SEQ_NO = B2.MX THEN 1 END MX
+		     , B2.CNT
+		     , C.ATCH_FILE_ID
+			 , C.FILE_SN
+			 , C.FILE_STRE_COURS
+			 , C.STRE_FILE_NM
+			 , C.ORIGNL_FILE_NM
+			 , C.FILE_EXTSN
+			 , C.FILE_CN
+			 , C.FILE_SIZE
+		     , D.RATING_SCORE
+		     , E.ATCH_FILE_ID		ATCH_FILE_ID2
+			 , E.FILE_SN			FILE_SN2
+			 , E.FILE_STRE_COURS	FILE_STRE_COURS2
+			 , E.STRE_FILE_NM		STRE_FILE_NM2
+			 , E.ORIGNL_FILE_NM		ORIGNL_FILE_NM2
+			 , E.FILE_EXTSN			FILE_EXTSN2
+			 , E.FILE_CN			FILE_CN2
+			 , E.FILE_SIZE			FILE_SIZE2
+			 , CASE WHEN B2.CNT > 0 AND IFNULL(D.ASSESS_FILE_ID, '') != '' THEN 1 ELSE 0 END FLAG1
+			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2
+		  FROM comtccmmndetailcode A
+		  JOIN comtnorgnztinfo A2
+		    ON 1=CASE WHEN SUBSTR(#{ORG},1,1) = 'A' AND A2.ORGNZT_ID = #{ORG} THEN 1
+		              WHEN #{SRCHORG} != 'init' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
+		         END
+		  LEFT OUTER JOIN ASSESS_ATCH_FILE B
+		    ON A.CODE = B.AI_CD
+		   AND A2.ORGNZT_ID = B.ORGNZT_ID
+		  LEFT OUTER JOIN (SELECT ORGNZT_ID, AI_CD, MAX(SEQ_NO) MX, MIN(SEQ_NO) MN, SUM(1) CNT
+								   FROM ASSESS_ATCH_FILE
+								  GROUP BY ORGNZT_ID, AI_CD) B2
+			 ON B.ORGNZT_ID = B2.ORGNZT_ID
+			AND B.AI_CD = B2.AI_CD
+		  LEFT OUTER JOIN COMTNFILEDETAIL C
+		    ON B.ATCH_FILE_ID = C.ATCH_FILE_ID
+		  LEFT OUTER JOIN ASSESSMENT D
+		    ON A.CODE = D.AI_CD
+		   AND A2.ORGNZT_ID = D.ORGNZT_ID
+		  LEFT OUTER JOIN COMTNFILEDETAIL E
+		    ON D.ASSESS_FILE_ID = E.ATCH_FILE_ID
+		 WHERE A.CODE_ID = 'CTA001'
+		 ORDER BY A2.ORGNZT_ID, A.CODE
+ 	</select>
+ 	
+	<insert id="insertUploadFile0" parameterType="java.util.HashMap" >
+ 		
+			Insert into ASSESSMENT 
+			(
+			  ORGNZT_ID
+			, AI_CD
+			, ASSESS_FILE_ID
+			, ASSESS_USR_ID
+			, FRST_REGIST_PNTTM
+			, FRST_REGISTER_ID
+			) values (
+			  #{ORGNZT_ID}
+			, CONCAT('CAI', LPAD(#{AI_CD}, 3, 0))
+			, #{FILE_ID}
+			, #{USER_ID}
+			, SYSDATE()
+			, #{USER_ID}
+			)
+			ON DUPLICATE KEY UPDATE 
+			  ASSESS_FILE_ID = #{FILE_ID}
+			, ASSESS_USR_ID = #{USER_ID}
+			, LAST_UPDT_PNTTM = SYSDATE()
+			, LAST_UPDUSR_ID = #{USER_ID}
+ 		
+ 	</insert>
+	<insert id="insertRate" parameterType="java.util.HashMap" >
+ 		
+			Insert into ASSESSMENT 
+			(
+			  ORGNZT_ID
+			, AI_CD
+			, ASSESS_FILE_ID
+			, FRST_REGIST_PNTTM
+			, FRST_REGISTER_ID
+			, RATING_SCORE
+			, RATING_USR_ID
+			) values (
+			  #{ORGNZT_ID}
+			, #{AI_CD}
+			, ''
+			, SYSDATE()
+			, #{USER_ID}
+			, #{RATING_SCORE}
+			, #{USER_ID}
+			)
+			ON DUPLICATE KEY UPDATE 
+			  RATING_SCORE = #{RATING_SCORE}
+			, RATING_USR_ID = #{USER_ID}
+			, LAST_UPDT_PNTTM = SYSDATE()
+			, LAST_UPDUSR_ID = #{USER_ID}
+ 		
+ 	</insert>
+ 	
+	<insert id="insertUploadFile1" parameterType="java.util.HashMap" >
+ 		
+			Insert into ASSESS_ATCH_FILE 
+			(
+			  ORGNZT_ID
+			, AI_CD
+			, SEQ_NO
+			, ATCH_FILE_ID
+			, FRST_REGIST_PNTTM
+			, FRST_REGISTER_ID
+			) values (
+			  #{ORGNZT_ID}
+			, CONCAT('CAI', LPAD(#{AI_CD}, 3, 0))
+			, (SELECT SEQ_NO FROM(SELECT IFNULL(MAX(SEQ_NO), 0)+1 SEQ_NO 
+			                        FROM ASSESS_ATCH_FILE 
+			                       WHERE ORGNZT_ID = #{ORGNZT_ID}
+			                         AND AI_CD = CONCAT('CAI', LPAD(#{AI_CD}, 3, 0)))TMP)
+			, #{FILE_ID}
+			, SYSDATE()
+			, #{USER_ID}
+			)
+ 		
+ 	</insert>
+ 	
+	<delete id="deleteUploadFile" parameterType="FileVO">
+		
+			DELETE FROM ASSESS_ATCH_FILE
+			WHERE
+				ATCH_FILE_ID = #{atchFileId}	
+			
+	</delete>
+	
+	<delete id="deleteUploadFile2" parameterType="FileVO">
+		
+			UPDATE ASSESSMENT
+			   SET ASSESS_FILE_ID = ''
+			WHERE
+				ASSESS_FILE_ID = #{atchFileId}	
+			
+	</delete>
+</mapper>

@@ -1999,6 +1999,7 @@ function clearPasswd(){
 }
 
 function onCancelClickButton(){
+
 	var optPanel = document.getElementById('drivePanel');
 	if(optPanel!=null|| typeof(optPanel)=='undefined')
 		optPanel.parentNode.removeChild(optPanel);
@@ -2014,7 +2015,10 @@ function onCancelClickButton(){
 	 // 텍스트 드레그로 선택하기 풀기
 	 document.ondragstart = function (){ return true };
 	 document.onselectstart = function (){ return true };
-	
+	 try{
+	 parent.document.getElementById("test").style.display = 'none';
+	 parent.document.getElementById("loading").style.display = 'none';
+	 }catch(e){}
 }
 
 var clickElement,keysecOpt,encfunc;

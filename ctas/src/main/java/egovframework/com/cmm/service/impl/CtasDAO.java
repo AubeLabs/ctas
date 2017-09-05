@@ -1,5 +1,6 @@
 package egovframework.com.cmm.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +18,15 @@ public class CtasDAO extends EgovComAbstractDAO {
 	public List selectUploadList(Map map) {
 		return list("CtasUpload.selectUploadList", map);
 	}
+	public HashMap selectUploadGrp(Map map) {
+		return (HashMap) list("CtasUpload.selectUploadGrp", map).get(0);
+	}
 	
 	public List selectStatsList(Map map) {
 		return list("CtasUpload.selectStatsList", map);
+	}
+	public HashMap selectStatsGrp(Map map) {
+		return (HashMap) list("CtasUpload.selectStatsGrp", map).get(0);
 	}
 	
 	public void insertUploadFile0(Map map) {

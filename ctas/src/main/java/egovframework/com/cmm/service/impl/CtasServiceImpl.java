@@ -33,10 +33,18 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 	public List selectUploadList(Map map) {
 		return CtasDAO.selectUploadList(map);
 	}
+	@Override
+	public HashMap selectUploadGrp(Map map) {
+		return CtasDAO.selectUploadGrp(map);
+	}
 	
 	@Override
 	public List selectStatsList(Map map) {
 		return CtasDAO.selectStatsList(map);
+	}
+	@Override
+	public HashMap selectStatsGrp(Map map) {
+		return CtasDAO.selectStatsGrp(map);
 	}
 	
 	@Override

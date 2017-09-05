@@ -27,17 +27,17 @@
 </head>
 
 <body>
-	<div class="wrap">
+	<div class="wrap" style="display:none;">
 		<div class="header">
-			<h1><a href="../index.html"><strong>GPKI 사용자용 표준보안API</strong></a></h1>
+			<!-- <h1><a href="../index.html"><strong>GPKI 사용자용 표준보안API</strong></a></h1> -->
 		</div>
 		<div class="content">
 			<div class="course course1">
 				<div class="title">
-					<h2><span class="subject">1. 사용자 인증 및 보안 세션 만들기</span></h2><br/>
+					<!-- <h2><span class="subject">1. 사용자 인증 및 보안 세션 만들기</span></h2><br/> -->
 				</div>
 				<div class="list_01">
-					<ul>
+					<!-- <ul>
 						<li><span class="subject">- 사용자와 서버 인증서 인증 후 보안 세션 만들기 (인증서 로그인)</span><span class="sub"><br/><br/></span></li>
 						<li><strong>&nbsp;&nbsp;&nbsp;* Form 객체를 이용한 팝업 로그인 (Login)</strong></li>
 						<li>
@@ -55,7 +55,8 @@
 						<option value="1">가상 키보드</option>
 						<option value="2" selected="selected">키보드 보안</option>
 						<option value="0">사용하지 않음</option>
-					</select><br/><br/>
+					</select><br/><br/> -->
+					
 					<div class="form">
 						<form action="./createSecureSession_1_1_response.jsp" method="post" name="popForm">
 							Form Parameter 01 : <input type="text" name="param01" /><br/>
@@ -72,6 +73,9 @@
 			<div class="sp"></div>
 		</div>
 	</div>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </body>
 </html>
 

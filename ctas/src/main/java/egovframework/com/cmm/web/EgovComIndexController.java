@@ -181,6 +181,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", ctasVO.getSrchOrg());
 		List uploadList = CtasService.selectUploadList(hm);
+		HashMap uploadGrp = CtasService.selectUploadGrp(hm);
 		
 		//
 		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
@@ -188,6 +189,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("uploadList", uploadList);
 		model.addAttribute("GUBUN", loginVO.getGroupId().equals("GROUP_00000000000001")?"A":"B");
+		model.addAttribute("uploadGrp", uploadGrp);
 		
 		return "egovframework/com/cmm/UpLoad";
 	}
@@ -201,12 +203,14 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("items1", ctasVO.getItems1());
 		hm.put("items2", ctasVO.getItems2());
 		List statsList = CtasService.selectStatsList(hm);
+		HashMap statsGrp = CtasService.selectStatsGrp(hm);
 		
 		//
 		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
 		model.addAttribute("loginVO", loginVO);
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("statsList", statsList);
+		model.addAttribute("statsGrp", statsGrp);
 		
 		return "egovframework/com/cmm/Stats";
 	}

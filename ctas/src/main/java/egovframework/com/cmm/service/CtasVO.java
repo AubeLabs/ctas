@@ -32,62 +32,159 @@ public class CtasVO implements Serializable {
   public String toString() {
 	return ToStringBuilder.reflectionToString(this);
   }
+  
+  //upload 화면에서사용
   private String ctacd = "";
-  
   private String srchOrg = "init";
-  
   private String rate = "";
-  
-  public String getRate() {
-	return rate;
-}
-
-
-public void setRate(String rate) {
-	this.rate = rate;
-}
-
-
-public String getSrchOrg() {
-	return srchOrg;
-}
-
-
-public void setSrchOrg(String srchOrg) {
-	this.srchOrg = srchOrg;
-}
-
-
-public String getCtacd() {
-	return ctacd;
-}
-
-
-public void setCtacd(String ctacd) {
-	this.ctacd = ctacd;
-}
-private String gubun1= "";
-  public String getGubun1() {
-	return gubun1;
-}
-
-  
-public void setGubun1(String gubun1) {
-	this.gubun1 = gubun1;
-}
-public String getGubun2() {
-	return gubun2;
-}
-public void setGubun2(String gubun2) {
-	this.gubun2 = gubun2;
-}
-public String getTest() {
-	return test;
-}
-public void setTest(String test) {
-	this.test = test;
-}
-private String gubun2= "";
+  //인증서등록에서사용
+  private String nm = "";
+  private String orgNm = "";
+  private String orgId = "";
+  private String certDn = "";
+  //통계화면에서사용
+  private String items1 = "";
+  private String items2 = "";
+  private String select1 = "";
+  private String select2 = "";
+  //사용안함
+  private String gubun1= "";
+  private String gubun2= "";
   private String test= "";
-    
+
+
+public String getItems1() {
+	return items1;
+}
+
+
+public void setItems1(String items1) {
+	this.items1 = items1;
+}
+
+
+public String getItems2() {
+	return items2;
+}
+
+
+public void setItems2(String items2) {
+	this.items2 = items2;
+}
+
+
+public String getSelect1() {
+	return select1;
+}
+
+
+public void setSelect1(String select1) {
+	this.select1 = select1;
+}
+
+
+public String getSelect2() {
+	return select2;
+}
+
+
+public void setSelect2(String select2) {
+	this.select2 = select2;
+}
+
+
+	public String getOrgNm() {
+		return orgNm;
+	}
+	
+	
+	public void setOrgNm(String orgNm) {
+		this.orgNm = orgNm;
+	}
+
+
+	public String getNm() {
+		return nm;
+	}
+	
+	
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	
+	
+	public String getOrgId() {
+		return orgId;
+	}
+	
+	
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+	
+	
+	public String getCertDn() {
+		return certDn;
+	}
+	
+	
+	public void setCertDn(String certDn) {
+		this.certDn = certDn;
+	}
+	
+	
+	public String getRate() {
+		return rate;
+	}
+	
+	
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+	
+	
+	public String getSrchOrg() {
+		return srchOrg;
+	}
+	
+	
+	public void setSrchOrg(String srchOrg) {
+		this.srchOrg = srchOrg;
+	}
+	
+	
+	public String getCtacd() {
+		return ctacd;
+	}
+	
+	
+	public void setCtacd(String ctacd) {
+		this.ctacd = ctacd;
+	}
+	
+	  public String getGubun1() {
+		return gubun1;
+	}
+	
+	  
+	public void setGubun1(String gubun1) {
+		this.gubun1 = gubun1;
+	}
+	
+	public String getGubun2() {
+		return gubun2;
+	}
+	
+	public void setGubun2(String gubun2) {
+		this.gubun2 = gubun2;
+	}
+	
+	public String getTest() {
+		return test;
+	}
+	
+	public void setTest(String test) {
+		this.test = test;
+	}
+
 }

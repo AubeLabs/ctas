@@ -41,9 +41,13 @@
 	<title>GPKI 사용자용 표준보안API</title>
 	<script type="text/javascript" src="../client/jquery-1.7.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+	<script type="text/javaScript" language="javascript">
+		parent.lol('<%= subDN%>');
+	</script>
 </head>
 <body>
-	<div class="wrap">
+	<div class="wrap" >  <!-- style="display:none;" -->
 		<div class="header">
 			<h1><a href="../index.html"><strong>GPKI 사용자용 표준보안API</strong></a></h1>
 		</div>

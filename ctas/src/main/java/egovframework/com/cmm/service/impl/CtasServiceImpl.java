@@ -35,6 +35,11 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 	}
 	
 	@Override
+	public List selectStatsList(Map map) {
+		return CtasDAO.selectStatsList(map);
+	}
+	
+	@Override
 	public void insertUploadFile0(Map map) {
 		CtasDAO.insertUploadFile0(map);
 	}
@@ -74,6 +79,11 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 			CtasDAO.insertRate(hm);
 		}
 		
+	}
+
+	@Override
+	public void insertMber(Map map) {
+		CtasDAO.insertMber(map);
 	}
 
 }

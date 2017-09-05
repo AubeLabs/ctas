@@ -34,8 +34,8 @@
 			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
-		    ON 1=CASE WHEN SUBSTR(#{ORG},1,1) = 'A' AND A2.ORGNZT_ID = #{ORG} THEN 1
-		              WHEN #{SRCHORG} != 'init' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
+		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
+		              WHEN #{GRPID} = 'GROUP_00000000000001' AND A2.ORGNZT_ID = #{ORG} THEN 1
 		         END
 		  LEFT OUTER JOIN ASSESS_ATCH_FILE B
 		    ON A.CODE = B.AI_CD
@@ -54,6 +54,23 @@
 		    ON D.ASSESS_FILE_ID = E.ATCH_FILE_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		 ORDER BY A2.ORGNZT_ID, A.CODE
+ 	</select>
+ 	
+	<select id="selectStatsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.CODE_NM NM
+		     , COUNT(D.RATING_SCORE) COUNT
+		     , SUM(D.RATING_SCORE) SUM
+		     , AVG(D.RATING_SCORE) AVG
+		  FROM comtccmmndetailcode A
+		  JOIN comtnorgnztinfo A2
+		    ON 1=1
+		   ${items1}
+		  LEFT OUTER JOIN ASSESSMENT D
+		    ON A.CODE = D.AI_CD
+		   AND A2.ORGNZT_ID = D.ORGNZT_ID
+		 WHERE A.CODE_ID = 'CTA001'
+		   ${items2}
+		 GROUP BY A.CODE_NM
  	</select>
  	
 	<insert id="insertUploadFile0" parameterType="java.util.HashMap" >
@@ -130,6 +147,72 @@
 			, SYSDATE()
 			, #{USER_ID}
 			)
+ 		
+ 	</insert>
+ 	
+ 	<insert id="insertMber" parameterType="java.util.HashMap" >
+ 		
+            INSERT INTO COMTNEMPLYRINFO 
+                (   ESNTL_ID             ,
+                    EMPLYR_ID           ,
+                    USER_NM           ,
+                    PASSWORD            ,
+                    PASSWORD_HINT       ,
+                    PASSWORD_CNSR       ,
+                    EMPL_NO             ,
+                    IHIDNUM             ,
+                    SEXDSTN_CODE        ,
+                    BRTHDY                ,
+                    AREA_NO             ,
+                    HOUSE_MIDDLE_TELNO    ,
+                    HOUSE_END_TELNO       ,
+                    FXNUM               ,
+                    HOUSE_ADRES           ,
+                    DETAIL_ADRES        ,
+                    ZIP                 ,
+                    OFFM_TELNO          ,
+                    MBTLNUM         ,
+                    EMAIL_ADRES         ,
+                    OFCPS_NM            ,
+                    GROUP_ID            ,
+                    ORGNZT_ID           ,
+                    PSTINST_CODE          ,
+                    EMPLYR_STTUS_CODE   ,
+                    SBSCRB_DE           ,
+                    CRTFC_DN_VALUE              )
+            VALUES (
+                    'A'            ,
+                    (SELECT EMPLYR_ID 
+                       FROM(
+							SELECT LPAD(IFNULL(MAX(EMPLYR_ID), 0) + 1, 4, 0) EMPLYR_ID
+							  FROM COMTNEMPLYRINFO
+							 WHERE GROUP_ID = 'GROUP_00000000000001'
+						   )TMP)         ,
+                    #{nm}          ,
+                    'A'          ,
+                    'A'      ,
+                    'A'      ,                   
+                    'A'            ,
+                    'A'           ,
+                    'A'       ,
+                    'A'              ,
+                    'A'            ,
+                    'A'   ,
+                    'A'      ,
+                    'A'             ,
+                    'A'         ,
+                    'A'       ,
+                    'A'               ,
+                    'A'         ,
+                    'A'        ,
+                    'A'        ,
+                    'A'           ,
+                    'GROUP_00000000000001'           ,
+                    #{orgId}          ,
+                    'A'         ,
+                    'A'   ,
+                    sysdate()           ,
+                    #{certDn}             )
  		
  	</insert>
  	

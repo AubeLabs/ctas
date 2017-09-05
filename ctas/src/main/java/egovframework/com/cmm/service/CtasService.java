@@ -22,8 +22,10 @@ public interface CtasService {
 	Map<String, Object> selectGuestArticleList(BoardVO vo);*/
 
 	List selectUploadList(Map map);
+	List selectStatsList(Map map);
 	void insertUploadFile0(Map map);
 	void insertUploadFile1(Map map);
 	void deleteUploadFile(FileVO vo) throws Exception;
 	void insertRate(String str);
+	void insertMber(Map map);
 }

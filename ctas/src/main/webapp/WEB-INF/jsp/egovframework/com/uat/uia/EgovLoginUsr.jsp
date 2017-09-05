@@ -50,6 +50,7 @@ function checkLogin(userSe) {
 }
 
 function actionLogin() {
+	
 	if (document.loginForm.id.value =="") {
         alert("<spring:message code="comUatUia.validate.idCheck" />"); <%-- 아이디를 입력하세요 --%>
     } else if (document.loginForm.password.value =="") {
@@ -61,7 +62,20 @@ function actionLogin() {
         document.loginForm.submit();
     }
 }
+function actionLogin2(){
+	document.getElementById("loading").style.display = 'block';
+	document.getElementById("test").style.display = 'block';
+	test.Login(this, test.popForm);
+	
+}
+function lol(dn){
+	document.loginForm.dn.value = dn;
+	//document.getElementById("test").style.display = 'none';
+	//document.getElementById("test").src = '/ctas/jsp/createSecureSession_1_1.jsp';
 
+	document.loginForm.action="<c:url value='/uat/uia/actionLogin.do'/>";
+    document.loginForm.submit();
+}
 function actionCrtfctLogin() {
     document.defaultForm.action="<c:url value='/uat/uia/actionCrtfctLogin.do'/>";
     document.defaultForm.submit();
@@ -74,13 +88,13 @@ function goFindId() {
 
 function goRegiUsr() {
 	
-	var useMemberManage = '${useMemberManage}';
+	<%-- var useMemberManage = '${useMemberManage}';
 
 	if(useMemberManage != 'true'){
-		<%-- 사용자 관리 컴포넌트가 설치되어 있지 않습니다. \n관리자에게 문의하세요. --%>
+		사용자 관리 컴포넌트가 설치되어 있지 않습니다. \n관리자에게 문의하세요.
 		alert("<spring:message code="comUatUia.validate.userManagmentCheck" />");
 		return false;
-	}
+	} --%>
 
     var userSe = document.loginForm.userSe.value;
  
@@ -94,8 +108,11 @@ function goRegiUsr() {
         document.loginForm.submit();
     // 업무사용자
     } else if (userSe == "USR") {
-    	<%-- 업무사용자는 별도의 회원가입이 필요하지 않습니다. --%>
-        alert("<spring:message code="comUatUia.validate.membershipCheck" />");
+    	document.loginForm.action="<c:url value='/MberInsert.do'/>";
+        document.loginForm.submit();
+    	<%-- 업무사용자는 별도의 회원가입이 필요하지 않습니다.
+        alert("<spring:message code="comUatUia.validate.membershipCheck" />"); --%>
+        
     }
 }
 
@@ -197,7 +214,6 @@ function fnLoginTypeSelect(objName){
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
-
 <!-- login영역 -->
 <form name="loginForm" id="loginForm" action="<c:url value='/uat/uia/actionLogin.do'/>" method="post">
 <input type="hidden" id="message" name="message" value="<c:out value='${message}'/>">
@@ -238,21 +254,35 @@ function fnLoginTypeSelect(objName){
 					<li><a href="#" onClick="goRegiUsr(); return false;"><spring:message code="comUatUia.loginForm.regist"/></a></li> <!-- 회원가입  -->
 					<li><a href="#" onClick="goFindId(); return false;"><spring:message code="comUatUia.loginForm.idPwSearch"/></a></li> <!-- 아이디/비밀번호 찾기 -->
 				</ul>
-			</li> --%>
+			</li> --%> 
 		</ul>
 	</div>
 	<div class="login_input" id="login_input2">
 		<ul>
 			<li>
-				<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login2"/>" onClick="actionLogin()"> <!-- 로그인  -->
+				<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login2"/>" onClick="actionLogin2()"> <!-- 로그인  -->
+			</li>
+			<li>
+				<ul class="btn_idpw" >
+					<li><a href="#" onClick="goRegiUsr(); return false;">인증서 등록</a></li> <!-- 회원가입  -->
+					<%-- <li><a href="#" onClick="goFindId(); return false;"><spring:message code="comUatUia.loginForm.idPwSearch"/></a></li> <!-- 아이디/비밀번호 찾기 --> --%>
+				</ul>
 			</li>
 		</ul>
 	</div>
 </fieldset>
 
 <input name="userSe" type="hidden" value="GNR"/>
+<input name="dn" type="hidden" value=""/>
 <input name="j_username" type="hidden"/>
 </form>
+
+<img id='loading' src="<c:url value='/images/egovframework/com/cmm/loading1.gif' />" style="position:absolute; left:400px; top:100px;  display:none;">
+
+
+<iframe id='test' style="position:absolute; left:0px; top:0px;width:100%; height:100%; display:none;" src="<c:url value='/jsp/createSecureSession_1_1.jsp' />" frameborder="0" scrolling="no">
+</iframe>
+
 
 
 <!-- 팝업 폼 -->

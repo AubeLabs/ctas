@@ -21,6 +21,9 @@
             <mvc:exclude-mapping path="/uat/uia/egovLoginUsr.do" />
             <mvc:exclude-mapping path="/uat/uia/actionLogin.do" />
             <mvc:exclude-mapping path="/uat/uia/actionCrtfctLogin.do" />
+            <mvc:exclude-mapping path="/MberInsert.do" />
+            <mvc:exclude-mapping path="/OrgSearchList.do" />
+            <mvc:exclude-mapping path="/CaiSearchList.do" />
             <bean class="egovframework.com.cmm.interceptor.AuthenticInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>

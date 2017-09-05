@@ -48,6 +48,8 @@ import egovframework.com.cop.bbs.service.BoardMasterVO;
 import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.sec.drm.service.DeptAuthorVO;
 import egovframework.com.sec.drm.service.EgovDeptAuthorService;
+import egovframework.com.uat.uia.service.impl.LoginDAO;
+import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import org.slf4j.Logger;
@@ -72,6 +74,9 @@ import egovframework.com.cmm.service.CtasVO;
 @Controller
 public class EgovComIndexController implements ApplicationContextAware, InitializingBean {
 
+	@Resource(name="loginDAO")
+    private LoginDAO loginDAO;
+	
 	@Resource(name = "CtasService")
     private CtasService CtasService;
 	
@@ -128,6 +133,44 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		return "egovframework/com/cmm/EgovUnitContent";
 	}
 
+	@RequestMapping("/MberInsert.do")
+	public String MberInsert(@ModelAttribute("ctasVO") CtasVO ctasVO, ModelMap model) {
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginVO", loginVO);
+		System.out.println("certDn : "+ctasVO.getCertDn());
+		
+		
+		if(ctasVO.getCertDn().equals("")){//메뉴접근시
+			//
+			
+		}else {//등록시
+			try{
+				LoginVO srch = new LoginVO();
+				srch.setDn(ctasVO.getCertDn());
+				LoginVO valid = loginDAO.actionLogin(srch);
+				System.out.println("@@@@@@ : "+valid);
+				if(valid != null){
+					model.addAttribute("msg", "해당 인증서는 이미 등록되어있습니다.");
+					model.addAttribute("sucess", -1);
+				}else {
+					Map hm = new HashMap();
+					hm.put("nm", ctasVO.getNm());
+					hm.put("orgId", ctasVO.getOrgId());
+					hm.put("certDn", ctasVO.getCertDn());
+					CtasService.insertMber(hm);
+					model.addAttribute("msg", "등록이 완료되었습니다.");
+					model.addAttribute("sucess", 1);
+				}
+			}catch(Exception e){
+				model.addAttribute("msg", "등록중 에러가발생했습니다.");
+				model.addAttribute("sucess", -1);
+			}
+		}
+		model.addAttribute("ctasVO", ctasVO);
+
+		return "egovframework/com/cmm/MberInsert";
+	}
+	
 	@RequestMapping("/UpLoad.do")
 	public String upLoadMenu(@ModelAttribute("ctasVO") CtasVO ctasVO, ModelMap model) {
 
@@ -135,6 +178,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		
 		Map hm = new HashMap();
 		hm.put("ORG", loginVO.getOrgnztId());
+		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", ctasVO.getSrchOrg());
 		List uploadList = CtasService.selectUploadList(hm);
 		
@@ -143,9 +187,28 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		model.addAttribute("loginVO", loginVO);
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("uploadList", uploadList);
-		model.addAttribute("GUBUN", loginVO.getOrgnztId().substring(0, 1));
+		model.addAttribute("GUBUN", loginVO.getGroupId().equals("GROUP_00000000000001")?"A":"B");
 		
 		return "egovframework/com/cmm/UpLoad";
+	}
+	
+	@RequestMapping("/Stats.do")
+	public String Stats(@ModelAttribute("ctasVO") CtasVO ctasVO, ModelMap model) {
+
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		Map hm = new HashMap();
+		hm.put("items1", ctasVO.getItems1());
+		hm.put("items2", ctasVO.getItems2());
+		List statsList = CtasService.selectStatsList(hm);
+		
+		//
+		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
+		model.addAttribute("loginVO", loginVO);
+		model.addAttribute("ctasVO", ctasVO);
+		model.addAttribute("statsList", statsList);
+		
+		return "egovframework/com/cmm/Stats";
 	}
 	
     /**
@@ -238,10 +301,17 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
         int totCnt = egovDeptAuthorService.selectDeptListTotCnt(deptAuthorVO);
 		paginationInfo.setTotalRecordCount(totCnt);
         model.addAttribute("paginationInfo", paginationInfo);
-
+       
         model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
         
+        model.addAttribute("GUBUN", deptAuthorVO.getGUBUN());
         return "egovframework/com/cmm/EgovOrgSearch";
+	}
+    
+    @RequestMapping(value="/CaiSearchList.do")
+	public String CaiSearchList(ModelMap model) throws Exception {
+    	
+        return "egovframework/com/cmm/EgovCaiSearch";
 	}
     
 	@RequestMapping("/EgovLeft.do")

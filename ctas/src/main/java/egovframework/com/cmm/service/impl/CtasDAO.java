@@ -18,6 +18,10 @@ public class CtasDAO extends EgovComAbstractDAO {
 		return list("CtasUpload.selectUploadList", map);
 	}
 	
+	public List selectStatsList(Map map) {
+		return list("CtasUpload.selectStatsList", map);
+	}
+	
 	public void insertUploadFile0(Map map) {
 		insert("CtasUpload.insertUploadFile0", map);
 	}
@@ -35,5 +39,9 @@ public class CtasDAO extends EgovComAbstractDAO {
 	
 	public void insertRate(Map map) {
 		insert("CtasUpload.insertRate", map);
+	}
+	
+	public void insertMber(Map map) {
+		insert("CtasUpload.insertMber", map);
 	}
 }

@@ -30,7 +30,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javaScript" language="javascript" defer="defer">
-
+//alert("${GUBUN}"); //1:인증서등록 2:통계
 function fncManageChecked() {
 
     var checkField = document.listForm.delYn;
@@ -60,10 +60,17 @@ function fncSelectDeptList(pageNo){
 }
 
 function fncSelectDept(deptCode, deptNm) {
-	
-    //opener.document.listForm.deptCode.value = deptCode;
-    opener.document.ctasForm.srchOrg.value = deptNm;
-    opener.goSearch();
+	if("${GUBUN}" == 1){
+		opener.document.mber.orgId.value = deptCode;
+		opener.document.mber.orgNm.value = deptNm;
+	}else if("${GUBUN}" == 2){
+		opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+deptCode+"'";
+		opener.document.ctasForm.select1.value = "'"+deptNm+"'";
+	    //opener.goSearch();
+	}else{
+	    opener.document.ctasForm.srchOrg.value = deptNm;
+	    opener.goSearch();
+	}
     window.close();
 }
 
@@ -81,6 +88,7 @@ function fncSelectDeptConfirm() {
 
 	var org_cd;
 	var org_nm;
+	var items="";
 	
 	if(checkField) {
 		if(checkField.length > 1) {
@@ -89,23 +97,36 @@ function fncSelectDeptConfirm() {
 					checkCount++;
                     org_cd = checkFieldCd[i].value;
                     org_nm = checkFieldNm[i].value;
+                    items  +=  (checkCount==1?"":",")+("'"+checkFieldCd[i].value+"'");
+				}
+			}
+			if(checkCount == 0){
+				alert("선택된 항목이 없습니다.");
+				return;
+			}
+			if("${GUBUN}" == 2){
+				opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID IN("+items+")";
+				opener.document.ctasForm.select1.value = org_nm+(checkCount>1?" 외 "+(checkCount-1)+"개 기관":"");
+				window.close();
+			}else{
+				if(checkCount == 1) {
+					if("${GUBUN}" == 1){
+						opener.document.mber.orgId.value = org_cd;
+						opener.document.mber.orgNm.value = org_nm;
+					}else{
+		             	opener.document.ctasForm.srchOrg.value = org_nm;
+		                opener.goSearch();
+					}
+	             	
+	                window.close();
+			    } else {
+				    alert("하나의 기관을 선택하세요.");
+				    return;
 				}
 			}
 
-			if(checkCount == 1) {
-             // window.returnValue = org_cd + "|" + org_nm; 
-             	opener.document.ctasForm.srchOrg.value = org_nm;
-                //opener.document.listForm.deptCode.value = org_cd;
-                //opener.document.lstForm.deptNm.value = org_nm;
-                opener.goSearch();
-                window.close();
-		    } else {
-			    alert("하나의 기관을 선택하세요.");
-			    return;
-			}
 		} else {
 			if(document.listForm.delYn.checked) {
-             // window.returnValue = document.listForm.checkId.value + "|" + document.listForm.checkNm.value;
                 opener.document.listForm.deptCode.value = document.listForm.checkId.value;
                 opener.document.listForm.deptNm.value = document.listForm.checkNm.value;
                 window.close();
@@ -126,13 +147,44 @@ function press() {
     	fncSelectDeptList('1');
     }
 }
+//등록
+function fnSearch(form){
+	if("${GUBUN}" == '1') form.action = "${pageContext.request.contextPath}/OrgSearchList.do?GUBUN=1";
+	form.submit();
+}
+function fncCheckAll() {
+    var checkField = document.listForm.delYn;
+    if(document.listForm.checkAll.checked) {
+        if(checkField) {
+            if(checkField.length > 1) {
+                for(var i=0; i < checkField.length; i++) {
+                    checkField[i].checked = true;
+                }
+            } else {
+                checkField.checked = true;
+            }
+        }
+    } else {
+        if(checkField) {
+            if(checkField.length > 1) {
+                for(var j=0; j < checkField.length; j++) {
+                    checkField[j].checked = false;
+                }
+            } else {
+                checkField.checked = false;
+            }
+        }
+    }
+}
 </script>
 </head>
 <body>
 
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
-<form:form name="listForm" action="${pageContext.request.contextPath}/OrgSearchList.do" method="post">
+
+<form:form name="listForm" action="${pageContext.request.contextPath}/OrgSearchList.do" onSubmit="fnSearch(document.forms[0]); return false;" method="post">
+
 <div class="popup">
 	<h1>기관조회 목록</h1>
 	<!-- 검색영역 -->
@@ -154,36 +206,52 @@ function press() {
 	<caption>${pageTitle} <spring:message code="title.list" /></caption>
 	<colgroup>
 		<col style="width: 10%;">
+		<%-- <col style="width: 30%;"> --%>
 		<col style="width: 30%;">
-		<col style="width: 30%;">
-		<col style="width: 10%;">
-		<col style="width: 10%;">
-		<col style="width: 10%;">
+		<c:if test="${GUBUN != '1'}">
+			<col style="width: 10%;">
+			<col style="width: 10%;">
+			<col style="width: 10%;">
+		</c:if>
 	</colgroup>
 	<thead>
 	<tr>
-		<th>선택</th><!-- 선택 -->
-		<th class="board_th_link">기관ID</th><!-- 부서 ID -->
+		<th>
+			<c:if test="${GUBUN == '2'}">
+				<input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="<spring:message code="input.selectAll.title" />">
+			</c:if>
+			<c:if test="${GUBUN != '2'}">선택</c:if>
+		</th><!-- 선택 -->
+		<!-- <th class="board_th_link">기관ID</th> -->
 		<th>기관명</th><!-- 부서 명 -->
-		<th>보고서</th>
-		<th>실적<br>증빙</th>
-		<th>평가</th>
+		<c:if test="${GUBUN != '1'}">
+			<th>보고서</th>
+			<th>실적<br>증빙</th>
+			<th>평가</th>
+		</c:if>
 	</tr>
 	</thead>
 	<tbody class="ov">
 	<c:if test="${fn:length(deptList) == 0}">
 	<tr>
+		<c:if test="${GUBUN != '1'}">
 		<td colspan="6"><spring:message code="common.nodata.msg" /></td>
+		</c:if>
+		<c:if test="${GUBUN == '1'}">
+		<td colspan="3"><spring:message code="common.nodata.msg" /></td>
+		</c:if>
 	</tr>
 	</c:if>
 	<c:forEach var="dept" items="${deptList}" varStatus="status">
 	<tr ondblclick="javascript:fncSelectDept('<c:out value="${dept.deptCode}"/>', '<c:out value="${dept.deptNm}"/>')">
 	    <td><input type="checkbox" name="delYn" title="checkField <c:out value='${status.count}'/>"><input type="hidden" name="checkId" value="<c:out value="${dept.deptCode}"/>" /><input type="hidden" name="checkNm" value="<c:out value="${dept.deptNm}"/>" /></td>
-	    <td><c:out value="${dept.deptCode}"/></td>
+	    <%-- <td><c:out value="${dept.deptCode}"/></td> --%>
 	    <td class="left"><c:out value="${dept.deptNm}"/></td>
-	    <td><c:out value="${dept.ASSESS_FILE_CNT}"/></td>
-	    <td><c:out value="${dept.ATCH_FILE_CNT}"/></td>
-	    <td><c:out value="${dept.SCORE_CNT}"/></td>
+	    <c:if test="${GUBUN != '1'}">
+		    <td><c:out value="${dept.ASSESS_FILE_CNT}"/></td>
+		    <td><c:out value="${dept.ATCH_FILE_CNT}"/></td>
+		    <td><c:out value="${dept.SCORE_CNT}"/></td>
+	    </c:if>
 	</tr>
 	</c:forEach>
 	</tbody>

@@ -37,6 +37,7 @@
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
+
 <script type="text/javascript">
 /*********************************************************
  * init
@@ -187,8 +188,6 @@ function setting(obj, org, pkstr, flag){
 		<c:if test="${GUBUN != 'A'}">
 			<col style="width: 10%;">
 		</c:if>
-		<col style="width: 10%;">
-		<col style="width: 10%;">
 		<col style="width: 30%;">
 		<col style="width: 18%;">
 		<col style="width: 18%;">
@@ -199,8 +198,6 @@ function setting(obj, org, pkstr, flag){
 		<c:if test="${GUBUN != 'A'}">
 			<th>기관</th>
 		</c:if>
-		<th>평가<br>분야</th>
-		<th>평가<br>항목</th>
 		<th>평가<br>지표</th>
 		<th>보고서</th>
 		<th>실적증빙</th>
@@ -210,66 +207,12 @@ function setting(obj, org, pkstr, flag){
 	<tbody class="ov">
 		<c:forEach items="${uploadList}" var="uploadInfo" varStatus="status">
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
-				<c:choose>
-					<c:when test = "${uploadInfo.CODE == 'CAI001'}">
-						<tr>
-							<c:if test="${GUBUN != 'A'}">
-								<td rowspan="9">${uploadInfo.ORGNZT_NM}</td>
-							</c:if>
-							<td rowspan="4">민원<br>행정<br>관리<br>기반</td>
-							<td rowspan="4">민원<br>행정<br>전략 및<br>체계</td>
-							<td>민원행정 및 제도개선 계획수립의 적합성</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI002'}">
-						<tr>
-							<td>기관장의 의지 및 관심도</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI003'}">
-						<tr>
-							<td>민원 우수 인센티브 제공</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI004'}">
-						<tr>
-							<td>민원행정 수행기반</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI005'}">
-						<tr>
-							<td rowspan="4">민원<br>행정<br>활동</td>
-							<td rowspan="3">민원<br>제도<br>운영</td>
-							<td>민원정보 제공 및 민원법령 운영</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI006'}">
-						<tr>
-							<td>민원처리상황 확인·점검</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI007'}">
-						<tr>
-							<td>민원행정 및 제도개선</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI008'}">
-						<tr>
-							<td>민원<br>처리</td>
-							<td>처리기간 준수율</td>
-							<td>
-					</c:when>
-					<c:when test = "${uploadInfo.CODE == 'CAI009'}">
-						<tr>
-							<td>민원<br>처리<br>성과</td>
-							<td>민원<br>만족도</td>
-							<td>자체포털민원 만족도</td>
-							<td>
-					</c:when>
-					<c:otherwise>
-		
-					</c:otherwise>
-				</c:choose>
+				<tr>
+					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
+						<td rowspan=7>${uploadInfo.ORGNZT_NM} ${status.index}</td>
+					</c:if>
+					<td>${uploadInfo.CODE_NM}</td>
+					<td>
 				<!-- 보고서 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
@@ -281,7 +224,6 @@ function setting(obj, org, pkstr, flag){
 							     alt="<spring:message code="title.attachedFileDelete" />">
 						</c:if>
 					<br>
-					
 				</c:if>
 				</td>
 				<td>
@@ -338,7 +280,7 @@ function setting(obj, org, pkstr, flag){
 		</c:forEach>
 		<c:if test="${fn:length(uploadList) == 0}">
 			<tr>
-				<td colspan="7">기관명으로 조회하세요.</td>
+				<td colspan="5">기관명으로 조회하세요.</td>
 			</tr>
 		</c:if>
 	</tbody>

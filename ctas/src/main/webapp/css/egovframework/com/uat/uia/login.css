@@ -33,4 +33,4 @@
 	.login_input ul li input.btn_login { width: 289px; height: 45px; margin-top: 6px; border: none; background: #0c4ca4; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; }
 	.login_input ul.btn_idpw { float: right; margin-top: 5px; }
 	.login_input ul.btn_idpw li { float: left; }
-	.login_input ul.btn_idpw li:first-child { padding-right: 9px; border-right: 1px solid #d6d6d6; margin-right: 9px; }
+	.login_input ul.btn_idpw li:first-child { padding-right: 0px; /* border-right: 1px solid #d6d6d6; */ margin-right: 0px; }

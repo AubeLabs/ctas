@@ -1083,6 +1083,7 @@ function initSecureSession(sessionid){
 	var resEnc = GPKISecureWeb.Encrypt(SiteID+sessionid, '111');
 	if( (nResult != -1) && (setSID == 0) && (resEnc == 30053) )
 		location.href = "./requestSecureSession." + serverLangExt + "?rnd=" + sessionid;
+
 }
 
 function addPageExt(){

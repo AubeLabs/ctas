@@ -45,7 +45,14 @@ public class DeptAuthorVO extends DeptAuthor {
 	private String ATCH_FILE_CNT;
 	private String ASSESS_FILE_CNT;
 	private String SCORE_CNT;
+	private String GUBUN;
 	
+	public String getGUBUN() {
+		return GUBUN;
+	}
+	public void setGUBUN(String gUBUN) {
+		GUBUN = gUBUN;
+	}
 	public String getATCH_FILE_CNT() {
 		return ATCH_FILE_CNT;
 	}

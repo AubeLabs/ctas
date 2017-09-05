@@ -70,7 +70,7 @@
 		}else if(objName == "1"){//UPLOAD
 			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do"
 		}else if(objName == "2"){
-		 	
+			parent._content.location.href = "${pageContext.request.contextPath}/Stats.do"
 		}
 		
 	}
@@ -108,9 +108,9 @@
 	<div id="menu_wrapper" class="blue">
 	<div class="left"></div>
 		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0);">Home</a></li>
+			<li><a href="javascript:fnMenuSelect(0);">HOME</a></li>
 			<li><a href="javascript:fnMenuSelect(1);">UPLOAD</a></li>
-			<li><a href="javascript:fnMenuSelect(2);">MENU3</a></li>
+			<li><a href="javascript:fnMenuSelect(2);">STATS</a></li>
 			<li><a href="javascript:fnMenuSelect(3);">MENU4</a></li>
 			<li><a href="javascript:fnMenuSelect(4);">MENU5</a></li>
 			<li><a href="javascript:fnMenuSelect(5);">MENU6</a></li>

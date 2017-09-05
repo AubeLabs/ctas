@@ -87,43 +87,7 @@
 	
 	<!-- 일반 로그인 -->
 	<select id="actionLogin" resultMap="login">
-		<!-- 일반회원 -->
-		<if test="userSe != null and userSe == 'GNR'">
-			
-			SELECT mber_id AS id
-			     , mber_nm AS name
-			     , ihidNum AS ihidNum
-			     , password AS password
-			     , mber_email_adres AS email
-			     , 'GNR' AS userSe
-			     , '-' AS orgnztId
-			     , esntl_id AS uniqId
-			  FROM COMTNGNRLMBER
-			 WHERE mber_id = #{id}
-			   /*AND password = {password}*/
-			   AND mber_sttus = 'P'
-			
-		</if>
-		<!-- 기업회원 -->
-		<if test="userSe != null and userSe == 'ENT'">
-			
-			SELECT ENTRPRS_MBER_ID AS id
-			     , cmpny_nm AS name
-			     , entrprs_mber_password AS password
-			     , bizrno AS ihidNum
-			     , applcnt_email_adres AS email
-			     , 'ENT' AS userSe
-			     , '-' AS orgnztId
-			     , esntl_id AS uniqId
-			  FROM COMTNENTRPRSMBER
-			 WHERE ENTRPRS_MBER_ID = #{id}
-			   AND entrprs_mber_password = #{password}
-			   AND entrprs_mber_sttus = 'P'
-			
-		</if>
-		<!-- 업무사용자 -->
-		<if test="userSe != null and userSe == 'USR'">
-			
+
 			SELECT emplyr_id AS id
 			     , user_nm AS name
 			     , password AS password
@@ -132,27 +96,15 @@
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , esntl_id AS uniqId
+			     , GROUP_ID
 			  FROM COMTNEMPLYRINFO
-			 WHERE emplyr_id = #{id}
-			   /*AND password = {password}*/
-			   AND emplyr_sttus_code = 'P'
-			
-		
-		<!--
-			SELECT emplyr_id AS id
-			     , user_nm AS name
-			     , password AS password
-			     , ihidnum AS ihidNum
-			     , email_adres AS email
-			     , 'USR' AS userSe
-			     , orgnzt_id AS orgnztId
-			     , esntl_id AS uniqId
-			  FROM COMTNEMPLYRINFO
-			 WHERE emplyr_id = #{id}
-			   AND password = #{password}
-			   AND emplyr_sttus_code = 'P'
-		-->
-		</if>
+			 WHERE 1 = CASE WHEN #{dn} = '' AND emplyr_id = #{id} /*AND password = {password}*/ 
+			                 AND GROUP_ID != 'GROUP_00000000000001' THEN 1
+			                WHEN CASE WHEN CRTFC_DN_VALUE='' THEN NULL ELSE CRTFC_DN_VALUE END = #{dn} 
+			                 AND GROUP_ID = 'GROUP_00000000000001' THEN 1
+			           END
+			   /*AND emplyr_sttus_code = 'P'*/
+
 	</select>
 	
 	<!-- 인증서 로그인 -->

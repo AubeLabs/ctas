@@ -209,7 +209,8 @@ function setting(obj, org, pkstr, flag){
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
 				<tr>
 					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
-						<td rowspan=7>${uploadInfo.ORGNZT_NM} ${status.index}</td>
+						<td rowspan=7>${uploadInfo.ORGNZT_NM}
+						</td>
 					</c:if>
 					<td>${uploadInfo.CODE_NM}</td>
 					<td>
@@ -278,9 +279,21 @@ function setting(obj, org, pkstr, flag){
 				</tr>
 			</c:if>
 		</c:forEach>
+			
 		<c:if test="${fn:length(uploadList) == 0}">
 			<tr>
 				<td colspan="5">기관명으로 조회하세요.</td>
+			</tr>
+		</c:if>
+		<c:if test="${fn:length(uploadList) != 0}">
+			<tr>
+				<c:if test="${GUBUN != 'A'}">
+					<td colspan=4>합계</td>
+				</c:if>
+				<c:if test="${GUBUN == 'A'}">
+					<td colspan=3>합계</td>
+				</c:if>
+					<td>${uploadGrp.SUM}</td>
 			</tr>
 		</c:if>
 	</tbody>

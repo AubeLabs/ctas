@@ -140,6 +140,14 @@ function fncSelectCaiPop() {
 				<td colspan="4">조회하세요.</td>
 			</tr>
 		</c:if>
+		<c:if test="${fn:length(statsList) != 0}">
+			<tr>
+				<td>합계</td>
+				<td>${statsGrp.COUNT}</td>
+				<td>${statsGrp.SUM}</td>
+				<td>${statsGrp.AVG}</td>
+			</tr>
+		</c:if>
 	</tbody>
 	</table>
 

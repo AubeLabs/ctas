@@ -83,6 +83,7 @@
 		 WHERE A.CODE_ID = 'CTA001'
 		   ${items2}
 		 GROUP BY A.CODE_NM
+		 ORDER BY A.CODE
  	</select>
 	<select id="selectStatsGrp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT COUNT(D.RATING_SCORE) COUNT
@@ -258,4 +259,27 @@
 				ASSESS_FILE_ID = #{atchFileId}	
 			
 	</delete>
+	
+	<select id="selectOrgList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+			SELECT ORGNZT_ID AS ORG_CODE,
+                   ORGNZT_NM AS ORG_NM,
+                   ATCH_FILE_CNT,
+                   ASSESS_FILE_CNT,
+                   SCORE_CNT,
+                   SCORE_SUM
+              FROM COMTNORGNZTINFO A
+              LEFT OUTER JOIN (SELECT ORGNZT_ID B_ORGNZT_ID, COUNT(ATCH_FILE_ID) ATCH_FILE_CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID) B
+                ON ORGNZT_ID = B_ORGNZT_ID
+              LEFT OUTER JOIN (SELECT ORGNZT_ID C_ORGNZT_ID
+              					    , COUNT(IF(ASSESS_FILE_ID='',NULL,ASSESS_FILE_ID)) ASSESS_FILE_CNT
+              					    , COUNT(RATING_SCORE) SCORE_CNT
+              					    , SUM(RATING_SCORE) SCORE_SUM
+              					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
+		        ON ORGNZT_ID = C_ORGNZT_ID
+             WHERE 1=CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN 1
+				          WHEN #{searchKeyword} = '' THEN 1
+				     END
+			 ${ordCol} ${ordTyp}
+ 	</select>
+ 	
 </mapper>

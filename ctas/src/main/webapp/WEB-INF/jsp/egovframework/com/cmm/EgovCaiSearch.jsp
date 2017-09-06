@@ -45,24 +45,38 @@ function fncSelectCaiConfirm() {
 	
 	var org_cd;
 	var org_nm;
-	var items="";
+	var inItems="''";
+	var notInItems="''";
 	
 	for(var i=0; i<checkField.length; i++) {
 		if(checkField[i].checked) {
 			checkCount++;
-          	org_cd = checkFieldCd[i].value;
-           	items  +=  (checkCount==1?"":",")+("'"+checkFieldCd[i].value+"'");
+            org_cd = checkFieldCd[i].value;
+            inItems  +=  ","+("'"+checkFieldCd[i].value+"'");
+		}else{
+			notInItems  +=  ","+("'"+checkFieldCd[i].value+"'");
 		}
 	}
+
 	if(checkCount == 0){
 		alert("선택된 항목이 없습니다.");
 		return;
 	}
-	opener.document.ctasForm.items2.value = "AND A.CODE IN("+items+")";
+	
+	if(checkField.length == checkCount){
+		opener.document.ctasForm.items2.value = "";
+		opener.document.ctasForm.select2.value = "전체";
+		window.close();
+		return;
+	}else if(inItems.length <= notInItems.length){
+		opener.document.ctasForm.items2.value = "AND A.CODE IN("+inItems+")";
+	}else {
+		opener.document.ctasForm.items2.value = "AND A.CODE NOT IN("+notInItems+")";
+	}
 	opener.document.ctasForm.select2.value = checkCount+"개 항목 선택";
 	window.close();
-
 }
+	
 function fncCheckAll() {
     var checkField = document.listForm.delYn;
     if(document.listForm.checkAll.checked) {
@@ -87,9 +101,44 @@ function fncCheckAll() {
         }
     }
 }
+function setChecked(){
+
+	var str = opener.document.ctasForm.items2.value;
+	if(str == ""){
+		document.listForm.checkAll.checked = true;
+		fncCheckAll();
+		return;
+	}
+
+	var checkField = document.listForm.delYn;
+	var checkFieldCd = document.listForm.checkId;
+	if(checkField) {
+		if(str.indexOf("NOT IN") == -1){//IN절일때는 찾으면(-1이아닌경우) 체크
+	        if(checkField.length > 1) {
+	            for(var i=0; i < checkField.length; i++) {
+	            	if(str.indexOf("'"+checkFieldCd[i].value+"'") != -1){
+	            		checkField[i].checked = true;
+	            	}
+	            }
+	        }
+		}else{ //NOT IN절일때는 찾지못하면(-1인경우) 체크
+			if(checkField.length > 1) {
+	            for(var i=0; i < checkField.length; i++) {
+	            	if(str.indexOf("'"+checkFieldCd[i].value+"'") == -1){
+	            		checkField[i].checked = true;
+	            	}
+	            }
+	        }
+		}
+    }
+}
+function fn_init(){
+	setChecked();
+}
+
 </script>
 </head>
-<body>
+<body onload="fn_init()">
 
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>

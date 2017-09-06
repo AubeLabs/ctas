@@ -105,8 +105,8 @@ function goSearch(){
 function fncSelectOrgPop() {
 
     var url = "<c:url value='/OrgSearchList.do'/>";
-    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"기관검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    window.open(url,"기관검색",'width=600,height=485,scrollbars=yes,resizable=yes,status=no,center:yes');
 
 }
 /* ********************************************************

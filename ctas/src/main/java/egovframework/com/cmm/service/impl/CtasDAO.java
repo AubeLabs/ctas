@@ -51,4 +51,8 @@ public class CtasDAO extends EgovComAbstractDAO {
 	public void insertMber(Map map) {
 		insert("CtasUpload.insertMber", map);
 	}
+	
+	public List selectOrgList(Map map) {
+		return list("CtasUpload.selectOrgList", map);
+	}
 }

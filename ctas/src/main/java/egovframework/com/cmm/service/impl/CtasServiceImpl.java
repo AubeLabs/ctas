@@ -93,5 +93,9 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 	public void insertMber(Map map) {
 		CtasDAO.insertMber(map);
 	}
-
+	@Override
+	public List selectOrgList(Map map) {
+		return CtasDAO.selectOrgList(map);
+	}
+	
 }

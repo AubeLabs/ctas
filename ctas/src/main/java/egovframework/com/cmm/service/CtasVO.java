@@ -47,10 +47,56 @@ public class CtasVO implements Serializable {
   private String items2 = "";
   private String select1 = "";
   private String select2 = "";
+  //기관조회에서 사용
+  private String searchKeyword = "";
+  private String GUBUN = "";
+  private String ordCol = "";
+  private String ordTyp = "";
   //사용안함
   private String gubun1= "";
   private String gubun2= "";
   private String test= "";
+
+
+  
+public String getOrdCol() {
+	return ordCol;
+}
+
+
+public void setOrdCol(String ordCol) {
+	this.ordCol = ordCol;
+}
+
+
+public String getOrdTyp() {
+	return ordTyp;
+}
+
+
+public void setOrdTyp(String ordTyp) {
+	this.ordTyp = ordTyp;
+}
+
+
+public String getGUBUN() {
+	return GUBUN;
+}
+
+
+public void setGUBUN(String gUBUN) {
+	GUBUN = gUBUN;
+}
+
+
+public String getSearchKeyword() {
+	return searchKeyword;
+}
+
+
+public void setSearchKeyword(String searchKeyword) {
+	this.searchKeyword = searchKeyword;
+}
 
 
 public String getItems1() {

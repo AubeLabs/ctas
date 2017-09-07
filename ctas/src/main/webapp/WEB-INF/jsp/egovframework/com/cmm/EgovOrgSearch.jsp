@@ -198,6 +198,7 @@ function fncCheckAll() {
                 checkField.checked = true;
             }
         }
+        getChecked();
     } else {
         if(checkField) {
             if(checkField.length > 1) {
@@ -208,6 +209,7 @@ function fncCheckAll() {
                 checkField.checked = false;
             }
         }
+        document.getElementById("chkChg").value = "''";
     }
 }
 function fnOrd(selectQryOrd){

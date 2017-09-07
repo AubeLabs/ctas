@@ -264,12 +264,12 @@
 		<![CDATA[
 			SELECT ORGNZT_ID AS ORG_CODE,
 				   ORGNZT_NM AS ORG_NM,
-                   REPLACE(ORGNZT_NM, #{searchKeyword}, '<font color="blue">${searchKeyword}</font>') AS ORG_NM2,
                    ATCH_FILE_CNT,
                    ASSESS_FILE_CNT,
                    SCORE_CNT,
                    SCORE_SUM,
-                   CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN NULL ELSE ORGNZT_ID END SRCH
+                   CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN 1 ELSE 2 END SRCH,
+                   REPLACE(ORGNZT_NM, #{searchKeyword}, '<font color="blue">${searchKeyword}</font>') AS ORG_NM2
               FROM COMTNORGNZTINFO A
               LEFT OUTER JOIN (SELECT ORGNZT_ID B_ORGNZT_ID, COUNT(ATCH_FILE_ID) ATCH_FILE_CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID) B
                 ON ORGNZT_ID = B_ORGNZT_ID

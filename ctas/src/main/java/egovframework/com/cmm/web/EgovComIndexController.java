@@ -291,7 +291,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     	HashMap hm = new HashMap();
     	hm.put("searchKeyword", vo.getSearchKeyword());
     	
-    	String ordCol = vo.getOrdCol().equals("")?"":"ORDER BY "+vo.getOrdCol();
+    	String ordCol = vo.getOrdCol().equals("")?"":", "+vo.getOrdCol();
     	String ordTyp = vo.getOrdCol().equals("")?"":vo.getOrdTyp()+", ORG_NM";
     	hm.put("ordCol", ordCol);
     	hm.put("ordTyp", ordTyp);

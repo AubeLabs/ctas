@@ -208,7 +208,12 @@
                     SBSCRB_DE           ,
                     CRTFC_DN_VALUE              )
             VALUES (
-                    'A'            ,
+                    (SELECT CONCAT('A',EMPLYR_ID )
+                       FROM(
+							SELECT LPAD(IFNULL(MAX(EMPLYR_ID), 0) + 1, 4, 0) EMPLYR_ID
+							  FROM COMTNEMPLYRINFO
+							 WHERE GROUP_ID = 'GROUP_00000000000001'
+						   )TMP)            ,
                     (SELECT EMPLYR_ID 
                        FROM(
 							SELECT LPAD(IFNULL(MAX(EMPLYR_ID), 0) + 1, 4, 0) EMPLYR_ID

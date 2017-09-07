@@ -261,12 +261,15 @@
 	</delete>
 	
 	<select id="selectOrgList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
 			SELECT ORGNZT_ID AS ORG_CODE,
-                   ORGNZT_NM AS ORG_NM,
+				   ORGNZT_NM AS ORG_NM,
+                   REPLACE(ORGNZT_NM, #{searchKeyword}, '<font color="blue">${searchKeyword}</font>') AS ORG_NM2,
                    ATCH_FILE_CNT,
                    ASSESS_FILE_CNT,
                    SCORE_CNT,
-                   SCORE_SUM
+                   SCORE_SUM,
+                   CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN NULL ELSE ORGNZT_ID END SRCH
               FROM COMTNORGNZTINFO A
               LEFT OUTER JOIN (SELECT ORGNZT_ID B_ORGNZT_ID, COUNT(ATCH_FILE_ID) ATCH_FILE_CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID) B
                 ON ORGNZT_ID = B_ORGNZT_ID
@@ -276,10 +279,11 @@
               					    , SUM(RATING_SCORE) SCORE_SUM
               					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
 		        ON ORGNZT_ID = C_ORGNZT_ID
-             WHERE 1=CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN 1
-				          WHEN #{searchKeyword} = '' THEN 1
-				     END
-			 ${ordCol} ${ordTyp}
+             /*WHERE 1=CASE WHEN {searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',{searchKeyword},'%') THEN 1
+				          WHEN {searchKeyword} = '' THEN 1
+				     END*/
+			 ORDER BY SRCH ${ordCol} ${ordTyp}
+		]]>
  	</select>
  	
 </mapper>

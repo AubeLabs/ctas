@@ -135,6 +135,12 @@ function setting(obj, org, pkstr, flag){
 	}
 	//alert(str);
 }
+function press() {
+
+    if (event.keyCode==13) {
+    	goSearch();
+    }
+}
 </script>
 </head>
 <body onload="fn_egov_init()">

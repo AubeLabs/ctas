@@ -51,8 +51,8 @@ function fn_egov_init(){
 //기관조회
 function fncSelectOrgPop() {
     var url = "<c:url value='/OrgSearchList.do?GUBUN=1'/>";
-    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"기관검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    window.open(url,"기관검색",'width=500,height=485,scrollbars=yes,resizable=yes,status=no,center:yes');
 }
 //등록
 function fnInsert(form){

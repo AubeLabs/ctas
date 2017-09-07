@@ -79,7 +79,14 @@ function linkPage(pageNo){
     document.listForm.pageIndex.value = pageNo;
     document.listForm.submit();
 }
-
+function CheckedEvt(obj, cd){
+	var chkChg = document.getElementById("chkChg");
+	if(obj.checked){
+		chkChg.value += "'"+cd+"'";
+	}else{
+		chkChg.value = chkChg.value.replace("'"+cd+"'", "");
+	}
+}
 function fncSelectDeptConfirm() {
 	var checkField = document.listForm.delYn;
     var checkFieldCd = document.listForm.checkId;
@@ -216,15 +223,30 @@ function fnOrd(selectQryOrd){
 }
 function setChecked(){
 
+	var chkChg = document.getElementById("chkChg");
 	var str = opener.document.ctasForm.items1.value;
+	var checkField = document.listForm.delYn;
+	var checkFieldCd = document.listForm.checkId;
+	
+	if(chkChg.value != ""){
+		if(checkField) {
+			if(checkField.length > 1) {
+	            for(var i=0; i < checkField.length; i++) {
+	            	if(chkChg.value.indexOf("'"+checkFieldCd[i].value+"'") != -1){
+	            		checkField[i].checked = true;
+	            	}
+	            }
+	        }
+		}
+		return;
+	}
+	
 	if(str == ""){
 		document.listForm.checkAll.checked = true;
 		fncCheckAll();
 		return;
 	}
 
-	var checkField = document.listForm.delYn;
-	var checkFieldCd = document.listForm.checkId;
 	if(checkField) {
 		if(str.indexOf("NOT IN") == -1){//IN절일때는 찾으면(-1이아닌경우) 체크
 	        if(checkField.length > 1) {
@@ -254,9 +276,11 @@ function setOrd(){
 	td.innerHTML = hdStr+(typ==""?'▲':'▼');
 }
 function fn_init(){
+	if('${GUBUN}' != 1 ) {
+		setOrd();
+	}
 	if('${GUBUN}' == 2) {
 		setChecked();
-		setOrd();
 	}
 }
 
@@ -286,6 +310,7 @@ function fn_init(){
 	
 	<input name="ordCol" id="ordCol" type="hidden" value="<c:out value="${ctasVO.ordCol}"/>">
 	<input name="ordTyp" id="ordTyp" type="hidden" value="<c:out value="${ctasVO.ordTyp}"/>">
+	<input name="chkChg" id="chkChg" type="hidden" value="<c:out value="${ctasVO.chkChg}"/>">
 	
 	<!-- 목록영역 -->
 	<table class="board_list" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -332,9 +357,9 @@ function fn_init(){
 	</c:if>
 	<c:forEach var="org" items="${orgList}" varStatus="status">
 	<tr ondblclick="javascript:fncSelectDept('<c:out value="${org.ORG_CODE}"/>', '<c:out value="${org.ORG_NM}"/>')">
-	    <td><input type="checkbox" name="delYn" title="checkField <c:out value='${status.count}'/>"><input type="hidden" name="checkId" value="<c:out value="${org.ORG_CODE}"/>" /><input type="hidden" name="checkNm" value="<c:out value="${org.ORG_NM}"/>" /></td>
+	    <td><input type="checkbox" onchange="CheckedEvt(this, '${org.ORG_CODE}')" name="delYn" title="checkField <c:out value='${status.count}'/>"><input type="hidden" name="checkId" value="<c:out value="${org.ORG_CODE}"/>" /><input type="hidden" name="checkNm" value="<c:out value="${org.ORG_NM}"/>" /></td>
 	    <%-- <td><c:out value="${dept.ORG_NM}"/></td> --%>
-	    <td class="left"><c:out value="${org.ORG_NM}"/></td>
+	    <td class="left">${org.ORG_NM2}</td>
 	    <c:if test="${GUBUN != '1'}">
 		    <td><c:out value="${org.ASSESS_FILE_CNT}"/></td>
 		    <td><c:out value="${org.ATCH_FILE_CNT}"/></td>

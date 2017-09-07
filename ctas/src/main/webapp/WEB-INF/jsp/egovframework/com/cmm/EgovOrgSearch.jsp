@@ -221,6 +221,17 @@ function fnOrd(selectQryOrd){
 	}
 	fnSearch(document.forms[0]);
 }
+function getChecked(){
+	var chkChg = document.getElementById("chkChg");
+	var checkField = document.listForm.delYn;
+	var checkFieldCd = document.listForm.checkId;
+	
+	for(var i=0; i < checkField.length; i++) {
+		if(checkField[i].checked) {
+    		chkChg.value += "'"+checkFieldCd[i].value+"'";//최초 담아주기
+    	}
+    }
+}
 function setChecked(){
 
 	var chkChg = document.getElementById("chkChg");
@@ -244,6 +255,7 @@ function setChecked(){
 	if(str == ""){
 		document.listForm.checkAll.checked = true;
 		fncCheckAll();
+		getChecked();
 		return;
 	}
 
@@ -266,6 +278,7 @@ function setChecked(){
 	        }
 		}
     }
+	getChecked();
 }
 function setOrd(){
 	var col = document.getElementById("ordCol").value;

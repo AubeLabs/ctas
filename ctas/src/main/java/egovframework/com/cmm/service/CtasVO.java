@@ -52,6 +52,7 @@ public class CtasVO implements Serializable {
   private String GUBUN = "";
   private String ordCol = "";
   private String ordTyp = "";
+  private String chkChg = "";
   //사용안함
   private String gubun1= "";
   private String gubun2= "";
@@ -59,6 +60,16 @@ public class CtasVO implements Serializable {
 
 
   
+public String getChkChg() {
+	return chkChg;
+}
+
+
+public void setChkChg(String chkChg) {
+	this.chkChg = chkChg;
+}
+
+
 public String getOrdCol() {
 	return ordCol;
 }

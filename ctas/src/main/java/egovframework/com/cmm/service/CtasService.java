@@ -1,5 +1,6 @@
 package egovframework.com.cmm.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import egovframework.com.cmm.service.FileVO;
@@ -22,10 +23,13 @@ public interface CtasService {
 	Map<String, Object> selectGuestArticleList(BoardVO vo);*/
 
 	List selectUploadList(Map map);
+	HashMap selectUploadGrp(Map map);
 	List selectStatsList(Map map);
+	HashMap selectStatsGrp(Map map);
 	void insertUploadFile0(Map map);
 	void insertUploadFile1(Map map);
 	void deleteUploadFile(FileVO vo) throws Exception;
 	void insertRate(String str);
 	void insertMber(Map map);
+	List selectOrgList(Map map);
 }

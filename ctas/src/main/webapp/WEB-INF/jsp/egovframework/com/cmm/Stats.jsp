@@ -43,6 +43,8 @@
  * init
  ******************************************************** */
 function fn_egov_init(){
+	if(document.ctasForm.items1.value == "") document.ctasForm.select1.value = "전체";
+	if(document.ctasForm.items2.value == "") document.ctasForm.select2.value = "전체";
 	//alert('GUBUN:${GUBUN}');
 }
 /* ********************************************************
@@ -57,15 +59,15 @@ function goSearch(){
  ******************************************************** */
 function fncSelectOrgPop() {
     var url = "<c:url value='/OrgSearchList.do?GUBUN=2'/>";
-    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"기관검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    window.open(url,"기관검색",'width=600,height=485,scrollbars=yes,resizable=yes,status=no,center:yes');
 }
 /* ********************************************************
  * 평가지표선택
  ******************************************************** */
 function fncSelectCaiPop() {
     var url = "<c:url value='/CaiSearchList.do'/>";
-    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
     window.open(url,"평가지표검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
 }
 </script>
@@ -138,6 +140,14 @@ function fncSelectCaiPop() {
 		<c:if test="${fn:length(statsList) == 0}">
 			<tr>
 				<td colspan="4">조회하세요.</td>
+			</tr>
+		</c:if>
+		<c:if test="${fn:length(statsList) != 0}">
+			<tr>
+				<td>합계</td>
+				<td>${statsGrp.COUNT}</td>
+				<td>${statsGrp.SUM}</td>
+				<td>${statsGrp.AVG}</td>
 			</tr>
 		</c:if>
 	</tbody>

@@ -105,8 +105,8 @@ function goSearch(){
 function fncSelectOrgPop() {
 
     var url = "<c:url value='/OrgSearchList.do'/>";
-    var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"기관검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
+    window.open(url,"기관검색",'width=600,height=485,scrollbars=yes,resizable=yes,status=no,center:yes');
 
 }
 /* ********************************************************
@@ -134,6 +134,12 @@ function setting(obj, org, pkstr, flag){
 		str += pkstr+"，RATING_SCORE："+obj.value+"；";
 	}
 	//alert(str);
+}
+function press() {
+
+    if (event.keyCode==13) {
+    	goSearch();
+    }
 }
 </script>
 </head>
@@ -188,10 +194,13 @@ function setting(obj, org, pkstr, flag){
 		<c:if test="${GUBUN != 'A'}">
 			<col style="width: 10%;">
 		</c:if>
-		<col style="width: 30%;">
-		<col style="width: 18%;">
-		<col style="width: 18%;">
-		<col style="width: 14%;">
+		<col style="width: 35%;">
+		<col style="width: 20%;">
+		<col style="width: 20%;">
+		<c:if test="${GUBUN == 'A'}">
+			<col style="width: 15%;">
+		</c:if>
+		<col style="width: 10%;">
 	</colgroup>
 	<thead>
 	<tr>
@@ -201,7 +210,10 @@ function setting(obj, org, pkstr, flag){
 		<th>평가<br>지표</th>
 		<th>보고서</th>
 		<th>실적증빙</th>
-		<th><c:if test="${GUBUN == 'A'}">등록</c:if><c:if test="${GUBUN != 'A'}">평가점수</c:if></th>
+		<c:if test="${GUBUN == 'A'}">
+			<th>등록</th>
+		</c:if>
+		<th>평가점수</th>
 	</tr>
 	</thead>
 	<tbody class="ov">
@@ -209,7 +221,8 @@ function setting(obj, org, pkstr, flag){
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
 				<tr>
 					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
-						<td rowspan=7>${uploadInfo.ORGNZT_NM} ${status.index}</td>
+						<td rowspan=7>${uploadInfo.ORGNZT_NM}
+						</td>
 					</c:if>
 					<td>${uploadInfo.CODE_NM}</td>
 					<td>
@@ -269,6 +282,9 @@ function setting(obj, org, pkstr, flag){
 						</div>
 						
 						<div id="egovComFileList1${uploadInfo.RN}" style="display:none;"></div>
+					</td>
+					<td>
+						${uploadInfo.RATING_SCORE}
 					</c:if>
 					<c:if test="${GUBUN != 'A'}">
 						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" 
@@ -278,9 +294,16 @@ function setting(obj, org, pkstr, flag){
 				</tr>
 			</c:if>
 		</c:forEach>
+			
 		<c:if test="${fn:length(uploadList) == 0}">
 			<tr>
 				<td colspan="5">기관명으로 조회하세요.</td>
+			</tr>
+		</c:if>
+		<c:if test="${fn:length(uploadList) != 0}">
+			<tr>
+				<td colspan=4>합계</td>
+				<td>${uploadGrp.SUM}</td>
 			</tr>
 		</c:if>
 	</tbody>

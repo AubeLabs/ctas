@@ -181,6 +181,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", ctasVO.getSrchOrg());
 		List uploadList = CtasService.selectUploadList(hm);
+		HashMap uploadGrp = CtasService.selectUploadGrp(hm);
 		
 		//
 		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
@@ -188,6 +189,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("uploadList", uploadList);
 		model.addAttribute("GUBUN", loginVO.getGroupId().equals("GROUP_00000000000001")?"A":"B");
+		model.addAttribute("uploadGrp", uploadGrp);
 		
 		return "egovframework/com/cmm/UpLoad";
 	}
@@ -201,12 +203,14 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("items1", ctasVO.getItems1());
 		hm.put("items2", ctasVO.getItems2());
 		List statsList = CtasService.selectStatsList(hm);
+		HashMap statsGrp = CtasService.selectStatsGrp(hm);
 		
 		//
 		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
 		model.addAttribute("loginVO", loginVO);
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("statsList", statsList);
+		model.addAttribute("statsGrp", statsGrp);
 		
 		return "egovframework/com/cmm/Stats";
 	}
@@ -282,29 +286,21 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	 * @exception Exception
 	 */
     @RequestMapping(value="/OrgSearchList.do")
-	public String selectDeptList(@ModelAttribute("deptAuthorVO") DeptAuthorVO deptAuthorVO,
+	public String selectDeptList(@ModelAttribute("ctasVO") CtasVO vo,
 			                             ModelMap model) throws Exception {
-
-    	/** paging */
-    	PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(deptAuthorVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(deptAuthorVO.getPageUnit());
-		paginationInfo.setPageSize(deptAuthorVO.getPageSize());
-		
-		deptAuthorVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		deptAuthorVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		deptAuthorVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		
-		deptAuthorVO.setDeptList(egovDeptAuthorService.selectDeptList(deptAuthorVO));
-        model.addAttribute("deptList", deptAuthorVO.getDeptList());
+    	HashMap hm = new HashMap();
+    	hm.put("searchKeyword", vo.getSearchKeyword());
+    	
+    	String ordCol = vo.getOrdCol().equals("")?"":", "+vo.getOrdCol();
+    	String ordTyp = vo.getOrdCol().equals("")?"":vo.getOrdTyp()+", ORG_NM";
+    	hm.put("ordCol", ordCol);
+    	hm.put("ordTyp", ordTyp);
+    	
+    	List orgList = CtasService.selectOrgList(hm);
+    	
+        model.addAttribute("orgList", orgList);
+        model.addAttribute("GUBUN", vo.getGUBUN());
         
-        int totCnt = egovDeptAuthorService.selectDeptListTotCnt(deptAuthorVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-        model.addAttribute("paginationInfo", paginationInfo);
-       
-        model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-        
-        model.addAttribute("GUBUN", deptAuthorVO.getGUBUN());
         return "egovframework/com/cmm/EgovOrgSearch";
 	}
     

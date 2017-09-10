@@ -33,4 +33,5 @@ public interface CtasService {
 	void insertMber(Map map);
 	List selectOrgList(Map map);
 	HashMap selectAllStatus();
+	List selectChkList(Map map);
 }

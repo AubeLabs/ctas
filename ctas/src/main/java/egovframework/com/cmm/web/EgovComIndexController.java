@@ -184,22 +184,28 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 			//
 			
 		}else {//등록시
+			Map hm = new HashMap();
+			hm.put("nm", ctasVO.getNm());
+			hm.put("orgId", ctasVO.getOrgId());
+			hm.put("certDn", ctasVO.getCertDn());
+			
 			try{
-				LoginVO srch = new LoginVO();
-				srch.setDn(ctasVO.getCertDn());
-				LoginVO valid = loginDAO.actionLogin(srch);
-				LOGGER.debug("@@@@@@ : "+valid);
-				if(valid != null){
+				List chkList = CtasService.selectChkList(hm);
+				HashMap chk = (HashMap) chkList.get(0);
+				LOGGER.debug("chkList : "+chkList);
+				/* CHK1 : 1개기관 1명(1:ERR)    CHK2 : dn에서 기관찾기(0:ERR)    CHK3 : 중복가입(1:ERR) */
+				if(chk.get("CHK1").equals("1")){
+					model.addAttribute("msg", "해당 기관은 이미 등록되어있습니다.");
+					model.addAttribute("sucess", -1);
+				} else if(chk.get("CHK2").equals("0")){
+					model.addAttribute("msg", "인증서와 기관이 일치하지않습니다.");
+					model.addAttribute("sucess", -1);
+					CtasService.insertMber(hm);
+				} else if(chk.get("CHK3").equals("1")){
 					model.addAttribute("msg", "해당 인증서는 이미 등록되어있습니다.");
 					model.addAttribute("sucess", -1);
 				} else {
-					Map hm = new HashMap();
-					hm.put("nm", ctasVO.getNm());
-					hm.put("orgId", ctasVO.getOrgId());
-					hm.put("certDn", ctasVO.getCertDn());
-					
 					CtasService.insertMber(hm);
-					
 					model.addAttribute("msg", "등록이 완료되었습니다.");
 					model.addAttribute("sucess", 1);
 				}

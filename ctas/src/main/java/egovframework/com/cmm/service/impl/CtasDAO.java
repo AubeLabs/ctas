@@ -59,4 +59,8 @@ public class CtasDAO extends EgovComAbstractDAO {
 	public HashMap selectAllStatus() {
 		return (HashMap)selectOne("CtasUpload.selectAllStatus");
 	}
+	
+	public List selectChkList(Map map) {
+		return list("CtasUpload.selectChkList", map);
+	}
 }

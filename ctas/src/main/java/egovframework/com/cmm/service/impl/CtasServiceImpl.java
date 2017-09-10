@@ -97,4 +97,9 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 	public HashMap selectAllStatus() {
 		return CtasDAO.selectAllStatus();
 	}
+	
+	@Override
+	public List selectChkList(Map map) {
+		return CtasDAO.selectChkList(map);
+	}
 }

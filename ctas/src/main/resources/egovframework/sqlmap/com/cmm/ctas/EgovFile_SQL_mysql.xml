@@ -323,4 +323,17 @@
 		]]>
  	</select>
  	
+ 	<select id="selectChkList" resultType="java.util.HashMap">
+		<![CDATA[
+			/* CHK1 : 1개기관 1명(1:ERR)    CHK2 : dn에서 기관찾기(0:ERR)    CHK3 : 중복가입(1:ERR) */
+			SELECT COUNT(*) CHK1
+			     , INSTR(#{certDn}, A.ORGNZT_DC) CHK2
+			     , (SELECT COUNT(*) FROM comtnemplyrinfo WHERE CRTFC_DN_VALUE = #{certDn}) CHK3
+			  FROM comtnorgnztinfo A
+			  LEFT OUTER JOIN comtnemplyrinfo B
+			    ON A.ORGNZT_ID = B.ORGNZT_ID
+			 WHERE A.ORGNZT_ID = #{orgId}
+		]]>
+ 	</select>
+ 	
 </mapper>

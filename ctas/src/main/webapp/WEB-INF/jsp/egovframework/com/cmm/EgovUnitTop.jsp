@@ -57,37 +57,51 @@
 
 </style>
 <script type="text/javaScript" language="javascript">
-	function fnMenuSelect(objName){
+	function fnMenuSelect(objName, objOrder){
 		
 		var foo = document.getElementById('menu');
 		for (var i = 0; i < foo.children.length; i++) {
-			if(i==objName) foo.children[i].className = "active";
+			if(i == objOrder) foo.children[i].className = "active";
 			else foo.children[i].className = "";
 		}
 
-		if(objName == "0"){//HOME
-			parent._content.location.href = "${pageContext.request.contextPath}/EgovContent.do"
-		}else if(objName == "1"){//UPLOAD
-			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do"
-		}else if(objName == "2"){
-			parent._content.location.href = "${pageContext.request.contextPath}/Stats.do"
+		if(objName == "0"){	// HOME
+			parent._content.location.href = "${pageContext.request.contextPath}/EgovContent.do";
+		}else if(objName == "1"){	// 보고서 업로드
+			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do";
+		}else if(objName == "2"){	// 공지사항
+			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000001";
+		}else if(objName == "3"){	// Q&A
+			parent._content.location.href = "${pageContext.request.contextPath}/uss/olh/qna/selectQnaList.do";
+		}else if(objName == "4"){	// 평정실시
+			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do";
+		}else if(objName == "5"){	// 통계
+			parent._content.location.href = "${pageContext.request.contextPath}/Stats.do";
+		}else if(objName == "6"){	// 기관 관리
+			parent._content.location.href = "${pageContext.request.contextPath}/uss/umt/dpt/selectDeptManageListView.do";
+		}else if(objName == "7"){	// 기관담당자 조회
+			parent._content.location.href = "${pageContext.request.contextPath}/uss/umt/EgovUserManage.do";
+		}else if(objName == "8"){	// Q&A답변
+			parent._content.location.href = "${pageContext.request.contextPath}/uss/olh/qna/selectQnaAnswerList.do";
+		}else if(objName == "9"){	// 자료실
+			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000011";
 		}
 		
 	}
 	function menuDspl(param1, param2){
-		document.getElementById("menu_wrapper").style.display=param1;
-		document.getElementById("welcome").style.display=param1;
-		//alert('${loginVO.name }');
-		document.getElementById("welcome").innerHTML = param2+"님 환영합니다. <a href='javascript:contentLogout();''>로그아웃</a>";
-		document.getElementById("menu").children[0].className = "active";
-		
+		if (document.getElementById("menu")) {
+			document.getElementById("menu_wrapper").style.display=param1;
+			document.getElementById("welcome").style.display=param1;
+			document.getElementById("welcome").innerHTML = param2+" 님 환영합니다. <a href='javascript:contentLogout();''>로그아웃</a>";
+			document.getElementById("menu").children[0].className = "active";
+		}
 	}
 	function contentLogout(){
-		parent._content.location.href = "${pageContext.request.contextPath }/uat/uia/actionLogout.do"
+		parent._content.location.href = "${pageContext.request.contextPath }/uat/uia/actionLogout.do";
 	}
 </script>
 </head>
-<body>
+<body onload="menuDspl('block','${loginVO.name}')">
 <div id="header">
 	<div class="header_box"> 
 	<h1>
@@ -107,14 +121,40 @@
 	<!-- Blue Menu -->
 	<div id="menu_wrapper" class="blue">
 	<div class="left"></div>
+	<c:if test="${loginVO == null }">
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">
 		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0);">HOME</a></li>
-			<li><a href="javascript:fnMenuSelect(1);">UPLOAD</a></li>
-			<li><a href="javascript:fnMenuSelect(2);">STATS</a></li>
-			<li><a href="javascript:fnMenuSelect(3);">MENU4</a></li>
-			<li><a href="javascript:fnMenuSelect(4);">MENU5</a></li>
-			<li><a href="javascript:fnMenuSelect(5);">MENU6</a></li>
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(1,1);">보고서 업로드</a></li>
+			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
 		</ul>
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000002' }">
+		<ul id="menu">
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
+			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
+		</ul>
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000003' }">
+		<ul id="menu">
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
+			<li><a href="javascript:fnMenuSelect(5,2);">기관별현황</a></li>
+			<li><a href="javascript:fnMenuSelect(2,3);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,4);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(8,5);">Q&A답변</a></li>
+			<li><a href="javascript:fnMenuSelect(9,6);">자료실</a></li>
+			<li><a href="javascript:fnMenuSelect(6,7);">기관관리</a></li>
+			<li><a href="javascript:fnMenuSelect(7,8);">기관담당자</a></li>
+		</ul>
+	</c:if>
+
 	</div>
 </body>
 </html>

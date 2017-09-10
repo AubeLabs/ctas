@@ -8,17 +8,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.CtasService;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.cop.bbs.service.Board;
-import egovframework.com.cop.bbs.service.BoardVO;
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.service.CtasService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.cmmn.exception.FdlException;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Service("CtasService")
 public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasService {
@@ -98,4 +93,8 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 		return CtasDAO.selectOrgList(map);
 	}
 	
+	@Override
+	public HashMap selectAllStatus() {
+		return CtasDAO.selectAllStatus();
+	}
 }

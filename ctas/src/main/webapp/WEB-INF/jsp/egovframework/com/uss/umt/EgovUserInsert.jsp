@@ -228,7 +228,7 @@ if (typeof(opener.fn_egov_dn_info_setting) == 'undefined') {
 			<th><label for="emplyrId">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
 				<form:input path="emplyrId" id="emplyrId" title="${title} ${inputTxt}" size="20" readonly="true" maxlength="20" style="width:80%;" />
-				<button id="btnEmplyrId" class="btn_s2" onClick="return false;" title="<spring:message code="button.delete" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.deptUserManageRegistBtn.idSearch" /></button>
+				<button id="btnEmplyrId" class="btn_s2" onClick="return false;" title="<spring:message code="comUssUmt.deptUserManageRegistBtn.idSearch" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.deptUserManageRegistBtn.idSearch" /></button>
 				<div><form:errors path="emplyrId" cssClass="error" /></div>
 			</td>
 		</tr>

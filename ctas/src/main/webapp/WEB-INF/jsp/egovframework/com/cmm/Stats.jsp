@@ -82,34 +82,29 @@ function fncSelectCaiPop() {
 	<input name="items2" id="items2" type="hidden" value="<c:out value="${ctasVO.items2}"/>">
 	
 	<div class="board">
-	<h1 style = "margin-bottom:30px;">
-			통계
-	</h1>
+	<h1 class="circle_chck">기관별현황</h1>
 
-	<br/><br/><br/>
+	<br/><br/>
 	
 	<!-- 검색영역 -->
 	<div class="search_box2" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
-			<li><div style="line-height:4px;">&nbsp;</div><div>기관 : </div></li><!-- 부서권한관리 -->
 			<!-- 검색키워드 및 조회버튼 -->
+			<li><div style="line-height:4px;">&nbsp;</div><div>기관 </div></li>
 			<li>
 				<input readonly= "readonly" name="select1" type="text" value="<c:out value='${ctasVO.select1}' />" size="22" title="기관" onkeypress="press();"  />
-				<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관선택" title="기관선택" />
+				<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
 			</li>
-		</ul>
-		<ul>
-			<li><div style="line-height:4px;">&nbsp;</div><div>지표 : </div></li><!-- 부서권한관리 -->
-			<!-- 검색키워드 및 조회버튼 -->
+			<li><div style="line-height:4px;">&nbsp;</div><div>지표 </div></li>
 			<li>
 				<input readonly= "readonly" name="select2" type="text" value="<c:out value='${ctasVO.select2}' />" size="22" title="기관" onkeypress="press();"  />
-				<input type="button" class="s_btn" onClick="fncSelectCaiPop();return false;" value="지표선택" title="지표선택" />
+				<input type="button" class="s_btn" onClick="fncSelectCaiPop();return false;" value="지표찾기" title="지표찾기" />
 				<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
 			</li>
 		</ul>
 	</div>
 	
-	<br/><br/><br/><br/><br/><br/>
+	<br/><br/>
 	
 	<!-- 목록영역 -->
 	<table class="board_list" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -123,7 +118,7 @@ function fncSelectCaiPop() {
 	<thead>
 	<tr>
 		<th>평가지표</th>
-		<th>평가대상수</th>
+		<th>보고서수</th>
 		<th>합계점수</th>
 		<th>평   균</th>
 	</tr>
@@ -131,7 +126,7 @@ function fncSelectCaiPop() {
 	<tbody class="ov">
 		<c:forEach items="${statsList}" var="statsInfo" varStatus="status">
 		<tr>
-			<td>${statsInfo.NM}</td>
+			<td style="text-align: left;">${statsInfo.NM}</td>
 			<td>${statsInfo.COUNT}</td>
 			<td>${statsInfo.SUM}</td>
 			<td>${statsInfo.AVG}</td>

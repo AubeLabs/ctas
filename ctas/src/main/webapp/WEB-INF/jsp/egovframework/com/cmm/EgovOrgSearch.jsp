@@ -26,8 +26,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>기관조회팝업</title>
+<title>기관찾기</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<link rel="shortcut icon" href="http://www.mois.go.kr/images/frt/common/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon-precomposed" href="http://www.mois.go.kr/images/com/114icon2.png" />
+<link rel="shortcut icon" href="http://www.mois.go.kr/images/com/72icon2.png" />
+
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javaScript" language="javascript" defer="defer">
 //alert("${GUBUN}"); //1:인증서등록 2:통계
@@ -316,7 +321,7 @@ function fn_init(){
 			<li><div style="line-height:4px;">&nbsp;</div><div>기관명 : </div></li><!-- 기관명 -->
 			<!-- 검색키워드 및 조회버튼 -->
 			<li>
-				<input class="s_input" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${ctasVO.searchKeyword}"/>'  maxlength="155" >
+				<input class="s_input" name="searchKeyword" type="text" size="35" style="ime-mode: active" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${ctasVO.searchKeyword}"/>'  maxlength="155" >
 				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
 				<input type="button" class="s_btn" onClick="fncSelectDeptConfirm()" value="<spring:message code="button.confirm" />" title="<spring:message code="button.confirm" /> <spring:message code="input.button" />" />
 			</li>

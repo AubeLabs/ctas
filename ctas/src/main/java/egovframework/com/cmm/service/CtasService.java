@@ -32,4 +32,5 @@ public interface CtasService {
 	void insertRate(String str);
 	void insertMber(Map map);
 	List selectOrgList(Map map);
+	HashMap selectAllStatus();
 }

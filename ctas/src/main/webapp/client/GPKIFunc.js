@@ -116,8 +116,9 @@ function Login(target,form,isEmbeded)
 
 	GPKISecureWeb.SetProperty(16,keysecOpt);
 	
-	if(keysecOpt!=1)
-		alert('스크린 리더 사용자는 원활한 서비스를 위해 가상커서 기능을 Off 시킨  후 사용하시기 바랍니다.');
+	// 박종화 주석 2017.9.9
+	//if(keysecOpt!=1)
+	//	alert('스크린 리더 사용자는 원활한 서비스를 위해 가상커서 기능을 Off 시킨  후 사용하시기 바랍니다.');
 	
 	gpSessionId = form.sessionid.value;
 	

@@ -7,10 +7,13 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>eGovFrame 공통 컴포넌트</title>
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/main.css' />">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
+
+<title>민원서비스 종합평가</title>
 <script type="text/javaScript" language="javascript">
-	
-	parent._top.menuDspl("block",'${loginVO.name}');
+	//parent._top.menuDspl("block",'${loginVO.name}');
+	parent._top.location.reload(true);
 </script>
 </head>
 <body>
@@ -20,21 +23,211 @@
 	<c:if test="${loginVO == null }">
 		<jsp:forward page="/uat/uia/egovLoginUsr.do"/>
 	</c:if>
-	<p/><p/><p/>
-	<b>실행시 오류사항이 있으시면 표준프레임워크센터로 연락하시기 바랍니다.<br /><br/>
-	<b>* 화면 설명 *</b><p/>
-	왼쪽 메뉴는 메뉴과 관련된 컴포넌트(메뉴관리, 사이트맵 등)들의 영향을 받지 않습니다.<p/>
-	각 컴포넌트들을 쉽게 찾아볼 수 있는 바로가기 링크페이지 입니다.<p/>
+	
+	<!-- <h1 style="text-align: center; font-size:20px">민원서비스 종합평가시스템에 오신 걸 환영합니다.</h1> -->
+	<br/><br/>
 
-	<br /><b>* egovframework.com.cmm.web.EgovComIndexController.java 설명 *</b><p/>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000003' }">
+<div class="board">
+	<h1 class="circle_chck">종합평가현황</h1>
+	<br/><br/>
+	<!-- 목록영역 -->
+	<table class="board_list" summary="종합평가현황">
+	<caption>종합평가현황</caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="width: 20%;">
+		<col style="width: 20%;">
+		<col style="width: 20%;">
+		<col style="width: ;">
+	</colgroup>
+	<thead>
+	<tr>
+		<th class="board_th_link">대상기관</th>
+		<th class="board_th_link">업로드 진행</th>
+		<th class="board_th_link">업로드 완료</th>
+		<th class="board_th_link">평정 진행</th>
+		<th class="board_th_link">평정 완료</th>
+	</tr>
+	</thead>
+	<tbody class="ov">
+	<tr>
+		<td class="center"><c:out value="${allStatus.ORG_CNT}"/></td>
+		<td class="center"><c:out value="${allStatus.UPLOAD_PROGRESS_CNT}"/></td>
+		<td class="center"><c:out value="${allStatus.UPLOAD_COMPLETE_CNT}"/></td>
+		<td class="center"><c:out value="${allStatus.RATING_PROGRESS_CNT}"/></td>
+		<td class="center"><c:out value="${allStatus.RAING_COMPLETE_CNT}"/></td>
+	</tr>
+	</tbody>
+	</table>
+	
+</div><!-- end div board -->
 
-	컴포넌트 설치 후 설치된 컴포넌트들을 IncludedInfo annotation을 통해 찾아낸 후<p/>
-	화면에 표시할 정보를 처리하는 Controller 클래스<p/><br />
-	개발시 메뉴 구조가 잡히기 전에 배포파일들에 포함된 공통 컴포넌트들의 목록성 화면에<p/>
-	URL을 제공하여 개발자가 편하게 활용하도록 하기 위해 작성된 것임<p/>
-	<b>실 운영 시에는 삭제해서 배포하는 것을 권장함</b><p />
+	<br/><br/>
+	</c:if>
 
-	운영시에 본 컨트롤을 사용하여 메뉴를 구성하는 경우 성능 문제를 일으키거나<p/>
-	사용자별 메뉴 구성에 오류를 발생할 수 있음<p />
+<div class="board">
+	<h1 class="circle_chck">공지사항</h1>
+	<br/><br/>
+	<!-- 목록영역 -->
+	<table class="board_list" >
+	<colgroup>
+		<col style="width: 9%;">
+		<col style="width: 40%;">
+		<col style="width: 13%;">
+		<col style="width: 13%;">
+		<col style="width: 13%;">
+	</colgroup>
+	<thead>
+	<tr>
+		<th><spring:message code="table.num" /></th><!-- 번호 -->
+		<th class="board_th_link"><spring:message code="comCopBbs.articleVO.list.nttSj" /></th><!--글 제목  -->
+		<th><spring:message code="table.reger" /></th><!-- 작성자명 -->
+		<th><spring:message code="table.regdate" /></th><!-- 작성시각 -->
+		<th><spring:message code="comCopBbs.articleVO.list.inqireCo" /></th><!-- 조회수  -->
+	</tr>
+	</thead>
+	<tbody class="ov">
+	<!-- 본문 -->
+	<c:forEach items="${noticeList}" var="resultInfo" varStatus="status">
+	<tr>
+		<td><c:out value="${status.count}"/></td>
+		
+	<c:choose>
+		<c:when test="${resultInfo.sjBoldAt == 'Y'}">
+		<!-- 제목 Bold인 경우  -->
+		<td class="bold">
+		<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
+			    <input name="nttId" type="hidden" value="<c:out value="${resultInfo.nttId}"/>">
+			    <input name="bbsId" type="hidden" value="<c:out value="${resultInfo.bbsId}"/>">
+			    <input name="pageIndex" type="hidden" value="0"/>
+			    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}">	<c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;"></span>
+		</form>
+		</td>
+		</c:when>
+		<c:when test="${resultInfo.secretAt == 'Y' && loginVO.uniqId != resultInfo.frstRegisterId}">
+		<!-- 비밀글이며 작성자가 본인이 아닌 경우(클릭 불가) -->
+		<td class="left">
+		<c:if test="${resultInfo.replyLc!=0}">
+    		<c:forEach begin="0" end="${resultInfo.replyLc}" step="1">
+    			&nbsp;
+    		</c:forEach>
+    	</c:if>
+		<img src="<c:url value='/images/egovframework/com/cop/bbs/icon_lock.png'/>" alt="secret">&nbsp;<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/>
+		<c:if test="${resultInfo.commentCo != ''}">
+			<c:out value='[${resultInfo.commentCo}]'/>
+		</c:if>
+		</td>
+		</c:when>
+		<c:otherwise>
+		<!-- 나머지 경우 -->
+		<td class="left">
+    	<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
+			    <input name="nttId" type="hidden" value="<c:out value="${resultInfo.nttId}"/>">
+			    <input name="bbsId" type="hidden" value="<c:out value="${resultInfo.bbsId}"/>">
+			    <input name="pageIndex" type="hidden" value="0"/>
+			    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}">	<c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;"></span>
+		</form>
+		</td>
+		</c:otherwise>
+	</c:choose>
+		<td><c:out value='${resultInfo.frstRegisterNm}'/></td>
+		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
+		<td><c:out value='${resultInfo.inqireCo}'/></td>		
+	</tr>
+	</c:forEach>
+
+	<c:if test="${fn:length(noticeList) == 0}">
+	<!-- 글이 없는 경우 -->
+	<tr>
+		<td colspan="5"><spring:message code="common.nodata.msg" /></td>
+	</tr>
+	</c:if>
+	</tbody>
+	</table>
+</div><!-- end div board -->
+	<br/><br/>
+	
+<div class="board">
+	<h1 class="circle_chck">자료실</h1>
+	<br/><br/>
+	<!-- 목록영역 -->
+	<table class="board_list" >
+	<colgroup>
+		<col style="width: 9%;">
+		<col style="width: 40%;">
+		<col style="width: 13%;">
+		<col style="width: 13%;">
+		<col style="width: 13%;">
+	</colgroup>
+	<thead>
+	<tr>
+		<th><spring:message code="table.num" /></th><!-- 번호 -->
+		<th class="board_th_link"><spring:message code="comCopBbs.articleVO.list.nttSj" /></th><!--글 제목  -->
+		<th><spring:message code="table.reger" /></th><!-- 작성자명 -->
+		<th><spring:message code="table.regdate" /></th><!-- 작성시각 -->
+		<th><spring:message code="comCopBbs.articleVO.list.inqireCo" /></th><!-- 조회수  -->
+	</tr>
+	</thead>
+	<tbody class="ov">
+	<!-- 본문 -->
+	<c:forEach items="${databoardList}" var="resultInfo" varStatus="status">
+	<tr>
+		<td><c:out value="${status.count}"/></td>
+		
+	<c:choose>
+		<c:when test="${resultInfo.sjBoldAt == 'Y'}">
+		<!-- 제목 Bold인 경우  -->
+		<td class="bold">
+		<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
+			    <input name="nttId" type="hidden" value="<c:out value="${resultInfo.nttId}"/>">
+			    <input name="bbsId" type="hidden" value="<c:out value="${resultInfo.bbsId}"/>">
+			    <input name="pageIndex" type="hidden" value="0"/>
+			    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}">	<c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;"></span>
+		</form>
+		</td>
+		</c:when>
+		<c:when test="${resultInfo.secretAt == 'Y' && loginVO.uniqId != resultInfo.frstRegisterId}">
+		<!-- 비밀글이며 작성자가 본인이 아닌 경우(클릭 불가) -->
+		<td class="left">
+		<c:if test="${resultInfo.replyLc!=0}">
+    		<c:forEach begin="0" end="${resultInfo.replyLc}" step="1">
+    			&nbsp;
+    		</c:forEach>
+    	</c:if>
+		<img src="<c:url value='/images/egovframework/com/cop/bbs/icon_lock.png'/>" alt="secret">&nbsp;<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/>
+		<c:if test="${resultInfo.commentCo != ''}">
+			<c:out value='[${resultInfo.commentCo}]'/>
+		</c:if>
+		</td>
+		</c:when>
+		<c:otherwise>
+		<!-- 나머지 경우 -->
+		<td class="left">
+    	<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
+			    <input name="nttId" type="hidden" value="<c:out value="${resultInfo.nttId}"/>">
+			    <input name="bbsId" type="hidden" value="<c:out value="${resultInfo.bbsId}"/>">
+			    <input name="pageIndex" type="hidden" value="0"/>
+			    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}">	<c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;"></span>
+		</form>
+		</td>
+		</c:otherwise>
+	</c:choose>
+		<td><c:out value='${resultInfo.frstRegisterNm}'/></td>
+		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
+		<td><c:out value='${resultInfo.inqireCo}'/></td>		
+	</tr>
+	</c:forEach>
+
+	<c:if test="${fn:length(databoardList) == 0}">
+	<!-- 글이 없는 경우 -->
+	<tr>
+		<td colspan="5"><spring:message code="common.nodata.msg" /></td>
+	</tr>
+	</c:if>
+	</tbody>
+	</table>
+</div><!-- end div board -->
+	<br/><br/>
 </body>
 </html>

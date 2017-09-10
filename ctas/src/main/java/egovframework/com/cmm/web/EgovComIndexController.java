@@ -46,6 +46,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cop.bbs.service.BoardMaster;
 import egovframework.com.cop.bbs.service.BoardMasterVO;
 import egovframework.com.cop.bbs.service.BoardVO;
+import egovframework.com.cop.bbs.service.EgovArticleService;
 import egovframework.com.sec.drm.service.DeptAuthorVO;
 import egovframework.com.sec.drm.service.EgovDeptAuthorService;
 import egovframework.com.uat.uia.service.impl.LoginDAO;
@@ -92,6 +93,9 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     @Resource(name="egovMessageSource")
     EgovMessageSource egovMessageSource;
     
+	@Resource(name = "EgovArticleService")
+    private EgovArticleService egovArticleService;
+
     @Autowired
     private DefaultBeanValidator beanValidator;
     
@@ -127,8 +131,45 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	@RequestMapping("/EgovContent.do")
 	public String setContent( ModelMap model) {
 
-		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-		model.addAttribute("loginVO", loginVO);
+		LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		model.addAttribute("loginVO", user);
+
+		// 종합평가현황
+		HashMap allStatus = CtasService.selectAllStatus();
+		model.addAttribute("allStatus", allStatus);
+		
+		// 공지사항
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBbsId("BBSMSTR_000000000001");
+		boardVO.setPageUnit(3);
+		boardVO.setPageSize(10);
+		boardVO.setFirstIndex(0);
+		boardVO.setLastIndex(3);
+		boardVO.setRecordCountPerPage(3);
+	
+		//공지사항 추출
+		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
+		@SuppressWarnings("unchecked")
+		List<BoardVO> noticeList = (List<BoardVO>)map.get("resultList");
+		LOGGER.debug("noticeList.size() = " + noticeList.size());
+		model.addAttribute("noticeList", noticeList);
+		
+		// 자료실
+		BoardVO boardVO2 = new BoardVO();
+		boardVO2.setBbsId("BBSMSTR_000000000011");
+		boardVO2.setPageUnit(3);
+		boardVO2.setPageSize(10);
+		boardVO2.setFirstIndex(0);
+		boardVO2.setLastIndex(3);
+		boardVO2.setRecordCountPerPage(3);
+	
+		//공지사항 추출
+		Map<String, Object> map2 = egovArticleService.selectArticleList(boardVO2);
+		@SuppressWarnings("unchecked")
+		List<BoardVO> databoardList = (List<BoardVO>)map2.get("resultList");
+		LOGGER.debug("databoardList.size() = " + databoardList.size());
+		
+		model.addAttribute("databoardList", databoardList);
 
 		return "egovframework/com/cmm/EgovUnitContent";
 	}
@@ -137,8 +178,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	public String MberInsert(@ModelAttribute("ctasVO") CtasVO ctasVO, ModelMap model) {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		model.addAttribute("loginVO", loginVO);
-		System.out.println("certDn : "+ctasVO.getCertDn());
-		
+		LOGGER.debug("certDn : "+ctasVO.getCertDn());
 		
 		if(ctasVO.getCertDn().equals("")){//메뉴접근시
 			//
@@ -148,20 +188,22 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 				LoginVO srch = new LoginVO();
 				srch.setDn(ctasVO.getCertDn());
 				LoginVO valid = loginDAO.actionLogin(srch);
-				System.out.println("@@@@@@ : "+valid);
+				LOGGER.debug("@@@@@@ : "+valid);
 				if(valid != null){
 					model.addAttribute("msg", "해당 인증서는 이미 등록되어있습니다.");
 					model.addAttribute("sucess", -1);
-				}else {
+				} else {
 					Map hm = new HashMap();
 					hm.put("nm", ctasVO.getNm());
 					hm.put("orgId", ctasVO.getOrgId());
 					hm.put("certDn", ctasVO.getCertDn());
+					
 					CtasService.insertMber(hm);
+					
 					model.addAttribute("msg", "등록이 완료되었습니다.");
 					model.addAttribute("sucess", 1);
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 				model.addAttribute("msg", "등록중 에러가발생했습니다.");
 				model.addAttribute("sucess", -1);
 			}

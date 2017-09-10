@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+    <Properties>
+        <Property name="log-path">C:/ctas/logs/</Property>
+    </Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <PatternLayout pattern="[%5p][%d{yyyy-MM-dd HH:mm:ss}][%X{ClientIP}][%c{1}][%M][%L] %m%n" />
         </Console>
+        <RollingFile name="rollingFile" fileName="${log-path}ctas.log" filePattern="${log-path}$${date:yyyy-MM-dd}/ctas.log.%d{yyyy-MM-dd}">
+            <PatternLayout pattern="[%5p][%d{yyyy-MM-dd HH:mm:ss}][%X{ClientIP}][%c{1}][%M][%L] %m%n" />
+            <Policies>
+                <!-- interval(default 1)이므로 1초 간격으로 rolling 수행 --> 
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Logger name="java.sql" level="INFO" additivity="false">
             <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
         </Logger>
         <Logger name="egovframework" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
+        </Logger>
+        <Logger name="org.apache.jsp" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
         </Logger>
 		  <!-- log SQL with timing information, post execution -->
 	    <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
 	        <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
 	    </Logger>
 	    <Logger name="org.springframework" level="INFO" additivity="false">
 	        <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
 	    </Logger>
         <Root level="ERROR">
             <AppenderRef ref="console" />
+            <AppenderRef ref="rollingFile" />
         </Root>
     </Loggers>
 </Configuration>

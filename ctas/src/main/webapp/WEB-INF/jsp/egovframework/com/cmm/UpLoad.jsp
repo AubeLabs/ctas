@@ -158,34 +158,34 @@ function press() {
 	<input name="streFileNm" id="streFileNm" type="hidden" value="">
 	
 	<div class="board">
-	<h1 style = "margin-bottom:30px;">
+	<h1 class="circle_chck">
 		<c:if test="${GUBUN == 'A'}">
-			평가실시
+			지표별 보고서 등록
 		</c:if>
 		<c:if test="${GUBUN != 'A'}">
 			평정실시
 		</c:if>
 	</h1>
 
-	<br/><br/><br/>
+	<br/>
 	
 	<!-- 검색영역 -->
 	<c:if test="${GUBUN != 'A'}">
 		<div class="search_box2" title="<spring:message code="common.searchCondition.msg" />">
 			<ul>
-				<li><div style="line-height:4px;">&nbsp;</div><div>기관 : </div></li><!-- 부서권한관리 -->
 				<!-- 검색키워드 및 조회버튼 -->
+				<li><div style="line-height:4px;">&nbsp;</div><div>기관 </div></li>
 				<li>
 					<input name="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="press();"  />
-					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관조회팝업" title="기관조회팝업" />
+					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
 					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
-					<input type="button" class="s_btn" onClick="RATING();return false;" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />
+					<input type="button" class="c_btn" onClick="RATING();return false;" value="<spring:message code="button.save" />" title="<spring:message code="button.save" /> <spring:message code="input.button" />" />
 				</li>
 			</ul>
 		</div>
 	</c:if>
 	
-	<br/><br/><br/>
+	<br/>
 	
 	<!-- 목록영역 -->
 	<table class="board_list" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -207,7 +207,7 @@ function press() {
 		<c:if test="${GUBUN != 'A'}">
 			<th>기관</th>
 		</c:if>
-		<th>평가<br>지표</th>
+		<th>평가지표</th>
 		<th>보고서</th>
 		<th>실적증빙</th>
 		<c:if test="${GUBUN == 'A'}">
@@ -221,10 +221,10 @@ function press() {
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
 				<tr>
 					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
-						<td rowspan=7>${uploadInfo.ORGNZT_NM}
+						<td rowspan=9>${uploadInfo.ORGNZT_NM}
 						</td>
 					</c:if>
-					<td>${uploadInfo.CODE_NM}</td>
+					<td style="text-align: left;">${uploadInfo.CODE_NM}</td>
 					<td>
 				<!-- 보고서 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">

@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
+import egovframework.com.cmm.web.EgovComIndexController;
 import egovframework.com.cop.bbs.service.Board;
 import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.cop.bbs.service.EgovArticleService;
@@ -20,6 +23,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Service("EgovArticleService")
 public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements EgovArticleService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(EgovArticleServiceImpl.class);
 
 	@Resource(name = "EgovArticleDAO")
     private EgovArticleDAO egovArticleDao;
@@ -35,8 +39,10 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	
 	@Override
 	public Map<String, Object> selectArticleList(BoardVO boardVO) {
+		
+		LOGGER.debug(boardVO.toString());
+		
 		List<?> list = egovArticleDao.selectArticleList(boardVO);
-
 
 		int cnt = egovArticleDao.selectArticleListCnt(boardVO);
 
@@ -102,6 +108,9 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 
 	@Override
 	public List<BoardVO> selectNoticeArticleList(BoardVO boardVO) {
+		
+		LOGGER.debug(boardVO.toString());
+		
 		return egovArticleDao.selectNoticeArticleList(boardVO);
 	}
 

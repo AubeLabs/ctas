@@ -4,16 +4,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="shortcut icon" href="http://www.mois.go.kr/images/frt/common/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon-precomposed" href="http://www.mois.go.kr/images/com/114icon2.png" />
+<link rel="shortcut icon" href="http://www.mois.go.kr/images/com/72icon2.png" />
+
 <title>민원서비스 종합평가</title>
 </head>
 
-<frameset frameborder="0" framespacing="0" rows="130, *, 45">
+<frameset frameborder="0" framespacing="0" rows="130, *">
 	<frame name="_top" src="<c:url value='/EgovTop.do' />" scrolling="no" title="헤더">
-		<frameset frameborder="0" framespacing="0" cols="20%, 60%">
+		<frameset frameborder="0" framespacing="0" cols="0%, 90%">
 			<frame name="_left" src="<c:url value='/EgovLeft.do' />" scrolling="yes" title="메뉴페이지">
 			<frame name="_content" src="<c:url value='/EgovContent.do' />" title="메인페이지">
 		</frameset>
-	<frame name="_bottom" src="<c:url value='/EgovBottom.do' />" scrolling="no" title="푸터">
+	<%-- <frame name="_bottom" src="<c:url value='/EgovBottom.do' />" scrolling="no" title="푸터"> --%>
 </frameset>
 
  

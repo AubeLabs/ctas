@@ -115,7 +115,7 @@ input[type="radio"] { vertical-align: text-bottom; }
 /*.error  {color : #ff0000;} */
 
 /* Popup Layout *********************************/
-.popup { position: relative; }
+.popup { position: relative; margin-right: 10px; }
 .popup h1 { float: left; color: #333; font-size: 16px; font-weight: 600; margin: 18px 0 10px; }
 .pop_search_box { float: right; display: inline; margin: 15px 6px 0 0; }
 .pop_search_box ul li { float: left; margin-left: 5px; }
@@ -158,10 +158,15 @@ input[type="radio"] { vertical-align: text-bottom; }
 .search_box input.s_input { width: 140px; padding-left: 5px; margin-right: 3px; }
 .search_box input.s_btn { height: 24px; padding: 0 10px; border: none; color: #fff; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box input.s_btn:hover { background: #7dabdf; }
+.search_box input.c_btn { height: 24px; padding: 0 10px; border: none; color: #fff; background: coral; border-radius: 2px; cursor: pointer; }
+.search_box input.c_btn:hover { background: #7dabdf; }
 
 .search_box span.s_btn { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 6px 12px 5px 12px; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box span.s_btn:hover { background: #7dabdf;}
 .search_box span.s_btn a { color: #fff;  }
+.search_box span.c_btn { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 6px 12px 5px 12px; background: coral; border-radius: 2px; cursor: pointer; }
+.search_box span.c_btn:hover { background: #7dabdf;}
+.search_box span.c_btn a { color: #fff;  }
 
 .search_box span.btn_b { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 3px 1px 8px 1px; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box span.btn_b:hover { background: #7dabdf;}
@@ -173,10 +178,15 @@ input[type="radio"] { vertical-align: text-bottom; }
 .search_box2 input.s_input { width: 140px; padding-left: 5px; margin-right: 3px; }
 .search_box2 input.s_btn { height: 24px; padding: 0 10px; border: none; color: #fff; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box2 input.s_btn:hover { background: #7dabdf; }
+.search_box2 input.c_btn { height: 24px; padding: 0 10px; border: none; color: #fff; background: coral; border-radius: 2px; cursor: pointer; }
+.search_box2 input.c_btn:hover { background: #7dabdf; }
 
 .search_box2 span.s_btn { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 6px 12px 5px 12px; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box2 span.s_btn:hover { background: #7dabdf;}
 .search_box2 span.s_btn a { color: #fff;  }
+.search_box2 span.c_btn { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 6px 12px 5px 12px; background: coral; border-radius: 2px; cursor: pointer; }
+.search_box2 span.c_btn:hover { background: #7dabdf;}
+.search_box2 span.c_btn a { color: #fff;  }
 
 .search_box2 span.btn_b { display: inline-block; vertical-align:top; height: 13px; font-size: 12px; padding: 3px 1px 8px 1px; background: #4688d2; border-radius: 2px; cursor: pointer; }
 .search_box2 span.btn_b:hover { background: #7dabdf;}
@@ -438,3 +448,5 @@ cursor : pointer;
   clip:rect(0,0,0,0);
   border: 0;
 }
+
+.circle_chck {margin:0; padding-left:21px; background:url('../../../images/egovframework/com/ico_cc_check.png') no-repeat 0 0px; font-size:15px; margin-bottom:10px;}

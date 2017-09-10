@@ -200,12 +200,11 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 		</ul>
 	</div>
 	
-	<!-- 등록버튼 -->
-	
+	<!-- 엑셀버튼 
 	<div class="btn">
 		<span class="btn_s"><a href="<c:url value='/cop/bbs/excelDownload.do' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
 	</div>
-	
+	-->
 	
 </div>
 

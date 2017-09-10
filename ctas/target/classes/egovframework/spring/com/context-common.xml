@@ -24,7 +24,7 @@
 		</property>
 		 
 		<property name="cacheSeconds">
-			<value>1</value>
+			<value>60</value>
 		</property>
 	</bean>
 
@@ -67,7 +67,7 @@
     <!-- MULTIPART RESOLVERS -->
     <!-- regular spring resolver -->
     <bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="600000000" />
+        <property name="maxUploadSize" value="50000000" />
         <property name="maxInMemorySize" value="100000000" />
     </bean>
 

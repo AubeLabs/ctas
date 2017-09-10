@@ -28,7 +28,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>등록</title>
+<title>인증서 등록</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -92,10 +92,10 @@ function lol(dn){
 <body onload="fn_egov_init()" >
 <form action="${pageContext.request.contextPath}/MberInsert.do" name="mber"  method="post" onSubmit="fnInsert(document.forms[0]); return false;"> 
 
-<div class="wTableFrm">
+<div class="board">
 	<!-- 타이틀 -->
 	<h2>인증서 등록</h2>
-	<br><br><br><br><br>
+	<br><br><br><br>
 	<!-- 등록폼 -->
 	<table class="wTable2" summary="<spring:message code="common.summary.list" />">
 
@@ -112,16 +112,16 @@ function lol(dn){
 		<tr>
 			<th>기관</th>
 			<td class="left">
-				<input name="orgNm" readonly='readOnly' type="text" value="<c:out value="${ctasVO.orgNm}"/>" size="22" title="기관"   />
-				<input type="button" class="btn_s" onClick="fncSelectOrgPop();return false;" value="기관조회" title="기관조회팝업" />
+				<input name="orgNm" readonly='readOnly' type="text" style="width:67%;" value="<c:out value="${ctasVO.orgNm}"/>" size="22" title="기관"   />
+				<input type="button" class="btn_s" onClick="fncSelectOrgPop();return false;" style="width:30%;" value="기관조회" title="기관조회팝업" />
 				<input name="orgId" id="orgId" type="hidden" value="<c:out value="${ctasVO.orgId}"/>"/>
 			</td>
 		</tr>
 		<tr>
 			<th>인증서</th>
 			<td class="left">
-				<input name="certDn" readonly='readOnly' type="text" value="<c:out value="${ctasVO.certDn}"/>" size="22" title="인증서"  />
-				<input type="button" class="btn_s" onClick="actionLogin2()" value="인증서선택" title="인증서선택" />
+				<input name="certDn" readonly='readOnly' type="text" style="width:67%;" value="<c:out value="${ctasVO.certDn}"/>" size="22" title="인증서"  />
+				<input type="button" class="btn_s" onClick="actionLogin2()"  style="width:30%;"value="인증서선택" title="인증서선택" />
 			</td>
 		</tr>
 		

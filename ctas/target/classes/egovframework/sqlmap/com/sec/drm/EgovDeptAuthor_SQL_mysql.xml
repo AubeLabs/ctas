@@ -16,6 +16,9 @@
     <resultMap id="dept" type="egovframework.com.sec.drm.service.DeptAuthorVO">
         <result property="deptCode" column="DEPT_CODE"/>
         <result property="deptNm" column="DEPT_NM"/>
+        <result property="ATCH_FILE_CNT" column="ATCH_FILE_CNT"/>
+        <result property="ASSESS_FILE_CNT" column="ASSESS_FILE_CNT"/>
+        <result property="SCORE_CNT" column="SCORE_CNT"/>
     </resultMap>
 
     <select id="selectDeptAuthorList" parameterType="egovframework.com.sec.drm.service.DeptAuthorVO" resultMap="deptAuthor">
@@ -84,8 +87,8 @@
     <select id="selectDeptList" parameterType="egovframework.com.sec.drm.service.DeptAuthorVO" resultMap="dept">
             SELECT ORGNZT_ID AS DEPT_CODE,
                    ORGNZT_NM AS DEPT_NM
-              FROM COMTNORGNZTINFO             
-             WHERE 1 = 1 
+              FROM COMTNORGNZTINFO A
+             WHERE 1 = 1
             <if test="searchCondition == 1">AND
                 ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             </if>             

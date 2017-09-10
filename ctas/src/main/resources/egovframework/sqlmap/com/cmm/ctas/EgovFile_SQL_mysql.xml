@@ -53,6 +53,7 @@
 		  LEFT OUTER JOIN COMTNFILEDETAIL E
 		    ON D.ASSESS_FILE_ID = E.ATCH_FILE_ID
 		 WHERE A.CODE_ID = 'CTA001'
+		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
 		 ORDER BY A2.ORGNZT_ID, A.CODE
  	</select>
  	<select id="selectUploadGrp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -66,6 +67,7 @@
 		    ON A.CODE = D.AI_CD
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
+		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
  	</select>
  	
 	<select id="selectStatsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -81,6 +83,7 @@
 		    ON A.CODE = D.AI_CD
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
+		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
 		   ${items2}
 		 GROUP BY A.CODE_NM
 		 ORDER BY A.CODE
@@ -97,6 +100,7 @@
 		    ON A.CODE = D.AI_CD
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
+		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
 		   ${items2}
  	</select>
  	
@@ -180,33 +184,33 @@
  	<insert id="insertMber" parameterType="java.util.HashMap" >
  		
             INSERT INTO COMTNEMPLYRINFO 
-                (   ESNTL_ID             ,
-                    EMPLYR_ID           ,
+                (   ESNTL_ID          ,
+                    EMPLYR_ID         ,
                     USER_NM           ,
-                    PASSWORD            ,
-                    PASSWORD_HINT       ,
-                    PASSWORD_CNSR       ,
-                    EMPL_NO             ,
-                    IHIDNUM             ,
-                    SEXDSTN_CODE        ,
-                    BRTHDY                ,
-                    AREA_NO             ,
-                    HOUSE_MIDDLE_TELNO    ,
-                    HOUSE_END_TELNO       ,
-                    FXNUM               ,
-                    HOUSE_ADRES           ,
-                    DETAIL_ADRES        ,
-                    ZIP                 ,
-                    OFFM_TELNO          ,
-                    MBTLNUM         ,
-                    EMAIL_ADRES         ,
-                    OFCPS_NM            ,
-                    GROUP_ID            ,
-                    ORGNZT_ID           ,
-                    PSTINST_CODE          ,
-                    EMPLYR_STTUS_CODE   ,
-                    SBSCRB_DE           ,
-                    CRTFC_DN_VALUE              )
+                    PASSWORD          ,
+                    PASSWORD_HINT     ,
+                    PASSWORD_CNSR     ,
+                    EMPL_NO           ,
+                    IHIDNUM           ,
+                    SEXDSTN_CODE      ,
+                    BRTHDY            ,
+                    AREA_NO           ,
+                    HOUSE_MIDDLE_TELNO,
+                    HOUSE_END_TELNO   ,
+                    FXNUM             ,
+                    HOUSE_ADRES       ,
+                    DETAIL_ADRES      ,
+                    ZIP               ,
+                    OFFM_TELNO        ,
+                    MBTLNUM           ,
+                    EMAIL_ADRES       ,
+                    OFCPS_NM          ,
+                    GROUP_ID          ,
+                    ORGNZT_ID         ,
+                    PSTINST_CODE      ,
+                    EMPLYR_STTUS_CODE ,
+                    SBSCRB_DE         ,
+                    CRTFC_DN_VALUE    )
             VALUES (
                     (SELECT CONCAT('A',EMPLYR_ID )
                        FROM(
@@ -220,32 +224,31 @@
 							  FROM COMTNEMPLYRINFO
 							 WHERE GROUP_ID = 'GROUP_00000000000001'
 						   )TMP)         ,
-                    #{nm}          ,
-                    'A'          ,
-                    'A'      ,
-                    'A'      ,                   
-                    'A'            ,
-                    'A'           ,
-                    'A'       ,
-                    'A'              ,
-                    'A'            ,
-                    'A'   ,
-                    'A'      ,
-                    'A'             ,
-                    'A'         ,
-                    'A'       ,
-                    'A'               ,
-                    'A'         ,
-                    'A'        ,
-                    'A'        ,
-                    'A'           ,
-                    'GROUP_00000000000001'           ,
-                    #{orgId}          ,
-                    'A'         ,
-                    'A'   ,
-                    sysdate()           ,
-                    #{certDn}             )
- 		
+                    #{nm},
+                    '1',
+                    'P01',
+                    'A',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '02',
+                    '2100',
+                    '3399',
+                    '',
+                    '서울특별시 종로구 세종대로 209 (세종로)',
+                    '',
+                    '03171',
+                    '02-2100-3399',
+                    '010-0000-0000',
+                    'mis@korea.kr',
+                    '',
+                    'GROUP_00000000000001',
+                    #{orgId},
+                    '',
+                    'P',
+                    sysdate(),
+                    #{certDn} )
  	</insert>
  	
 	<delete id="deleteUploadFile" parameterType="FileVO">
@@ -269,8 +272,8 @@
 		<![CDATA[
 			SELECT ORGNZT_ID AS ORG_CODE,
 				   ORGNZT_NM AS ORG_NM,
+				   ASSESS_FILE_CNT,
                    ATCH_FILE_CNT,
-                   ASSESS_FILE_CNT,
                    SCORE_CNT,
                    SCORE_SUM,
                    CASE WHEN #{searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',#{searchKeyword},'%') THEN 1 ELSE 2 END SRCH,
@@ -288,6 +291,35 @@
 				          WHEN {searchKeyword} = '' THEN 1
 				     END*/
 			 ORDER BY SRCH ${ordCol} ${ordTyp}
+		]]>
+ 	</select>
+ 	
+	<select id="selectAllStatus" resultType="java.util.HashMap">
+		<![CDATA[
+		SELECT COUNT(1) ORG_CNT
+		     , SUM(UPLOAD_PROGRESS_CNT) UPLOAD_PROGRESS_CNT
+		     , SUM(UPLOAD_COMPLETE_CNT) UPLOAD_COMPLETE_CNT
+		     , SUM(RATING_PROGRESS_CNT) RATING_PROGRESS_CNT
+		     , SUM(RAING_COMPLETE_CNT) RAING_COMPLETE_CNT
+		  FROM (
+		       SELECT O.ORGNZT_ID
+		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) > 0 
+                          AND SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) < 9
+                          THEN 1 
+                     ELSE 0 END UPLOAD_PROGRESS_CNT
+		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 9 THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
+		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) > 0 
+                          AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 9
+                          THEN 1 
+                     ELSE 0 END RATING_PROGRESS_CNT
+		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) = 9 THEN 1 ELSE 0 END RAING_COMPLETE_CNT
+		         FROM comtnorgnztinfo O
+		         LEFT OUTER JOIN ASSESSMENT A
+		           ON 1=1
+		          AND O.ORGNZT_ID = A.ORGNZT_ID
+		        WHERE O.ORGNZT_ID != 'ORGNZT_0000000000000'
+		        GROUP BY O.ORGNZT_ID
+		       ) R
 		]]>
  	</select>
  	

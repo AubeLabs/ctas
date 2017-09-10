@@ -227,7 +227,7 @@ function fnLoginTypeSelect(objName){
 		</ul>
 	</div>
 
-	<div class="login_input" id="login_input">
+	<div class="login_input" style="display:none;" id="login_input">
 		<ul>
 			<!-- 아이디 -->
 			<c:set var="title"><spring:message code="comUatUia.loginForm.id"/></c:set>

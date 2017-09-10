@@ -330,7 +330,7 @@
 			     , INSTR(#{certDn}, A.ORGNZT_DC) CHK2
 			     , (SELECT COUNT(*) FROM comtnemplyrinfo WHERE CRTFC_DN_VALUE = #{certDn}) CHK3
 			  FROM comtnorgnztinfo A
-			  LEFT OUTER JOIN comtnemplyrinfo B
+			  JOIN comtnemplyrinfo B
 			    ON A.ORGNZT_ID = B.ORGNZT_ID
 			 WHERE A.ORGNZT_ID = #{orgId}
 		]]>

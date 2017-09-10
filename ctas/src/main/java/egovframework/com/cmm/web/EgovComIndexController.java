@@ -194,14 +194,13 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 				HashMap chk = (HashMap) chkList.get(0);
 				LOGGER.debug("chkList : "+chkList);
 				/* CHK1 : 1개기관 1명(1:ERR)    CHK2 : dn에서 기관찾기(0:ERR)    CHK3 : 중복가입(1:ERR) */
-				if(chk.get("CHK1").equals("1")){
+				if(chk.get("CHK1").toString().equals("1")){
 					model.addAttribute("msg", "해당 기관은 이미 등록되어있습니다.");
 					model.addAttribute("sucess", -1);
-				} else if(chk.get("CHK2").equals("0")){
+				} else if(chk.get("CHK2").toString().equals("0")){
 					model.addAttribute("msg", "인증서와 기관이 일치하지않습니다.");
 					model.addAttribute("sucess", -1);
-					CtasService.insertMber(hm);
-				} else if(chk.get("CHK3").equals("1")){
+				} else if(chk.get("CHK3").toString().equals("1")){
 					model.addAttribute("msg", "해당 인증서는 이미 등록되어있습니다.");
 					model.addAttribute("sucess", -1);
 				} else {

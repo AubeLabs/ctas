@@ -191,6 +191,7 @@ public class EgovArticleController {
 		////-----------------------------
 	
 		if(user != null) {
+	    	model.addAttribute("loginVO", user);
 	    	model.addAttribute("sessionUniqId", user.getUniqId());
 	    }
 		

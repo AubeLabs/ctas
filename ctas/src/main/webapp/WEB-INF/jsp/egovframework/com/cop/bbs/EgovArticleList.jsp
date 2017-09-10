@@ -90,7 +90,9 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 			<li>
 				<input class="s_input" name="searchWrd" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${searchVO.searchWrd}"/>'  maxlength="155" >
 				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000003'}">
 				<span class="btn_b"><a href="<c:url value='/cop/bbs/insertArticleView.do?bbsId=${boardMasterVO.bbsId}' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
+	</c:if>
 			</li>
 		</ul>
 	</div>

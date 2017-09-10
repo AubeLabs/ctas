@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>▒▒▒  eGovFrame Potal 온라인 지원 포탈  ▒▒▒</title>
+<title>▒▒▒  민원서비스 종합평가  ▒▒▒</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css" />
 
 <script language="javascript">
@@ -16,7 +16,7 @@ function fncGoAfterErrorPage(){
 </head>
 <body>
 <div style="width: 1000px; margin: 50px auto 50px;">
-	<p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="379" height="57" /></p>
+	<p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="168" height="48" /></p>
 	<div style="border: ppx solid #666; padding: 20px;">
 		<!-- Xss(Cross Site Scripting) Error -->
 		<p style="color:red; margin-bottom: 8px; ">Database Processing  Error</p> 

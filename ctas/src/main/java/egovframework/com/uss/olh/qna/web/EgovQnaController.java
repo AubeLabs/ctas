@@ -243,7 +243,8 @@ public class EgovQnaController {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		//작성자 본인이 아니면 수정 불가
 		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
-			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			LOGGER.info(">>>>>>>>>> Login UniqId   = " + user.getUniqId());
+			LOGGER.info(">>>>>>>>>> FrstRegisterId = " + vo.getFrstRegisterId());
 			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 		}
 
@@ -340,7 +341,8 @@ public class EgovQnaController {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		//작성자 본인이 아니면 수정 불가
 		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
-			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			LOGGER.info(">>>>>>>>>> Login UniqId   = " + user.getUniqId());
+			LOGGER.info(">>>>>>>>>> FrstRegisterId = " + vo.getFrstRegisterId());
 			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 		}
 

@@ -520,11 +520,12 @@ public class EgovArticleController {
 		}
 		
 		//작성자 본인이 아니면 수정 불가
-		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+		if (!user.getUniqId().equals(bdvo.getFrstRegisterId())) {
 //			model.addAttribute("result", bdvo);
 //			model.addAttribute("boardMasterVO", bmvo);
 //			return "egovframework/com/cop/bbs/EgovArticleDetail";
-			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			LOGGER.info(">>>>>>>>>> Login UniqId   = " + user.getUniqId());
+			LOGGER.info(">>>>>>>>>> FrstRegisterId = " + bdvo.getFrstRegisterId());
 			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 		}
 		
@@ -656,11 +657,12 @@ public class EgovArticleController {
 		}
 		
 		//작성자 본인이 아니면 수정 불가
-		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+		if (!user.getUniqId().equals(bdvo.getFrstRegisterId())) {
 //			model.addAttribute("result", bdvo);
 //			model.addAttribute("boardMasterVO", bdMstr);
 //			return "egovframework/com/cop/bbs/EgovArticleDetail";
-			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			LOGGER.info(">>>>>>>>>> Login UniqId   = " + user.getUniqId());
+			LOGGER.info(">>>>>>>>>> FrstRegisterId = " + bdvo.getFrstRegisterId());
 			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 		}
 		

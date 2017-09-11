@@ -60,6 +60,7 @@ public class EgovXssChecker {
 			
 			//사용자에에 대한 Xss 체크
 			if(!sUniqId.equals(loginVO.getUniqId())){
+				LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
 				throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 			}
 		//2017.03.03 	조성원 	시큐어코딩(ES)-오류 메시지를 통한 정보노출[CWE-209]	

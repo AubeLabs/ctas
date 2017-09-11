@@ -77,8 +77,8 @@
 		<tr>
 			<th><spring:message code="comUssOlhQna.qnaVO.emailAdres" /></th>
 			<td class="left"><c:out value="${result.emailAdres}"/></td>
-			<th><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt" /></th>
-			<td class="left"><input name="emailAnswerAt" type="checkbox"  disabled <c:if test="${result.emailAnswerAt == 'Y'}">checked</c:if> title="<spring:message code="comUssOlhQna.qnaVO.emailAnswerAt" /> "></td>
+			<%-- <th><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt" /></th>
+			<td class="left"><input name="emailAnswerAt" type="checkbox"  disabled <c:if test="${result.emailAnswerAt == 'Y'}">checked</c:if> title="<spring:message code="comUssOlhQna.qnaVO.emailAnswerAt" /> "></td> --%>
 		</tr>
 		<!-- 작성일자 -->
 		<tr>

@@ -44,7 +44,7 @@
 		color: #999;
 	}
 	#menu_wrapper ul {margin-left: 0px;}
-	#menu_wrapper {padding: 0 0 0 0; display:none;float: left; width: 100%;}
+	#menu_wrapper {white-space: nowrap; overflow-x: auto; overflow-y: hidden; padding: 0 0 0 0; display:none; float: left; width: 100%;}
 	#menu_wrapper div {float: left; height: 44px; width: 100px; }
 
 	/* Blue Menu */
@@ -92,12 +92,15 @@
 		if (document.getElementById("menu")) {
 			document.getElementById("menu_wrapper").style.display=param1;
 			document.getElementById("welcome").style.display=param1;
-			document.getElementById("welcome").innerHTML = param2+" 님 환영합니다. <a href='javascript:contentLogout();''>로그아웃</a>";
+			document.getElementById("welcome").innerHTML = "<a href='javascript:fnPasswordMove();' title='비밀번호 변경'>" + param2 + "</a> 님 환영합니다. <a href='javascript:contentLogout();'>로그아웃</a>";
 			document.getElementById("menu").children[0].className = "active";
 		}
 	}
 	function contentLogout(){
 		parent._content.location.href = "${pageContext.request.contextPath }/uat/uia/actionLogout.do";
+	}
+	function fnPasswordMove(){
+		//parent._content.location.href = "${pageContext.request.contextPath}/UserPasswordUpdtView.do";
 	}
 </script>
 </head>
@@ -118,8 +121,9 @@
 	<br/>
 
 </div>
-	<!-- Blue Menu -->
-	<div id="menu_wrapper" class="blue">
+
+<!-- Blue Menu -->
+<div id="menu_wrapper" class="blue">
 	<div class="left"></div>
 	<c:if test="${loginVO == null }">
 	</c:if>
@@ -155,6 +159,7 @@
 		</ul>
 	</c:if>
 
-	</div>
+</div>
+
 </body>
 </html>

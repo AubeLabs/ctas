@@ -21,6 +21,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.exception.EgovXssException;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
@@ -518,6 +519,15 @@ public class EgovArticleController {
 			return "egovframework/com/cop/bbs/EgovArticleDetail";
 		}
 		
+		//작성자 본인이 아니면 수정 불가
+		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+//			model.addAttribute("result", bdvo);
+//			model.addAttribute("boardMasterVO", bmvo);
+//			return "egovframework/com/cop/bbs/EgovArticleDetail";
+			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
+		}
+		
 		model.addAttribute("articleVO", bdvo);
 		model.addAttribute("boardMasterVO", bmvo);
 		
@@ -643,6 +653,15 @@ public class EgovArticleController {
 			model.addAttribute("result", bdvo);
 			model.addAttribute("boardMasterVO", bdMstr);
 			return "egovframework/com/cop/bbs/EgovArticleDetail";
+		}
+		
+		//작성자 본인이 아니면 수정 불가
+		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+//			model.addAttribute("result", bdvo);
+//			model.addAttribute("boardMasterVO", bdMstr);
+//			return "egovframework/com/cop/bbs/EgovArticleDetail";
+			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
 		}
 		
 		if (isAuthenticated) {

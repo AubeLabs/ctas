@@ -67,7 +67,7 @@ function fnUpdate(form){
 
 <div class="wTableFrm">
  	<!-- 타이틀 -->
-	<h2><spring:message code="comUssUmt.deptUserManage.title" /> ${pageTitle}</h2>
+	<h2><%-- <spring:message code="comUssUmt.deptUserManage.title" />  --%>${pageTitle}</h2>
 	
 	<!-- 등록폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -79,7 +79,7 @@ function fnUpdate(form){
 		<!-- 입력 -->
 		<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 		<!-- 일반회원아이디 -->
-		<c:set var="title"><spring:message code="comUssUmt.userManagePasswordUpdt.id" /></c:set>
+		<c:set var="title"><%-- <spring:message code="comUssUmt.userManagePasswordUpdt.id" /> --%>아이디</c:set>
 		<tr>
 			<th>${title}</th>
 			<td class="left">

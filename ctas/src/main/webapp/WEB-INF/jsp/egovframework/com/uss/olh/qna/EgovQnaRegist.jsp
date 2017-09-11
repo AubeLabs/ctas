@@ -112,10 +112,10 @@ function fn_egov_regist_qna(form){
 			    <form:input path="emailAdres" title="${title} ${inputTxt}" size="70" maxlength="70" />
    				<div><form:errors path="emailAdres" cssClass="error" /></div>     
 			</td>
-			<c:set var="title"><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt"/> </c:set>
+			<%-- <c:set var="title"><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt"/> </c:set>
 			<th><label for="emailAnswerAt">${title}</label></th>
 			<td class="left"><form:checkbox path="emailAnswerAt" value="Y"/>
-			<div><form:errors path="emailAdres" cssClass="error" /></div></td>
+			<div><form:errors path="emailAdres" cssClass="error" /></div></td> --%>
 		</tr>
 		
 		<!-- 질문제목 -->
@@ -123,7 +123,7 @@ function fn_egov_regist_qna(form){
 		<tr>
 			<th><label for="qestnSj">${title} <span class="pilsu">*</span></label></th>
 			<td class="left" colspan="3">
-			    <form:input path="qestnSj" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			    <form:input path="qestnSj" title="${title} ${inputTxt}" size="70" maxlength="70" style="ime-mode: active" />
    				<div><form:errors path="qestnSj" cssClass="error" /></div>     
 			</td>
 		</tr>
@@ -132,7 +132,7 @@ function fn_egov_regist_qna(form){
 		<tr>
 			<th><label for="qestnCn">${title } <span class="pilsu">*</span></label></th>
 			<td class="nopd" colspan="3">
-				<form:textarea path="qestnCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
+				<form:textarea path="qestnCn" title="${title} ${inputTxt}" cols="300" rows="20" style="ime-mode: active" />   
 				<div><form:errors path="qestnCn" cssClass="error" /></div>  
 			</td>
 		</tr>

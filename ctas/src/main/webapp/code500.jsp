@@ -16,7 +16,7 @@ function fncGoAfterErrorPage(){
 </head>
 <body>
 <div style="width: 1000px; margin: 50px auto 50px;">
-	<p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="168" height="48" /></p>
+	<%-- <p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="168" height="48" /></p> --%>
 	<div style="border: 0px solid #666; padding: 20px;">
 		<!-- 404 -->
 		<p style="color:red; margin-bottom: 8px; ">500 Error</p>

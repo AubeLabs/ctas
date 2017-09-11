@@ -21,6 +21,7 @@ import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.exception.EgovXssException;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cmm.util.EgovXssChecker;
@@ -239,6 +240,13 @@ public class EgovQnaController {
 		// EgovFileScrty Util에 있는 암호화 모듈을 적용해서 복호화한다.
 //		vo.setWritngPassword(EgovFileScrty.decode(writngPassword));
 
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		//작성자 본인이 아니면 수정 불가
+		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
+		}
+
 		model.addAttribute("qnaVO", vo);
 
 		return "egovframework/com/uss/olh/qna/EgovQnaUpdt";
@@ -329,6 +337,13 @@ public class EgovQnaController {
     	// @ XSS 사용자권한체크 END
     	//--------------------------------------------------------------------------------------------
     
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		//작성자 본인이 아니면 수정 불가
+		if (!user.getUniqId().equals(vo.getFrstRegisterId())) {
+			LOGGER.info(">>>>>>>>>> 작성자 본인 아님");
+			throw new EgovXssException("XSS00002", "errors.xss.checkerUser");
+		}
+
 		egovQnaService.deleteQna(qnaVO);
 
 		return "forward:/uss/olh/qna/selectQnaList.do";

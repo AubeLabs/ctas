@@ -113,10 +113,10 @@ function fn_egov_inqire_list() {
 			    <form:input path="emailAdres" title="${title} ${inputTxt}" size="70" maxlength="70" readonly="true" />
    				<div><form:errors path="emailAdres" cssClass="error" /></div>     
 			</td>
-			<c:set var="title"><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt"/> </c:set>
+			<%-- <c:set var="title"><spring:message code="comUssOlhQna.qnaVO.emailAnswerAt"/> </c:set>
 			<th><label for="emailAnswerAt">${title}</label></th>
 			<td class="left"><form:checkbox path="emailAnswerAt" value="Y" disabled="true"  />
-			<div><form:errors path="emailAdres" cssClass="error" /></div></td>
+			<div><form:errors path="emailAdres" cssClass="error" /></div></td> --%>
 		</tr>
 		
 		<!-- 질문제목 -->
@@ -155,7 +155,7 @@ function fn_egov_inqire_list() {
 		<tr>
 			<th><label for="answerCn">${title } <span class="pilsu">*</span></label></th>
 			<td class="nopd" colspan="3">
-				<form:textarea path="answerCn" title="${title} ${inputTxt}" cols="300" rows="20"  />   
+				<form:textarea path="answerCn" title="${title} ${inputTxt}" cols="300" rows="20" style="ime-mode: active" />
 				<div><form:errors path="answerCn" cssClass="error" /></div>  
 			</td>
 		</tr>

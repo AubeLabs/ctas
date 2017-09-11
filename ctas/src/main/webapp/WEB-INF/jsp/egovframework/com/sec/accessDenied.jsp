@@ -57,13 +57,13 @@ function fncGoAfterErrorPage(){
         <td align="center"><table width="100%" border="0" cellspacing="9" cellpadding="0">
           <tr>
             <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
+              <%-- <tr>
                 <td align="left"><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="168" height="48" alt="에러로고이미지"/></td>
               </tr>
               <tr>
                 <td><br />
                   <br /></td>
-              </tr>
+              </tr> --%>
 
               <tr>
                 <td align="center"><table width="520" border="0" cellspacing="2" cellpadding="2">

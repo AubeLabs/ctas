@@ -157,8 +157,8 @@ function getid(form) {
 }
 
 function fnInit() {
-	
-	parent._top.menuDspl("none");
+	parent._top.location.reload(true);
+	//parent._top.menuDspl("none");
 
 	 if (document.getElementById('loginForm').message.value != null) {
 	    var message = document.getElementById('loginForm').message.value;

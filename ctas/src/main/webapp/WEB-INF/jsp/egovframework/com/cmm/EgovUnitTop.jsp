@@ -110,6 +110,10 @@
 	function fnPasswordMove(){
 		//parent._content.location.href = "${pageContext.request.contextPath}/UserPasswordUpdtView.do";
 	}
+	window.onresize = function() {
+		location.reload();
+	}
+
 </script>
 </head>
 <body onload="menuDspl('block','${loginVO.name}')">

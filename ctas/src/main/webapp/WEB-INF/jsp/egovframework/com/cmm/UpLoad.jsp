@@ -229,7 +229,7 @@ function press() {
 				<!-- 보고서 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
-					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>&nbsp;byte]
+					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
 					</a>
 						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
 							<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
@@ -243,8 +243,8 @@ function press() {
 			</c:if>
 			<!-- 실적증빙 -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL}">
-				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte]">
-				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 11}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte] --%>
+				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
+				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
 				</a>
 					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
 						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 

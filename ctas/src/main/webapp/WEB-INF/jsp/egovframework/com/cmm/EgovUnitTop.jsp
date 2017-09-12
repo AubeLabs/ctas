@@ -94,6 +94,14 @@
 			document.getElementById("welcome").style.display=param1;
 			document.getElementById("welcome").innerHTML = "<a href='javascript:fnPasswordMove();' title='비밀번호 변경'>" + param2 + "</a> 님 환영합니다. <a href='javascript:contentLogout();'>로그아웃</a>";
 			document.getElementById("menu").children[0].className = "active";
+			if(window.innerWidth < 720 && param1 == "block"){
+				document.getElementById("logo").style.display = "none";
+				document.getElementById("resize1").style.display = "none";
+				document.getElementById("welcome").style.margin = "0px";
+				document.getElementById("welcome").innerHTML = "<a href='javascript:contentLogout();''>로그아웃</a>";
+				document.getElementById("menu_wrapper").style.display="none";
+				document.getElementById("menu_wrapper2").style.display="block";
+			}
 		}
 	}
 	function contentLogout(){
@@ -108,9 +116,9 @@
 <div id="header">
 	<div class="header_box"> 
 	<h1>
-		<a href="<c:url value='/EgovContent.do' />" target="_content"><img src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe"></a>
+		<a href="<c:url value='/EgovContent.do' />" target="_content"><img id="logo" src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe"></a>
 	</h1>
-	<div style="margin-top:13px; float: left; width: 50%;"><strong class="top_title_strong">민원서비스 종합평가</strong></div>
+	<div id="resize1" style="margin-top:13px; float: left; width: 50%;"><strong class="top_title_strong">민원서비스 종합평가</strong></div>
 	
 
 	<div style="margin-top:30px; display:none;float: right; width: 20%; " id="welcome">
@@ -121,9 +129,8 @@
 	<br/>
 
 </div>
-
-<!-- Blue Menu -->
-<div id="menu_wrapper" class="blue">
+	<!-- Blue Menu -->
+	<div id="menu_wrapper" class="blue">
 	<div class="left"></div>
 	<c:if test="${loginVO == null }">
 	</c:if>
@@ -159,7 +166,44 @@
 		</ul>
 	</c:if>
 
-</div>
+	</div>
+	
+	<div id="menu_wrapper2" class="blue" style="display:none;">
+	<div class="left"></div>
+	<c:if test="${loginVO == null }">
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">
+		<ul id="menu">
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(1,1);">보고서 업로드</a></li>
+			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
+		</ul>
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000002' }">
+		<ul id="menu">
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
+			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
+		</ul>
+	</c:if>
+	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000003' }">
+		<ul id="menu">
+			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
+			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
+			<li><a href="javascript:fnMenuSelect(5,2);">기관별현황</a></li>
+			<li><a href="javascript:fnMenuSelect(2,3);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,4);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(8,5);">Q&A답변</a></li>
+			<li><a href="javascript:fnMenuSelect(9,6);">자료실</a></li>
+			<li><a href="javascript:fnMenuSelect(6,7);">기관관리</a></li>
+			<li><a href="javascript:fnMenuSelect(7,8);">기관담당자</a></li>
+		</ul>
+	</c:if>
 
+	</div>
 </body>
 </html>

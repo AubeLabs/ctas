@@ -227,11 +227,15 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("ORG", loginVO.getOrgnztId());
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", ctasVO.getSrchOrg());
+		hm.put("ORGID", ctasVO.getOrgId());
 		List uploadList = CtasService.selectUploadList(hm);
 		HashMap uploadGrp = CtasService.selectUploadGrp(hm);
 		
-		//
-		if(ctasVO.getSrchOrg().equals("init"))ctasVO.setSrchOrg("");
+		//초기화
+		if(ctasVO.getSrchOrg().equals("init")) ctasVO.setSrchOrg("");
+		ctasVO.setOrgId("");
+		
+		
 		model.addAttribute("loginVO", loginVO);
 		model.addAttribute("ctasVO", ctasVO);
 		model.addAttribute("uploadList", uploadList);
@@ -335,6 +339,10 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     @RequestMapping(value="/OrgSearchList.do")
 	public String selectDeptList(@ModelAttribute("ctasVO") CtasVO vo,
 			                             ModelMap model) throws Exception {
+    	LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	if(user == null || user.getGroupId().equals("GROUP_00000000000001")){
+    		vo.setGUBUN("1");
+    	}
     	HashMap hm = new HashMap();
     	hm.put("searchKeyword", vo.getSearchKeyword());
     	

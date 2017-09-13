@@ -96,6 +96,14 @@ function RATING(){
  * 조회
  ******************************************************** */
 function goSearch(){
+	document.ctasForm.srchOrg.value = document.ctasForm.srchOrg.value.replace(/^\s+|\s+$/g,""); //trim
+	if(document.ctasForm.srchOrg.value == ""){
+		alert("기관을 입력하세요.");
+		window.setTimeout(function () { 
+		    document.getElementById('srchOrg').focus(); 
+		}, 0);
+		return;
+	}
 	ctasVO.action = "<c:url value='/UpLoad.do'/>";
 	ctasVO.submit();
 }
@@ -119,6 +127,9 @@ function setting(obj, org, pkstr, flag){
 		obj.value = "";
 		return;
 	}
+	//alert("BEFORE TRIM : |"+obj.value+"|");	
+	obj.value = obj.value.replace(/^\s+|\s+$/g,""); //trim
+	//alert("AFTER TRIM : |"+obj.value+"|");
 	var arrRow = str.split("；");
 	str = "";
 	if(isNaN(obj.value)){//입력에러
@@ -176,7 +187,8 @@ function press() {
 				<!-- 검색키워드 및 조회버튼 -->
 				<li><div style="line-height:4px;">&nbsp;</div><div>기관 </div></li>
 				<li>
-					<input name="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="press();"  />
+					<input name="srchOrg" id="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="press();"  />
+					<input name="orgId" id="orgId" type="hidden" value="<c:out value="${ctasVO.orgId}"/>">
 					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
 					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
 					<input type="button" class="c_btn" onClick="RATING();return false;" value="<spring:message code="button.save" />" title="<spring:message code="button.save" /> <spring:message code="input.button" />" />
@@ -229,7 +241,7 @@ function press() {
 				<!-- 보고서 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
-					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>&nbsp;byte]
+					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
 					</a>
 						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
 							<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
@@ -243,8 +255,8 @@ function press() {
 			</c:if>
 			<!-- 실적증빙 -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL}">
-				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte]">
-				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 11}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>&nbsp;byte] --%>
+				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
+				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
 				</a>
 					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
 						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
@@ -287,7 +299,7 @@ function press() {
 						${uploadInfo.RATING_SCORE}
 					</c:if>
 					<c:if test="${GUBUN != 'A'}">
-						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" 
+						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
 						onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
 					</c:if>
 				</td>

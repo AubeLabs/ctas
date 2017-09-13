@@ -178,9 +178,11 @@ function fnViewCheck(){
 		<th><input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="<spring:message code="input.selectAll.title" />"></th><!-- 전체선택 -->
 		
 		<th class="board_th_link"><spring:message code="comUssUmt.userManageList.id" /></th><!--아이디 -->
+		<th>권역</th>
+		<th>기관명</th>
 		<th><spring:message code="comUssUmt.userManageList.name" /></th><!-- 사용자이름 -->
-		<th><spring:message code="comUssUmt.userManageList.email" /></th><!-- 사용자이메일 -->
-		<th><spring:message code="comUssUmt.userManageList.phone" /></th><!-- 전화번호 -->
+		<%-- <th><spring:message code="comUssUmt.userManageList.email" /></th><!-- 사용자이메일 --> --%>
+		<%-- <th><spring:message code="comUssUmt.userManageList.phone" /></th><!-- 전화번호 --> --%>
 		<th><spring:message code="table.regdate" /></th><!-- 등록일 -->
 		<th><spring:message code="comUssUmt.userManageList.sbscrbSttus" /></th><!-- 가입상태 -->
 
@@ -200,9 +202,11 @@ function fnViewCheck(){
 	        <input name="checkId" type="hidden" value="<c:out value='${result.userTy}'/>:<c:out value='${result.uniqId}'/>"/>
 	    </td>
 	    <td><a href="<c:url value='/uss/umt/EgovMberSelectUpdtView.do'/>?selectedId=<c:out value="${result.uniqId}"/>"  onclick="javascript:fnSelectUser('<c:out value="${result.userTy}"/>:<c:out value="${result.uniqId}"/>'); return false;"><c:out value="${result.userId}"/></a></td>
+	    <td><c:out value="${result.orgnztDc}"/></td>
+	    <td><c:out value="${result.orgnztNm}"/></td>
 	    <td><c:out value="${result.userNm}"/></td>
-	    <td><c:out value="${result.emailAdres}"/></td>
-	    <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td>
+	    <%-- <td><c:out value="${result.emailAdres}"/></td> --%>
+	    <%-- <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td> --%>
 	    <td><c:out value="${fn:substring(result.sbscrbDe,0,10)}"/></td>
 	    <td>
           <c:forEach var="emplyrSttusCode_result" items="${emplyrSttusCode_result}" varStatus="status">

@@ -6,6 +6,9 @@
     <select id="selectUserList_S" resultType="egovMap">
 SELECT 
     uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe
+     , orgnztId
+     , orgnztNm
+     , orgnztDc
 FROM(
     SELECT
         ESNTL_ID               uniqId,
@@ -19,8 +22,14 @@ FROM(
         MBTLNUM           moblphonNo,
         GROUP_ID              groupId,
         EMPLYR_STTUS_CODE     sttus,
-        SBSCRB_DE             sbscrbDe
-    FROM    COMTNEMPLYRINFO
+        SBSCRB_DE             sbscrbDe,
+        E.ORGNZT_ID orgnztId,
+        O.ORGNZT_NM orgnztNm,
+        O.ORGNZT_DC orgnztDc
+    FROM    COMTNEMPLYRINFO E
+    LEFT OUTER JOIN comtnorgnztinfo O
+      ON 1=1
+     AND E.ORGNZT_ID = O.ORGNZT_ID
     ) A 
         WHERE 1=1
 	     <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>

@@ -335,6 +335,10 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     @RequestMapping(value="/OrgSearchList.do")
 	public String selectDeptList(@ModelAttribute("ctasVO") CtasVO vo,
 			                             ModelMap model) throws Exception {
+    	LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+    	if(user == null || user.getGroupId().equals("GROUP_00000000000001")){
+    		vo.setGUBUN("1");
+    	}
     	HashMap hm = new HashMap();
     	hm.put("searchKeyword", vo.getSearchKeyword());
     	

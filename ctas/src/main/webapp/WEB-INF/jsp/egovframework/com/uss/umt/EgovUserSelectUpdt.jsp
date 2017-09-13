@@ -156,7 +156,7 @@ function fn_egov_dn_info_setting(dn) {
 				<div><form:errors path="passwordCnsr" cssClass="error"/></div>
 			</td>
 		</tr>
-		<!-- 소속기관코드 -->
+		<%-- <!-- 소속기관코드 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.insttCode"/></c:set>
 		<tr>
 			<th><label for="insttCode">${title}</label></th>
@@ -167,7 +167,7 @@ function fn_egov_dn_info_setting(dn) {
                     </form:select>
                     <div><form:errors path="insttCode" cssClass="error"/></div>
 			</td>
-		</tr>
+		</tr> --%>
 		<!-- 조직아이디 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.orgnztId"/></c:set>
 		<tr>
@@ -180,7 +180,7 @@ function fn_egov_dn_info_setting(dn) {
                     <div><form:errors path="orgnztId" cssClass="error"/></div>
 			</td>
 		</tr>
-		<!-- 직위 -->
+		<%-- <!-- 직위 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.ofcps"/></c:set>
 		<tr>
 			<th><label for="">${title}</label></th>
@@ -295,7 +295,7 @@ function fn_egov_dn_info_setting(dn) {
                     <form:input path="detailAdres" id="detailAdres" title="${title} ${inputTxt}" cssClass="txaIpUmt" size="70" maxlength="100" />
                     <div><form:errors path="detailAdres" cssClass="error" /></div>
 			</td>
-		</tr>
+		</tr> --%>
 		<!-- 그룹아이디 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.groupId"/></c:set>
 		<tr>

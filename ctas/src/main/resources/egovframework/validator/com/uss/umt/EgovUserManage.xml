@@ -48,7 +48,7 @@
                 <arg0 key="주민등록번호" resource="false"/>
             </field>
             -->   
-            <field property="areaNo" depends="required, maxlength, integer">
+            <!-- <field property="areaNo" depends="required, maxlength, integer">
                 <arg0 key="집지역번호" resource="false"/>
                 <arg1 key="4" resource="false"/>
                 <var>
@@ -122,7 +122,7 @@
                 <var-name>maxlength</var-name>
                 <var-value>100</var-value>
                 </var>
-            </field>
+            </field> -->
             
             <field property="groupId" depends="required">
                 <arg0 key="그룹아이디" resource="false"/>

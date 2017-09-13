@@ -74,6 +74,7 @@ function fncSelectDept(deptCode, deptNm) {
 	    //opener.goSearch();
 	}else{
 	    opener.document.ctasForm.srchOrg.value = deptNm;
+	    opener.document.ctasForm.orgId.value = deptCode;
 	    opener.goSearch();
 	}
     window.close();
@@ -140,6 +141,7 @@ function fncSelectDeptConfirm() {
 						opener.document.mber.orgNm.value = org_nm;
 					}else{
 		             	opener.document.ctasForm.srchOrg.value = org_nm;
+		             	opener.document.ctasForm.orgId.value = org_cd;
 		                opener.goSearch();
 					}
 	             	
@@ -161,6 +163,7 @@ function fncSelectDeptConfirm() {
 				    //opener.goSearch();
 				}else{
 				    opener.document.ctasForm.srchOrg.value = document.listForm.checkNm.value;
+				    opener.document.ctasForm.orgId.value = document.listForm.checkId.value;
 				    opener.goSearch();
 				}
 			    window.close();

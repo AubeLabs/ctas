@@ -119,6 +119,9 @@ function setting(obj, org, pkstr, flag){
 		obj.value = "";
 		return;
 	}
+	//alert("BEFORE TRIM : |"+obj.value+"|");	
+	obj.value = obj.value.replace(/^\s+|\s+$/g,""); //trim
+	//alert("AFTER TRIM : |"+obj.value+"|");
 	var arrRow = str.split("；");
 	str = "";
 	if(isNaN(obj.value)){//입력에러
@@ -287,7 +290,7 @@ function press() {
 						${uploadInfo.RATING_SCORE}
 					</c:if>
 					<c:if test="${GUBUN != 'A'}">
-						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" 
+						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
 						onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
 					</c:if>
 				</td>

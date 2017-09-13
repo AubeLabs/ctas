@@ -42,7 +42,8 @@
 			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
-		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
+		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
+					  WHEN #{SRCHORG} != 'init' AND #{ORGID} = '' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
 		              WHEN #{GRPID} = 'GROUP_00000000000001' AND A2.ORGNZT_ID = #{ORG} THEN 1
 		         END
 		  LEFT OUTER JOIN ASSESS_ATCH_FILE B
@@ -68,7 +69,8 @@
 		SELECT SUM(D.RATING_SCORE) SUM
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
-		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
+		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
+					  WHEN #{SRCHORG} != 'init' AND #{ORGID} = '' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
 		              WHEN #{GRPID} = 'GROUP_00000000000001' AND A2.ORGNZT_ID = #{ORG} THEN 1
 		         END
 		  LEFT OUTER JOIN ASSESSMENT D

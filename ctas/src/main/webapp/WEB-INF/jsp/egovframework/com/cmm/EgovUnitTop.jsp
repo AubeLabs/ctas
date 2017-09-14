@@ -102,7 +102,7 @@
 				else foo.children[i].className = "";
 			}
 			if(window.innerWidth < 720 && param1 == "block"){
-				document.getElementById("logo").style.display = "none";
+				document.getElementById("logoDiv").style.width = "48px";
 				//document.getElementById("resize1").style.display = "none";
 				//document.getElementById("welcome").style.margin = "0px";
 				document.getElementById("welcome").innerHTML = "<a href='javascript:contentLogout();''>로그아웃</a>";
@@ -138,7 +138,11 @@
 <div id="header">
 	<div class="header_box"> 
 	<h1>
-		<a href="<c:url value='/EgovContent.do' />" target="_content"><img id="logo" src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe"></a>
+		<a href="<c:url value='/EgovContent.do' />" target="_content">
+		<div id="logoDiv" style="width: 168x; height: 48px; overflow: hidden">
+		<img id="logo" src="<c:url value='/images/egovframework/com/cmm/main/img_logo.png' />" alt="eGovframe">
+		</div>
+		</a>
 	</h1>
 	<div id="resize1" style="margin-top:13px; float: left; width: 50%;"><strong class="top_title_strong">민원서비스 종합평가</strong></div>
 	
@@ -193,8 +197,8 @@
 	
 	<div id="menu_wrapper2" style="display:none; ">
 	<div class="left"></div>
-	<br/><br/><br/>
-	&nbsp;&nbsp;&nbsp;메뉴선택 :
+	<br/><br/><br/><br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;메뉴선택 :
 	<c:if test="${loginVO == null }">
 	</c:if>
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">

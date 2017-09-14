@@ -64,7 +64,10 @@
 			if(i == objOrder) foo.children[i].className = "active";
 			else foo.children[i].className = "";
 		}
-
+		parent.selectedMenu = objOrder;
+		goLoc(objName);
+	}
+	function goLoc(objName){
 		if(objName == "0"){	// HOME
 			parent._content.location.href = "${pageContext.request.contextPath}/EgovContent.do";
 		}else if(objName == "1"){	// 보고서 업로드
@@ -86,7 +89,6 @@
 		}else if(objName == "9"){	// 자료실
 			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000011";
 		}
-		
 	}
 	function menuDspl(param1, param2){
 		if (document.getElementById("menu")) {
@@ -94,13 +96,26 @@
 			document.getElementById("welcome").style.display=param1;
 			document.getElementById("welcome").innerHTML = "<a href='javascript:fnPasswordMove();' title='비밀번호 변경'>" + param2 + "</a> 님 환영합니다. <a href='javascript:contentLogout();'>로그아웃</a>";
 			document.getElementById("menu").children[0].className = "active";
+			var foo = document.getElementById('menu');
+			for (var i = 0; i < foo.children.length; i++) {
+				if(i == parent.selectedMenu) foo.children[i].className = "active";
+				else foo.children[i].className = "";
+			}
 			if(window.innerWidth < 720 && param1 == "block"){
 				document.getElementById("logo").style.display = "none";
-				document.getElementById("resize1").style.display = "none";
-				document.getElementById("welcome").style.margin = "0px";
+				//document.getElementById("resize1").style.display = "none";
+				//document.getElementById("welcome").style.margin = "0px";
 				document.getElementById("welcome").innerHTML = "<a href='javascript:contentLogout();''>로그아웃</a>";
 				document.getElementById("menu_wrapper").style.display="none";
 				document.getElementById("menu_wrapper2").style.display="block";
+				//document.getElementById("welcome").options.index = parent.selectedMenu;
+				var ele = document.getElementById('selectMenu');
+				for(var i = 0 ; i < ele.length; i++ ){
+					if( i == parent.selectedMenu ){
+						ele.options[i].selected = true; 
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -111,9 +126,12 @@
 		//parent._content.location.href = "${pageContext.request.contextPath}/UserPasswordUpdtView.do";
 	}
 	window.onresize = function() {
-		location.reload();
+		location.reload(true);
 	}
-
+	function test(obj){
+		parent.selectedMenu = obj.options.selectedIndex;
+		goLoc(obj.value);
+	}
 </script>
 </head>
 <body onload="menuDspl('block','${loginVO.name}')">
@@ -172,40 +190,43 @@
 
 	</div>
 	
-	<div id="menu_wrapper2" class="blue" style="display:none;">
+	
+	<div id="menu_wrapper2" style="display:none; ">
 	<div class="left"></div>
+	<br/><br/><br/>
+	&nbsp;&nbsp;&nbsp;메뉴선택 :
 	<c:if test="${loginVO == null }">
 	</c:if>
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">
-		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
-			<li><a href="javascript:fnMenuSelect(1,1);">보고서 업로드</a></li>
-			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
-			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
-		</ul>
+		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
+			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
+			<option value="1">보고서 업로드</option>
+			<option value="2">공지사항</option>
+			<option value="3">Q&A</option>
+			<option value="9">자료실</option>
+		</select>
 	</c:if>
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000002' }">
-		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
-			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
-			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
-			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
-		</ul>
+		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
+			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
+			<option value="4">평정실시</option>
+			<option value="2">공지사항</option>
+			<option value="3">Q&A</option>
+			<option value="9">자료실</option>
+		</select>
 	</c:if>
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000003' }">
-		<ul id="menu">
-			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
-			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
-			<li><a href="javascript:fnMenuSelect(5,2);">기관별현황</a></li>
-			<li><a href="javascript:fnMenuSelect(2,3);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(3,4);">Q&A</a></li>
-			<li><a href="javascript:fnMenuSelect(8,5);">Q&A답변</a></li>
-			<li><a href="javascript:fnMenuSelect(9,6);">자료실</a></li>
-			<li><a href="javascript:fnMenuSelect(6,7);">기관관리</a></li>
-			<li><a href="javascript:fnMenuSelect(7,8);">기관담당자</a></li>
-		</ul>
+		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
+			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
+			<option value="4">평정실시</option>
+			<option value="5">기관별현황</option>
+			<option value="2">공지사항</option>
+			<option value="3">Q&A</option>
+			<option value="8">Q&A답변</option>
+			<option value="9">자료실</option>
+			<option value="6">기관관리</option>
+			<option value="7">기관담당자</option>
+		</select>
 	</c:if>
 
 	</div>

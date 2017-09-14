@@ -8,6 +8,9 @@
 <link rel="shortcut icon" href="http://www.mois.go.kr/images/frt/common/favicon.ico" type="image/x-icon" />
 <link rel="apple-touch-icon-precomposed" href="http://www.mois.go.kr/images/com/114icon2.png" />
 <link rel="shortcut icon" href="http://www.mois.go.kr/images/com/72icon2.png" />
+<script type="text/javaScript" language="javascript">
+var selectedMenu = "";
+</script>
 
 <title>민원서비스 종합평가</title>
 </head>

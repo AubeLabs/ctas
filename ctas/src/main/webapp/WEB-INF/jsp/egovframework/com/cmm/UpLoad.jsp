@@ -145,6 +145,14 @@ function setting(obj, org, pkstr, flag){
 		str += pkstr+"，RATING_SCORE："+obj.value+"；";
 	}
 	//alert(str);
+	var scoreField = document.ctasForm.SCORE;
+	var sum = 0;
+	for(var i=0; i < scoreField.length; i++) {
+		if(scoreField[i].value != "") {
+			sum += Number(scoreField[i].value);
+    	}
+    }
+	document.getElementById("SUM").innerHTML = sum;
 }
 function press() {
 
@@ -299,7 +307,7 @@ function press() {
 						${uploadInfo.RATING_SCORE}
 					</c:if>
 					<c:if test="${GUBUN != 'A'}">
-						<input type="text" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
+						<input type="text" name="SCORE" id="SCORE" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
 						onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
 					</c:if>
 				</td>
@@ -315,7 +323,7 @@ function press() {
 		<c:if test="${fn:length(uploadList) != 0}">
 			<tr>
 				<td colspan=4>합계</td>
-				<td>${uploadGrp.SUM}</td>
+				<td id="SUM">${uploadGrp.SUM}</td>
 			</tr>
 		</c:if>
 	</tbody>

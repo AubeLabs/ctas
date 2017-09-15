@@ -13,6 +13,7 @@
 <title>민원서비스 종합평가</title>
 <script type="text/javaScript" language="javascript">
 	//parent._top.menuDspl("block",'${loginVO.name}');
+	parent.selectedMenu = "";
 	parent._top.location.reload(true);
 </script>
 </head>

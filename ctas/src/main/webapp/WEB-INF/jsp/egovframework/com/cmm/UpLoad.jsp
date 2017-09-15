@@ -48,7 +48,7 @@ function fn_egov_init(){
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
-function makeFileAttachment(idx, flag){ //01~09:보고서, 10~19:실적증빙
+function makeFileAttachment(idx, flag){ //0001~0010:보고서, 1001~1010:실적증빙
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
 	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
 	document.getElementById("ctacd").value=idx;
@@ -238,15 +238,20 @@ function press() {
 	</thead>
 	<tbody class="ov">
 		<c:forEach items="${uploadList}" var="uploadInfo" varStatus="status">
+			<!-- 기관시작 : 실적증빙 데이터로 판단(실적증빙이 다수일수도 있기 때문) -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MN == '1'}">
 				<tr>
+					<!-- 평가자 기관컬럼 보여주기 -->
 					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
-						<td rowspan=9>${uploadInfo.ORGNZT_NM}
+						<td rowspan=10>${uploadInfo.ORGNZT_NM}
 						</td>
 					</c:if>
 					<td style="text-align: left;">${uploadInfo.CODE_NM}</td>
-					<td>
-				<!-- 보고서 -->
+					<!-- 법정민원은 실적증빙 없음 colspan으로 병합 -->
+					<c:if test="${uploadInfo.RN != '010'}"><td></c:if>
+					<c:if test="${uploadInfo.RN == '010' && GUBUN == 'A'}"><td colspan=2></c:if>
+					<c:if test="${uploadInfo.RN == '010' && GUBUN != 'A'}"><td colspan=3></c:if>
+				<!-- 보고서 컬럼 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
@@ -259,10 +264,10 @@ function press() {
 					<br>
 				</c:if>
 				</td>
-				<td>
+				<c:if test="${uploadInfo.RN != '010'}"><td></c:if>
 			</c:if>
 			<!-- 실적증빙 -->
-			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL}">
+			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL && uploadInfo.RN != '010'}">
 				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
 				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
 				</a>
@@ -274,10 +279,14 @@ function press() {
 				<br>
 			</c:if>
 			
+			<!-- 업로드컬럼, 점수컬럼 -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM == NULL || uploadInfo.MX == '1'}">
-				</td>
-				<td>
+				<!-- 법정민원이 아닌경우는 실적증빙 컬럼 td닫기 -->
+				<c:if test="${uploadInfo.RN != '010'}"></td></c:if>
+					<!-- 업로드컬럼 -->
 					<c:if test="${GUBUN == 'A'}">
+					<td>
+						<!-- 보고서 버튼 -->
 						<div class="egov_file_box">
 						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('보고서 파일을 먼저삭제하세요.');" >&nbsp;보고서&nbsp;</label>
@@ -287,9 +296,10 @@ function press() {
 							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', ${uploadInfo.FLAG2});">
 						</c:if>
 						</div>
-						
 						<div id="egovComFileList0${uploadInfo.RN}" style="display:none;"></div>
 						
+						<!-- 실적증빙 버튼 -->
+						<c:if test="${uploadInfo.RN != '010'}">
 						<div class="egov_file_box">
 						<c:if test="${uploadInfo.FLAG2 == 0}">
 							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('평가된 지표는 등록 할 수 없습니다.');">실적증빙</label> 
@@ -298,19 +308,22 @@ function press() {
 							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}">실적증빙</label> 
 							<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', ${uploadInfo.FLAG2});">
 						</c:if>
-						
 						</div>
-						
 						<div id="egovComFileList1${uploadInfo.RN}" style="display:none;"></div>
+						</c:if>
 					</td>
 					<td>
 						${uploadInfo.RATING_SCORE}
+					</td>
 					</c:if>
-					<c:if test="${GUBUN != 'A'}">
-						<input type="text" name="SCORE" id="SCORE" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
-						onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
+					<!-- 점수입력컬럼 -->
+					<c:if test="${GUBUN != 'A' && uploadInfo.RN != '010'}">
+					<td>
+					<input type="text" name="SCORE" id="SCORE" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
+					onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
+					</td>
 					</c:if>
-				</td>
+				
 				</tr>
 			</c:if>
 		</c:forEach>

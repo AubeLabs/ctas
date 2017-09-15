@@ -94,6 +94,7 @@
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
+		   AND A.CODE != 'CAI010' /*고정제거*/
 		   ${items2}
 		 GROUP BY A.CODE_NM
 		 ORDER BY A.CODE
@@ -111,6 +112,7 @@
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
+		   AND A.CODE != 'CAI010' /*고정제거*/
 		   ${items2}
  	</select>
  	

@@ -294,7 +294,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	    
 	    Map hm = new HashMap();
 	    hm.put("ORGNZT_ID", user.getOrgnztId());//조직코드
-	    hm.put("AI_CD", vo.getCtacd().substring(1, 2));//평가지표코드
+	    hm.put("AI_CD", vo.getCtacd().substring(1));//평가지표코드
 	    //hm.put("C", user.getOrgnztId()); //일련번호 쿼리에서
 	    hm.put("FILE_ID", atchFileId);//파일ID
 		hm.put("USER_ID", user.getId());//등록자

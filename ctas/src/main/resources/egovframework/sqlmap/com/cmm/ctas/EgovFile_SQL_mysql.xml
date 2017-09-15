@@ -4,7 +4,7 @@
 <mapper namespace="CtasUpload">
 
 	<select id="selectUploadList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT SUBSTR(A.CODE, 6, 1) RN
+		SELECT SUBSTR(A.CODE, 4) RN
 		     , A.CODE
 		     , A.CODE_NM
 		     , A2.ORGNZT_ID
@@ -126,7 +126,7 @@
 			, FRST_REGISTER_ID
 			) values (
 			  #{ORGNZT_ID}
-			, CONCAT('CAI', LPAD(#{AI_CD}, 3, 0))
+			, CONCAT('CAI', #{AI_CD})
 			, #{FILE_ID}
 			, #{USER_ID}
 			, SYSDATE()
@@ -179,11 +179,11 @@
 			, FRST_REGISTER_ID
 			) values (
 			  #{ORGNZT_ID}
-			, CONCAT('CAI', LPAD(#{AI_CD}, 3, 0))
+			, CONCAT('CAI', #{AI_CD})
 			, (SELECT SEQ_NO FROM(SELECT IFNULL(MAX(SEQ_NO), 0)+1 SEQ_NO 
 			                        FROM ASSESS_ATCH_FILE 
 			                       WHERE ORGNZT_ID = #{ORGNZT_ID}
-			                         AND AI_CD = CONCAT('CAI', LPAD(#{AI_CD}, 3, 0)))TMP)
+			                         AND AI_CD = CONCAT('CAI', #{AI_CD}))TMP)
 			, #{FILE_ID}
 			, SYSDATE()
 			, #{USER_ID}

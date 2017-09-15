@@ -172,37 +172,47 @@ function fn_init(){
 	<tr ondblclick="javascript:fncSelectCai('CAI001')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI001" /></td>
-		<td class="left">민원행정 및 제도개선 계획수립의 적합성</td>
+		<td class="left">1-1. 민원행정 및 제도개선 계획수립의 적합성</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI002')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI002" /></td>
-		<td class="left">기관장의 의지 및 관심도</td>
+		<td class="left">1-2. 기관장의 의지 및 관심도</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI003')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI003" /></td>
-		<td class="left">민원 우수 인센티브 제공</td>
+		<td class="left">1-3. 민원 우수 인센티브 제공</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI004')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI004" /></td>
-		<td class="left">민원행정 수행기반</td>
+		<td class="left">1-4. 민원행정 수행기반</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI005')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI005" /></td>
-		<td class="left">민원정보 제공 및 민원법령 운영</td>
+		<td class="left">2-1. 민원정보 제공 및 민원법령 운영</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI006')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI006" /></td>
-		<td class="left">민원처리상황 확인·점검</td>
+		<td class="left">2-2. 민원처리상황 확인·점검</td>
 	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI007')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI007" /></td>
-		<td class="left">민원행정 및 제도개선</td>
+		<td class="left">2-3. 민원행정 및 제도개선</td>
+	</tr>
+	<tr ondblclick="javascript:fncSelectCai('CAI008')">
+		<td><input type="checkbox" name="delYn" title="checkField">
+			<input type="hidden" name="checkId" value="CAI008" /></td>
+		<td class="left">민원행정 활동 - 가점</td>
+	</tr>
+	<tr ondblclick="javascript:fncSelectCai('CAI009')">
+		<td><input type="checkbox" name="delYn" title="checkField">
+			<input type="hidden" name="checkId" value="CAI009" /></td>
+		<td class="left">민원행정 활동 - 감점</td>
 	</tr>
 	</tbody>
 	</table>

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /*
 import com.gpki.gpkiapi.cert.X509Certificate;
@@ -107,7 +108,7 @@ public class EgovLoginController {
 	 * @return result - 로그인결과(세션정보)
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/uat/uia/actionLogin.do")
+	@RequestMapping(value = "/uat/uia/actionLogin.do", method=RequestMethod.POST)
 	public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 
 		// 1. 일반 로그인 처리
@@ -124,6 +125,11 @@ public class EgovLoginController {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
 			return "egovframework/com/uat/uia/EgovLoginUsr";
 		}
+	}
+	@RequestMapping(value = "/uat/uia/actionLogin.do", method=RequestMethod.GET)
+	public String actionLoginGet(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
+		System.out.println("GET접근!!");
+		return null;
 	}
 
 	/**

@@ -20,7 +20,6 @@
 			 , C.ORIGNL_FILE_NM
 			 , C.FILE_EXTSN
 			 , C.FILE_CN
-			 /*, C.FILE_SIZE*/
 			 , CASE WHEN C.FILE_SIZE/1000000 > 1 THEN CONCAT(ROUND(C.FILE_SIZE/1000000,3), ' MB')
 				    WHEN C.FILE_SIZE/1000 > 1 THEN CONCAT(ROUND(C.FILE_SIZE/1000,3), ' KB')
 				    ELSE CONCAT(C.FILE_SIZE, ' B')
@@ -33,7 +32,6 @@
 			 , E.ORIGNL_FILE_NM		ORIGNL_FILE_NM2
 			 , E.FILE_EXTSN			FILE_EXTSN2
 			 , E.FILE_CN			FILE_CN2
-			 /*, E.FILE_SIZE			FILE_SIZE2*/
 			 , CASE WHEN E.FILE_SIZE/1000000 > 1 THEN CONCAT(ROUND(E.FILE_SIZE/1000000,3), ' MB')
 				    WHEN E.FILE_SIZE/1000 > 1 THEN CONCAT(ROUND(E.FILE_SIZE/1000,3), ' KB')
 				    ELSE CONCAT(E.FILE_SIZE, ' B')
@@ -299,9 +297,7 @@
               					    , SUM(RATING_SCORE) SCORE_SUM
               					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
 		        ON ORGNZT_ID = C_ORGNZT_ID
-             /*WHERE 1=CASE WHEN {searchKeyword} != '' AND ORGNZT_NM LIKE CONCAT('%',{searchKeyword},'%') THEN 1
-				          WHEN {searchKeyword} = '' THEN 1
-				     END*/
+		     WHERE ORGNZT_ID != 'ORGNZT_0000000000000'
 			 ORDER BY SRCH ${ordCol} ${ordTyp}
 		]]>
  	</select>

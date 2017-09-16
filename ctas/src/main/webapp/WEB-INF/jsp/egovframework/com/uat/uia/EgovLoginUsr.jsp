@@ -241,7 +241,7 @@ function press() {
 			<c:set var="title"><spring:message code="comUatUia.loginForm.id"/></c:set>
 			<li>
 				<label for="id">${title}</label>
-				<input type="text" name="id" id="id" maxlength="10" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}" onkeypress="press();">
+				<input type="text" name="id" id="id" maxlength="20" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}" onkeypress="press();">
 			</li>
 			<!-- 비밀번호 -->
 			<c:set var="title"><spring:message code="comUatUia.loginForm.pw"/></c:set>

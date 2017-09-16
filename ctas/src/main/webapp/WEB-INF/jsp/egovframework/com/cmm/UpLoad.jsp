@@ -157,6 +157,7 @@ function setting(obj, org, pkstr, flag){
 function press() {
     if (event.keyCode==13) {
     	goSearch();
+    	return false;
     }
 }
 </script>
@@ -194,7 +195,7 @@ function press() {
 				<!-- 검색키워드 및 조회버튼 -->
 				<li><div style="line-height:4px;">&nbsp;</div><div>기관 </div></li>
 				<li>
-					<input name="srchOrg" id="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="press();return false;"  />
+					<input name="srchOrg" id="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="return press();"  />
 					<input name="orgId" id="orgId" type="hidden" value="<c:out value="${ctasVO.orgId}"/>">
 					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
 					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />

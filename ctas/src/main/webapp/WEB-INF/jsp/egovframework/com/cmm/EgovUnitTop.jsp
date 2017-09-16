@@ -70,7 +70,7 @@
 	function goLoc(objName){
 		if(objName == "0"){	// HOME
 			parent._content.location.href = "${pageContext.request.contextPath}/EgovContent.do";
-		}else if(objName == "1"){	// 보고서 업로드
+		}else if(objName == "1"){	// 자료제출
 			parent._content.location.href = "${pageContext.request.contextPath}/UpLoad.do";
 		}else if(objName == "2"){	// 공지사항
 			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000001";
@@ -163,7 +163,7 @@
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">
 		<ul id="menu">
 			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
-			<li><a href="javascript:fnMenuSelect(1,1);">보고서 업로드</a></li>
+			<li><a href="javascript:fnMenuSelect(1,1);">자료제출</a></li>
 			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
 			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
 			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
@@ -204,7 +204,7 @@
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000001' }">
 		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
 			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
-			<option value="1">보고서 업로드</option>
+			<option value="1">자료제출</option>
 			<option value="2">공지사항</option>
 			<option value="3">Q&A</option>
 			<option value="9">자료실</option>

@@ -48,7 +48,7 @@ function fn_egov_init(){
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
-function makeFileAttachment(idx, flag){ //0001~0010:보고서, 1001~1010:실적증빙
+function makeFileAttachment(idx, flag){ //0001~0010:자료, 1001~1010:실적증빙
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
 	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
 	document.getElementById("ctacd").value=idx;
@@ -179,7 +179,7 @@ function press() {
 	<div class="board">
 	<h1 class="circle_chck">
 		<c:if test="${GUBUN == 'A'}">
-			지표별 보고서 등록
+			지표별 자료 등록
 		</c:if>
 		<c:if test="${GUBUN != 'A'}">
 			평정실시
@@ -228,7 +228,7 @@ function press() {
 			<th>기관</th>
 		</c:if>
 		<th>평가지표</th>
-		<th>보고서</th>
+		<th>자료</th>
 		<th>실적증빙</th>
 		<c:if test="${GUBUN == 'A'}">
 			<th>등록</th>
@@ -251,7 +251,7 @@ function press() {
 					<c:if test="${uploadInfo.RN != '010'}"><td></c:if>
 					<c:if test="${uploadInfo.RN == '010' && GUBUN == 'A'}"><td colspan=2></c:if>
 					<c:if test="${uploadInfo.RN == '010' && GUBUN != 'A'}"><td colspan=3></c:if>
-				<!-- 보고서 컬럼 -->
+				<!-- 자료 컬럼 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
@@ -286,13 +286,23 @@ function press() {
 					<!-- 업로드컬럼 -->
 					<c:if test="${GUBUN == 'A'}">
 					<td>
-						<!-- 보고서 버튼 -->
+						<!-- 자료 버튼 -->
 						<div class="egov_file_box">
 						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
-							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('보고서 파일을 먼저삭제하세요.');" >&nbsp;보고서&nbsp;</label>
+							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('등록된 파일을 먼저삭제하세요.');" >
+							<c:choose>
+							<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
+							<c:otherwise>자료제출</c:otherwise>
+							</c:choose>							
+							</label>
 						</c:if>
 						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 == NULL}">
-							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" >&nbsp;보고서&nbsp;</label>
+							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" >
+							<c:choose>
+							<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
+							<c:otherwise>자료제출</c:otherwise>
+							</c:choose>
+							</label>
 							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', ${uploadInfo.FLAG2});">
 						</c:if>
 						</div>

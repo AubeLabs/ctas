@@ -45,8 +45,8 @@
 	<thead>
 	<tr>
 		<th class="board_th_link">대상기관</th>
-		<th class="board_th_link">업로드 진행</th>
-		<th class="board_th_link">업로드 완료</th>
+		<th class="board_th_link">자료제출 진행</th>
+		<th class="board_th_link">자료제출 완료</th>
 		<th class="board_th_link">평정 진행</th>
 		<th class="board_th_link">평정 완료</th>
 	</tr>

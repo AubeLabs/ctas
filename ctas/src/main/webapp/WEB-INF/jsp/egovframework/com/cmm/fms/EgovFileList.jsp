@@ -66,8 +66,11 @@
 		//form.fileSn.value = fileSn;
 		newForm.method = "post";
 		newForm.action = "<c:url value='/cmm/fms/deleteFileInfs.do'/>";
-		newForm.target = "iframe_egov_file_delete" 
+		newForm.target = "iframe_egov_file_delete";
+		document.body.appendChild(newForm);
 		newForm.submit();
+		document.body.removeChild(newForm);
+		
 		//console.log('del submit!!');
 		var objDelTr = document.getElementById(delTrName);
 		objDelTr.parentNode.removeChild(objDelTr);

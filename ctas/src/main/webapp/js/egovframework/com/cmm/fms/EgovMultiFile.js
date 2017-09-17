@@ -70,13 +70,15 @@ function MultiSelector( list_target, max , file_label ){
 				if( _base.update_count > 0 ){
 					if( _base.count > (_base.max-_base.update_count) ){
 						element.value = "";
-						alert(sErrMsg);	return;
+						alert(sErrMsg);
+						return false;
 					}
 				}
 				
 				if( _base.max > 0  && _base.count > _base.max ){
 					element.value = "";
-					alert(sErrMsg); return;
+					alert(sErrMsg);
+					return false;
 				}
 
 				// New file input

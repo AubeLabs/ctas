@@ -137,7 +137,7 @@ function MultiSelector( list_target, max , file_label ){
 		try{
 		var new_row_button = document.createElement( 'img' );
 
-		new_row_button.src = '/catm/images/egovframework/com/cmm/btn/btn_del.png';
+		new_row_button.src = '/ctas/images/egovframework/com/cmm/btn/btn_del.png';
 		new_row_button.className = "cursor";
 		new_row_button.style.margin = "0 0 0 0";
 		new_row_button.style.padding = "0 0 0 0";

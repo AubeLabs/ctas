@@ -96,7 +96,7 @@ function fn_egov_init() {
 	if (uploadableFileNum < 1) {
 		uploadableFileNum = 1;
 	}
-	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), uploadableFileNum, 'file_label');
+	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum, 'file_label');
 	multi_selector.addElement( document.getElementById( 'egovfile_1' ) );
 	fn_egov_multi_selector_update_setting(multi_selector);
 	//------------------------- 첨부파일 수정 End

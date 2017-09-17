@@ -223,7 +223,9 @@ function press() {
 <!-- login영역 -->
 <form name="loginForm" id="loginForm" action="<c:url value='/uat/uia/actionLogin.do'/>" method="post">
 <input type="hidden" id="message" name="message" value="<c:out value='${message}'/>">
-     
+<table>
+<tr>
+<td>     
 <fieldset class="login_form">
 	<%-- <img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:30px 0 0px 60px" alt="login title image"  title="login title image"> --%>
 	<div class="login_type">
@@ -239,7 +241,7 @@ function press() {
 			<c:set var="title"><spring:message code="comUatUia.loginForm.id"/></c:set>
 			<li>
 				<label for="id">${title}</label>
-				<input type="text" name="id" id="id" maxlength="10" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}" onkeypress="press();">
+				<input type="text" name="id" id="id" maxlength="20" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}" onkeypress="press();">
 			</li>
 			<!-- 비밀번호 -->
 			<c:set var="title"><spring:message code="comUatUia.loginForm.pw"/></c:set>
@@ -270,19 +272,53 @@ function press() {
 			</li>
 			<li>
 				<ul class="btn_idpw" >
-					<li><a href="#" onClick="goRegiUsr(); return false;">인증서 등록</a></li> <!-- 회원가입  -->
+					<li><a href="#" onClick="goRegiUsr(); return false;"><font>인증서 등록</font></a></li> <!-- 회원가입  -->
 					<%-- <li><a href="#" onClick="goFindId(); return false;"><spring:message code="comUatUia.loginForm.idPwSearch"/></a></li> <!-- 아이디/비밀번호 찾기 --> --%>
 				</ul>
 			</li>
 		</ul>
 	</div>
+	
 </fieldset>
+</td>
+<td style="width:50px;" />
+<td>
+<div style="border:1px solid #E6E6E6; width:450px;">
+<pre style="margin:10px;">
+■ 시스템 안내
 
+주의 : 각 기관당 1개의 인증서만 등록이 되는 점, 유의하시기 바랍니다.
+
+
+1. 처음 시스템에 접속하는 기관
+
+  1) 인증서 등록
+
+  2) 공인인증서 로그인
+
+  3) 상단 '자료제출' 탭으로 이동하여 자료 등록
+
+
+2. 인증서를 이미 등록한 기관
+
+  1) 공인인증서 로그인
+
+  2) 상단 '자료제출' 탭으로 이동하여 자료 등록
+
+
+* 공인인증서 등록이 안되거나, 로그인이 안되는 경우,
+ 010-4835-8167, 010-4836-8134 로 연락주시기 바랍니다.
+</pre>
+</div>
+</td>
+</tr>
 <input name="userSe" type="hidden" value="GNR"/>
 <input name="dn" type="hidden" value=""/>
 <input name="j_username" type="hidden"/>
 </form>
 
+
+	
 <img id='loading' src="<c:url value='/images/egovframework/com/cmm/loading1.gif' />" style="position:absolute; left:400px; top:100px;  display:none;">
 
 

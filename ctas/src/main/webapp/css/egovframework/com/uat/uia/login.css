@@ -5,7 +5,7 @@
 /* body { overflow-y: auto; } */
 
 /* login Layout *********************************/
-.login_form { width: 289px; margin: 90px auto 0; margin-left: 31%; border: 0px solid #d2d2d2;  }
+.login_form {width: 289px; margin: 50px auto 0; margin-right: 0%; border: 0px solid #d2d2d2;  }
 .login_form h1 { width: 174px; height: 25px; background: url('../../images/egovframework/com/cmm/main/top_logo.png') no-repeat; margin-left: 47px; text-indent: -10000em; }
 
 .idpw_form { position: absolute; top: 90px; left: 14%; }

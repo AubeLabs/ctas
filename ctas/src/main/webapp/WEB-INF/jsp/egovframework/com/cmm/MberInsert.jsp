@@ -81,6 +81,7 @@ function actionLogin2(){
 //인증서선택콜백
 function lol(dn){
 	document.mber.certDn.value = dn;
+	document.mber.certDn2.innerHTML = dn;
 	document.getElementById("loading").style.display = 'none';
 	document.getElementById("test").style.display = 'none';
 	document.getElementById("test").src = '/ctas/jsp/createSecureSession_1_1.jsp';
@@ -120,8 +121,11 @@ function lol(dn){
 		<tr>
 			<th>인증서</th>
 			<td class="left">
-				<input name="certDn" readonly='readOnly' type="text" style="width:67%;" value="<c:out value="${ctasVO.certDn}"/>" size="22" title="인증서"  />
-				<input type="button" class="btn_s" onClick="actionLogin2()"  style="width:30%;"value="인증서선택" title="인증서선택" />
+				<textarea cols="15" rows="2" name="certDn2" disabled style="width:67%; overflow:hidden;"><c:out value="${ctasVO.certDn}"/></textarea>
+				<div style="float:right; width:31%; margin-top:10px;">
+				<input type="button" class="btn_s" onClick="actionLogin2()" value="인증서선택" title="인증서선택" />
+				</div>
+				<input name="certDn" readonly='readOnly' type="hidden" style="width:67%;" value="<c:out value="${ctasVO.certDn}"/>" size="22" title="인증서"  />
 			</td>
 		</tr>
 		

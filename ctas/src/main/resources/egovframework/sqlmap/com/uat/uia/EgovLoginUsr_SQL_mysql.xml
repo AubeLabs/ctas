@@ -98,7 +98,7 @@
 			     , esntl_id AS uniqId
 			     , GROUP_ID
 			  FROM COMTNEMPLYRINFO
-			 WHERE 1 = CASE WHEN #{dn} = '' AND emplyr_id = #{id} /*AND password = {password}*/ 
+			 WHERE 1 = CASE WHEN #{dn} = '' AND emplyr_id = #{id} AND password = #{password}
 			                 AND GROUP_ID != 'GROUP_00000000000001' THEN 1
 			                WHEN CASE WHEN CRTFC_DN_VALUE='' THEN NULL ELSE CRTFC_DN_VALUE END = #{dn} 
 			                 AND GROUP_ID = 'GROUP_00000000000001' THEN 1

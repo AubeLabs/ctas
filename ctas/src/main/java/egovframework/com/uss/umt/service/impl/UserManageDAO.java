@@ -41,6 +41,7 @@ public class UserManageDAO extends EgovComAbstractDAO{
      * @param delId 삭제대상 업무사용자 아이디
      */
     public void deleteUser(String delId){
+    	delete("userManageDAO.deleteUser_S_HIS", delId);
         delete("userManageDAO.deleteUser_S", delId);
     }
 

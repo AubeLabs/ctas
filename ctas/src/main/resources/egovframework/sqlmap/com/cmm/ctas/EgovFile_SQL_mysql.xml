@@ -312,10 +312,11 @@
 		  FROM (
 		       SELECT O.ORGNZT_ID
 		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) > 0 
-                          AND SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) < 10
-                          THEN 1 
-                     ELSE 0 END UPLOAD_PROGRESS_CNT
-		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 10 THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
+                            AND SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) < 10
+                             OR CNT < 9
+                           THEN 1 
+                      ELSE 0 END UPLOAD_PROGRESS_CNT
+		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 10 AND CNT = 9 THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
 		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) > 0 
                           AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 9
                           THEN 1 
@@ -325,6 +326,9 @@
 		         LEFT OUTER JOIN ASSESSMENT A
 		           ON 1=1
 		          AND O.ORGNZT_ID = A.ORGNZT_ID
+		         LEFT OUTER JOIN (SELECT ORGNZT_ID, COUNT(*) CNT FROM(SELECT ORGNZT_ID, AI_CD CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID, AI_CD)T GROUP BY ORGNZT_ID) B
+			       ON 1=1
+				  AND O.ORGNZT_ID = B.ORGNZT_ID
 		        WHERE O.ORGNZT_ID != 'ORGNZT_0000000000000'
 		        GROUP BY O.ORGNZT_ID
 		       ) R

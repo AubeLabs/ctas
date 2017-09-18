@@ -141,6 +141,12 @@ FROM(
         
     </insert>
     
+    <delete id="deleteUser_S_HIS">
+        
+            DELETE FROM comthemplyrinfochangedtls 
+            WHERE ESNTL_ID=#{delId}
+        
+    </delete>
     <delete id="deleteUser_S">
         
             DELETE FROM COMTNEMPLYRINFO 
@@ -191,24 +197,24 @@ FROM(
                 USER_NM           = #{emplyrNm}        ,
                 PASSWORD_HINT       = #{passwordHint}    ,
                 PASSWORD_CNSR       = #{passwordCnsr}    ,
-                EMPL_NO             = #{emplNo}          ,
-                IHIDNUM             = #{ihidnum}         ,
-                SEXDSTN_CODE        = #{sexdstnCode}     ,
-                BRTHDY                = #{brth}            ,
-                AREA_NO             = #{areaNo}          ,
-                HOUSE_MIDDLE_TELNO    = #{homemiddleTelno} ,
-                HOUSE_END_TELNO       = #{homeendTelno}    ,
-                FXNUM               = #{fxnum}           ,
-                HOUSE_ADRES           = #{homeadres}       ,
-                DETAIL_ADRES        = #{detailAdres}     ,
-                ZIP                 = #{zip}             ,
-                OFFM_TELNO          = #{offmTelno}       ,
-                MBTLNUM         = #{moblphonNo}      ,
-                EMAIL_ADRES         = #{emailAdres}      ,
-                OFCPS_NM            = #{ofcpsNm}         ,
+                /*EMPL_NO             = {emplNo}          ,*/
+                /*IHIDNUM             = {ihidnum}         ,*/
+                /*SEXDSTN_CODE        = {sexdstnCode}     ,*/
+                /*BRTHDY                = {brth}            ,*/
+                /*AREA_NO             = {areaNo}          ,*/
+                /*HOUSE_MIDDLE_TELNO    = {homemiddleTelno} ,*/
+                /*HOUSE_END_TELNO       = {homeendTelno}    ,*/
+                /*FXNUM               = {fxnum}           ,*/
+                /*HOUSE_ADRES           = {homeadres}       ,*/
+                /*DETAIL_ADRES        = {detailAdres}     ,*/
+                /*ZIP                 = {zip}             ,*/
+                /*OFFM_TELNO          = {offmTelno}       ,*/
+                /*MBTLNUM         = {moblphonNo}      ,*/
+                /*EMAIL_ADRES         = {emailAdres}      ,*/
+                /*OFCPS_NM            = {ofcpsNm}         ,*/
                 GROUP_ID            = #{groupId}         ,
                 ORGNZT_ID           = #{orgnztId}        ,
-                PSTINST_CODE          = #{insttCode}       ,
+                /*PSTINST_CODE          = {insttCode}       ,*/
                 EMPLYR_STTUS_CODE   = #{emplyrSttusCode} ,
                 CRTFC_DN_VALUE              = #{subDn}
             WHERE ESNTL_ID = #{uniqId}

@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/main.css' />">
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/broswer.js'/>" ></script>
 
 <title>민원서비스 종합평가</title>
 
@@ -101,7 +102,7 @@
 				if(i == parent.selectedMenu) foo.children[i].className = "active";
 				else foo.children[i].className = "";
 			}
-			if(window.innerWidth < 720 && param1 == "block"){
+			if(broswer.isMobile() && foo.children.length > 6 && param1 == "block"){
 				document.getElementById("logoDiv").style.width = "48px";
 				//document.getElementById("resize1").style.display = "none";
 				//document.getElementById("welcome").style.margin = "0px";

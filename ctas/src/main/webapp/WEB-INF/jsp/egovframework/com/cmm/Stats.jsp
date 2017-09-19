@@ -68,7 +68,7 @@ function fncSelectOrgPop() {
 function fncSelectCaiPop() {
     var url = "<c:url value='/CaiSearchList.do'/>";
     //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"평가지표검색",'width=500,height=485,scrollbars=no,resizable=no,status=no,center:yes');
+    window.open(url,"평가지표검색",'width=500,height=535,scrollbars=no,resizable=no,status=no,center:yes');
 }
 </script>
 </head>
@@ -111,14 +111,16 @@ function fncSelectCaiPop() {
 	<caption>${pageTitle} <spring:message code="title.list" /></caption>
 	<colgroup>
 		<col style="width: 40%;">
-		<col style="width: 20%;">
-		<col style="width: 20%;">
-		<col style="width: 20%;">
+		<col style="width: 15%;">
+		<col style="width: 15%;">
+		<col style="width: 15%;">
+		<col style="width: 15%;">
 	</colgroup>
 	<thead>
 	<tr>
 		<th>평가지표</th>
 		<th>보고서수</th>
+		<th>평정수</th>
 		<th>합계점수</th>
 		<th>평   균</th>
 	</tr>
@@ -127,6 +129,7 @@ function fncSelectCaiPop() {
 		<c:forEach items="${statsList}" var="statsInfo" varStatus="status">
 		<tr>
 			<td style="text-align: left;">${statsInfo.NM}</td>
+			<td>${statsInfo.COUNT2}</td>
 			<td>${statsInfo.COUNT}</td>
 			<td>${statsInfo.SUM}</td>
 			<td>${statsInfo.AVG}</td>
@@ -140,6 +143,7 @@ function fncSelectCaiPop() {
 		<c:if test="${fn:length(statsList) != 0}">
 			<tr>
 				<td>합계</td>
+				<td>${statsGrp.COUNT2}</td>
 				<td>${statsGrp.COUNT}</td>
 				<td>${statsGrp.SUM}</td>
 				<td>${statsGrp.AVG}</td>

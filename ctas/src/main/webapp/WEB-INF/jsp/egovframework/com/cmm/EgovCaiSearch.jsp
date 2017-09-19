@@ -214,6 +214,11 @@ function fn_init(){
 			<input type="hidden" name="checkId" value="CAI009" /></td>
 		<td class="left">민원행정 활동 - 감점</td>
 	</tr>
+	<tr ondblclick="javascript:fncSelectCai('CAI010')">
+		<td><input type="checkbox" name="delYn" title="checkField">
+			<input type="hidden" name="checkId" value="CAI010" /></td>
+		<td class="left">법정민원인 명부 올리기</td>
+	</tr>
 	</tbody>
 	</table>
 	

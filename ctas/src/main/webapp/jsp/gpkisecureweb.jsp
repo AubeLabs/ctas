@@ -20,7 +20,7 @@
 		StringBuffer sb = new StringBuffer(1500);
 		sb.append(dsjdf_config.get("GPKISecureWeb.errorPage"));
 		sb.append("?errmsg=");
-		sb.append(URLEncoder.encode(e.getMessage(), "euc-kr"));
+		sb.append(URLEncoder.encode(e.getMessage(), "UTF-8"));
 		response.sendRedirect(sb.toString());
 		return;
 	}

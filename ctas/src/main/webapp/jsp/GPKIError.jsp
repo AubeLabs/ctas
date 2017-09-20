@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html;charset=utf-8" isErrorPage="true" %>
+<%@ page import="java.sql.*, java.io.*, java.net.*, java.util.*" %>
 <%
 	String errmsg = request.getParameter("errmsg") == null?exception.toString():request.getParameter("errmsg");
-	errmsg = new String(errmsg.getBytes("8859_1"),"euc-kr");
+		   errmsg = URLDecoder.decode(errmsg, "UTF-8");
+	
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -379,6 +381,9 @@
 	</style>
 	<script type="text/javascript">
 		GPKISecureWeb.Logout(SiteID);
+		function pClose(){
+			parent.location.reload(true);
+		}
 	</script>
 </head>
 
@@ -391,6 +396,11 @@
 			</td>
 			<td>
 				&nbsp;<%=errmsg%>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right">
+				<input type="button" class="s_btn" onClick="pClose();" value="닫기" title="닫기" />
 			</td>
 		</tr>
 	</table>

@@ -43,7 +43,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/style.css" />
 
 	<script type="text/javaScript" language="javascript">
-		parent.lol('<%= subDN%>');
+		parent.document.loginForm.dn.value = "<%=subDN%>";
+		parent.document.loginForm.submit();
 	</script>
 </head>
 <body>
@@ -101,7 +102,9 @@
 							}%>
 						</li>
 						<li class="list_02">message_type = <%=message_type %></li>
-							<% if (signType != null) {%>
+							<% if (signType != null) {
+								
+							%>
 								<li><strong> [ 사용자 인증서 고유 정보  ]</strong></li>
 								<li class="list_02">인증서 시리얼 넘버: <%= b%></li>
 								<li class="list_02">인증서 명칭 : <%= subDN%></li>

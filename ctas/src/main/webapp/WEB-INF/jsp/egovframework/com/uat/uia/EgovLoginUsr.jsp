@@ -66,16 +66,8 @@ function actionLogin2(){
 	document.getElementById("loading").style.display = 'block';
 	document.getElementById("test").style.display = 'block';
 	test.Login(this, test.popForm);
-	
 }
-function lol(dn){
-	document.loginForm.dn.value = dn;
-	//document.getElementById("test").style.display = 'none';
-	//document.getElementById("test").src = '/ctas/jsp/createSecureSession_1_1.jsp';
 
-	document.loginForm.action="<c:url value='/uat/uia/actionLogin.do'/>";
-    document.loginForm.submit();
-}
 function actionCrtfctLogin() {
     document.defaultForm.action="<c:url value='/uat/uia/actionCrtfctLogin.do'/>";
     document.defaultForm.submit();

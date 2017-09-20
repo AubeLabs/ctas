@@ -119,7 +119,7 @@ function fncSelectCaiPop() {
 	<thead>
 	<tr>
 		<th>평가지표</th>
-		<th>보고서수</th>
+		<th>자료제출수</th>
 		<th>평정수</th>
 		<th>합계점수</th>
 		<th>평   균</th>

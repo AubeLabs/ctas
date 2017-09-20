@@ -360,10 +360,10 @@ function fn_init(){
 		<!-- <th class="board_th_link">기관ID</th> -->
 		<th>기관명</th><!-- 부서 명 -->
 		<c:if test="${GUBUN != '1'}">
-			<th id="Col3" onclick="fnOrd('3');">보고서<br>업로드수</th>
-			<th id="Col4" onclick="fnOrd('4');">실적증빙<br>업로드수</th>
+			<th id="Col3" onclick="fnOrd('3');">자료제출수</th>
+			<th id="Col4" onclick="fnOrd('4');">실적증빙수</th>
 			<th id="Col5" onclick="fnOrd('5');">평가<br>지표수</th>
-			<th id="Col6" onclick="fnOrd('6');">점수<br>합계</th>
+			<th id="Col6" onclick="fnOrd('6');">합계<br>점수</th>
 		</c:if>
 	</tr>
 	</thead>

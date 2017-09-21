@@ -269,8 +269,9 @@ function press() {
 					<td style="text-align: left;">${uploadInfo.CODE_NM}</td>
 					<!-- 법정민원은 실적증빙 없음 colspan으로 병합 -->
 					<c:if test="${uploadInfo.RN != '010'}"><td></c:if>
-					<c:if test="${uploadInfo.RN == '010' && GUBUN == 'A'}"><td colspan=2></c:if>
-					<c:if test="${uploadInfo.RN == '010' && GUBUN != 'A'}"><td colspan=3></c:if>
+					<c:if test="${uploadInfo.RN == '010'}"><td colspan=2></c:if>
+					<%-- <c:if test="${uploadInfo.RN == '010' && GUBUN == 'A'}"><td colspan=2></c:if>
+					<c:if test="${uploadInfo.RN == '010' && GUBUN != 'A'}"><td colspan=3></c:if> --%>
 				<!-- 자료 컬럼 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
 					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
@@ -347,13 +348,11 @@ function press() {
 					</td>
 					</c:if>
 					<!-- 점수입력컬럼 -->
-					<c:if test="${GUBUN != 'A' && uploadInfo.RN != '010'}">
+					<%-- <c:if test="${GUBUN != 'A' && uploadInfo.RN != '010'}"> --%>
 					<td>
 					<input type="text" name="SCORE" id="SCORE" value="${uploadInfo.RATING_SCORE}" size="5" style = "text-align:right;" 
 					onchange="setting(this, '${uploadInfo.RATING_SCORE}', 'ORGNZT_ID：${uploadInfo.ORGNZT_ID}，AI_CD：${uploadInfo.CODE}', ${uploadInfo.FLAG1});"  />
 					</td>
-					</c:if>
-				
 				</tr>
 			</c:if>
 		</c:forEach>

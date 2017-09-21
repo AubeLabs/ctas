@@ -36,8 +36,11 @@
 				    WHEN E.FILE_SIZE/1000 > 1 THEN CONCAT(ROUND(E.FILE_SIZE/1000,3), ' KB')
 				    ELSE CONCAT(E.FILE_SIZE, ' B')
 			   END FILE_SIZE2
-			 , CASE WHEN B2.CNT > 0 AND IFNULL(D.ASSESS_FILE_ID, '') != '' THEN 1 ELSE 0 END FLAG1
-			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2
+			 , CASE WHEN SUBSTR(A.CODE, 4) != '010' AND B2.CNT > 0 AND IFNULL(D.ASSESS_FILE_ID, '') != '' THEN 1
+			        WHEN SUBSTR(A.CODE, 4) = '010' AND IFNULL(D.ASSESS_FILE_ID, '') != '' THEN 1 /*명부인경우*/
+			        ELSE 0
+			   END FLAG1 /*평정가능여부-파일업로드완료시*/
+			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2 /*평가여부-평가되면파일변경불가*/
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
 		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
@@ -320,10 +323,10 @@
                       ELSE 0 END UPLOAD_PROGRESS_CNT
 		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 10 AND CNT = 9 THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
 		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) > 0 
-                          AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 9
-                          THEN 1 
-                     ELSE 0 END RATING_PROGRESS_CNT
-		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) = 9 THEN 1 ELSE 0 END RAING_COMPLETE_CNT
+                            AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 10
+                           THEN 1 
+                      ELSE 0 END RATING_PROGRESS_CNT
+		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) = 10 THEN 1 ELSE 0 END RAING_COMPLETE_CNT
 		         FROM comtnorgnztinfo O
 		         LEFT OUTER JOIN ASSESSMENT A
 		           ON 1=1

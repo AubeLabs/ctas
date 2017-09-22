@@ -58,7 +58,7 @@ Browser = {
 	firefox : Browser.chk.indexOf('firefox') != -1
 }
 if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
-	alert('인터넷익스플로러 버전이 8 이하입니다. 보안과 최적화를 위해 IE를 업데이트 해주세요!');
+	//alert('인터넷익스플로러 버전이 8 이하입니다. 보안과 최적화를 위해 IE를 업데이트 해주세요!');
 	//location.href='';
 }
 

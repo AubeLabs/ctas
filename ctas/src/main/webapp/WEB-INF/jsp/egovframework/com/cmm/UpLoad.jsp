@@ -57,9 +57,12 @@ Browser = {
 	chrome : Browser.chk.indexOf('chrome') != -1,
 	firefox : Browser.chk.indexOf('firefox') != -1
 }
+
+var objId; //input type file object id
 if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
 	//alert('인터넷익스플로러 버전이 8 이하입니다. 보안과 최적화를 위해 IE를 업데이트 해주세요!');
-	//location.href='';
+	objId = "";
+	setInterval("goSubmit2()", 1000); //루프
 }
 
 function fn_egov_init(){
@@ -69,15 +72,16 @@ function fn_egov_init(){
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
-var bfObjId;
 function makeFileAttachment(idx, obj){ //0001~0010:자료, 1001~1010:실적증빙
 	
 	document.getElementById("ctacd").value=idx;
 	if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
-		if(bfObjId != undefined)$("#"+bfObjId).replaceWith( $("#"+bfObjId).clone(true) ); //file 초기화
-		bfObjId = obj.id;
+		if(objId != undefined)$("#"+objId).replaceWith( $("#"+objId).clone(true) ); //file 초기화
+		objId = obj.id;
+		/*
 		alert('파일 선택 후 등록버튼을 클릭해주세요.');
 		document.getElementById("UPLOAD").style.display="block";
+		*/
 	}
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
 	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
@@ -89,8 +93,8 @@ function goSubmit(){
 	document.ctasForm.submit();
 }
 function goSubmit2(){ //IE8이하 등록
-	if($("#"+bfObjId).val()==""){
-		alert("파일을 선택하세요.");
+	if($("#"+objId).val() == undefined || $("#"+objId).val() == ""){
+		/*alert("파일을 선택하세요.");*/
 		return;
 	}
 	document.ctasForm.submit();

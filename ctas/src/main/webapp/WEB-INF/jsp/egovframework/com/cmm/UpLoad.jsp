@@ -40,7 +40,7 @@
 
 <script type="text/javascript">
 /*********************************************************
- * init
+ * version check
  ******************************************************** */
  var Browser = {chk : navigator.userAgent.toLowerCase()}
 Browser = {
@@ -61,27 +61,24 @@ Browser = {
 var objId; //input type file object id
 if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
 	//alert('인터넷익스플로러 버전이 8 이하입니다. 보안과 최적화를 위해 IE를 업데이트 해주세요!');
-	objId = "";
 	setInterval("goSubmit2()", 1000); //루프
 }
-
+/*********************************************************
+ * init
+ ******************************************************** */
 function fn_egov_init(){
-	document.getElementById("UPLOAD").style.display="none";
 	//alert('GUBUN:${GUBUN}');
 }
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
 function makeFileAttachment(idx, obj){ //0001~0010:자료, 1001~1010:실적증빙
-	
 	document.getElementById("ctacd").value=idx;
 	if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
-		if(objId != undefined)$("#"+objId).replaceWith( $("#"+objId).clone(true) ); //file 초기화
+		if($("#"+objId).val() != undefined && $("#"+objId).val() != "")
+			$("#"+objId).replaceWith( $("#"+objId).clone(true) ); //file 초기화
 		objId = obj.id;
-		/*
-		alert('파일 선택 후 등록버튼을 클릭해주세요.');
-		document.getElementById("UPLOAD").style.display="block";
-		*/
+		return;
 	}
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
 	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
@@ -93,10 +90,7 @@ function goSubmit(){
 	document.ctasForm.submit();
 }
 function goSubmit2(){ //IE8이하 등록
-	if($("#"+objId).val() == undefined || $("#"+objId).val() == ""){
-		/*alert("파일을 선택하세요.");*/
-		return;
-	}
+	if($("#"+objId).val() == undefined || $("#"+objId).val() == "") return;
 	document.ctasForm.submit();
 }
 /* ********************************************************
@@ -153,7 +147,6 @@ function goSearch(){
 function fncSelectOrgPop() {
 
     var url = "<c:url value='/OrgSearchList.do'/>";
-    //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
     window.open(url,"기관검색",'width=600,height=485,scrollbars=yes,resizable=yes,status=no,center:yes');
 
 }
@@ -167,9 +160,7 @@ function setting(obj, org, pkstr, flag){
 		obj.value = "";
 		return;
 	}
-	//alert("BEFORE TRIM : |"+obj.value+"|");	
 	obj.value = obj.value.replace(/^\s+|\s+$/g,""); //trim
-	//alert("AFTER TRIM : |"+obj.value+"|");
 	var arrRow = str.split("；");
 	str = "";
 	if(isNaN(obj.value)){//입력에러
@@ -184,7 +175,6 @@ function setting(obj, org, pkstr, flag){
 	}else{//update
 		str += pkstr+"，RATING_SCORE："+obj.value+"；";
 	}
-	//alert(str);
 	var scoreField = document.ctasForm.SCORE;
 	var sum = 0;
 	for(var i=0; i < scoreField.length; i++) {
@@ -244,17 +234,7 @@ function press() {
 			</ul>
 		</div>
 	</c:if>
-	
-			<div id = "UPLOAD" class="search_box2" title="<spring:message code="common.searchCondition.msg" />">
-				<ul>
-					<!-- 검색키워드 및 조회버튼 -->
-					<li><div style="line-height:4px;">&nbsp;</div><div>업로드 버튼 &nbsp;&nbsp;</div></li>
-					<li>
-						<input type="button" class="c_btn" onClick="goSubmit2();" value="등록" title="등록" />
-					</li>
-				</ul>
-			</div>
-	
+
 	<br/>
 	
 	<!-- 목록영역 -->

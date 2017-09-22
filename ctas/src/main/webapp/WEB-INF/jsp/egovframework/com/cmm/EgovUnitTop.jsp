@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/main.css' />">
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/broswer.js'/>" ></script>

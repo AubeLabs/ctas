@@ -69,9 +69,13 @@ function fn_egov_init(){
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
-function makeFileAttachment(idx, flag){ //0001~0010:자료, 1001~1010:실적증빙
+var bfObjId;
+function makeFileAttachment(idx, obj){ //0001~0010:자료, 1001~1010:실적증빙
+	
 	document.getElementById("ctacd").value=idx;
 	if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
+		if(bfObjId != undefined)$("#"+bfObjId).replaceWith( $("#"+bfObjId).clone(true) ); //file 초기화
+		bfObjId = obj.id;
 		alert('파일 선택 후 등록버튼을 클릭해주세요.');
 		document.getElementById("UPLOAD").style.display="block";
 	}
@@ -82,6 +86,13 @@ function makeFileAttachment(idx, flag){ //0001~0010:자료, 1001~1010:실적증�
  * 파일선택시
  ******************************************************** */
 function goSubmit(){
+	document.ctasForm.submit();
+}
+function goSubmit2(){ //IE8이하 등록
+	if($("#"+bfObjId).val()==""){
+		alert("파일을 선택하세요.");
+		return;
+	}
 	document.ctasForm.submit();
 }
 /* ********************************************************
@@ -235,7 +246,7 @@ function press() {
 					<!-- 검색키워드 및 조회버튼 -->
 					<li><div style="line-height:4px;">&nbsp;</div><div>업로드 버튼 &nbsp;&nbsp;</div></li>
 					<li>
-						<input type="button" class="c_btn" onClick="goSubmit();" value="등록" title="등록" />
+						<input type="button" class="c_btn" onClick="goSubmit2();" value="등록" title="등록" />
 					</li>
 				</ul>
 			</div>
@@ -339,7 +350,7 @@ function press() {
 							<c:otherwise>자료제출</c:otherwise>
 							</c:choose>
 							</label>
-							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', ${uploadInfo.FLAG2});">
+							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', this);">
 						</c:if>
 						</div>
 						<div id="egovComFileList0${uploadInfo.RN}" style="display:none;"></div>
@@ -352,7 +363,7 @@ function press() {
 						</c:if>
 						<c:if test="${uploadInfo.FLAG2 == 1}">
 							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}">실적증빙</label> 
-							<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', ${uploadInfo.FLAG2});">
+							<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', this);">
 						</c:if>
 						</div>
 						<div id="egovComFileList1${uploadInfo.RN}" style="display:none;"></div>

@@ -63,15 +63,20 @@ if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
 }
 
 function fn_egov_init(){
+	document.getElementById("UPLOAD").style.display="none";
 	//alert('GUBUN:${GUBUN}');
 }
 /* ********************************************************
  * 파일첨부 버튼클릭시
  ******************************************************** */
 function makeFileAttachment(idx, flag){ //0001~0010:자료, 1001~1010:실적증빙
+	document.getElementById("ctacd").value=idx;
+	if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
+		alert('파일 선택 후 등록버튼을 클릭해주세요.');
+		document.getElementById("UPLOAD").style.display="block";
+	}
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList'+idx ), 1, 'file_label'+idx );
 	multi_selector.addElement( document.getElementById( 'egovfile'+idx ) );
-	document.getElementById("ctacd").value=idx;
 }
 /* ********************************************************
  * 파일선택시
@@ -224,6 +229,16 @@ function press() {
 			</ul>
 		</div>
 	</c:if>
+	
+			<div id = "UPLOAD" class="search_box2" title="<spring:message code="common.searchCondition.msg" />">
+				<ul>
+					<!-- 검색키워드 및 조회버튼 -->
+					<li><div style="line-height:4px;">&nbsp;</div><div>업로드 버튼 &nbsp;&nbsp;</div></li>
+					<li>
+						<input type="button" class="c_btn" onClick="goSubmit();" value="등록" title="등록" />
+					</li>
+				</ul>
+			</div>
 	
 	<br/>
 	

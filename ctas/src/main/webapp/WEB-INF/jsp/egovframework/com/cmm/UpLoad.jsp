@@ -274,7 +274,7 @@ function press() {
 				<tr>
 					<!-- 평가자 기관컬럼 보여주기 -->
 					<c:if test="${GUBUN != 'A' && uploadInfo.CODE == 'CAI001'}">
-						<td rowspan=10>${uploadInfo.ORGNZT_NM}
+						<td rowspan=11>${uploadInfo.ORGNZT_NM}
 						</td>
 					</c:if>
 					<td style="text-align: left;">${uploadInfo.CODE_NM}</td>

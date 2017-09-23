@@ -68,7 +68,7 @@ function fncSelectOrgPop() {
 function fncSelectCaiPop() {
     var url = "<c:url value='/CaiSearchList.do'/>";
     //var openParam = "dialogWidth:500px;dialogHeight:485px;scroll:no;status:no;center:yes;resizable:yes;";
-    window.open(url,"평가지표검색",'width=500,height=535,scrollbars=no,resizable=no,status=no,center:yes');
+    window.open(url,"평가지표검색",'width=500,height=565,scrollbars=no,resizable=no,status=no,center:yes');
 }
 </script>
 </head>

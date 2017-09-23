@@ -204,6 +204,11 @@ function fn_init(){
 			<input type="hidden" name="checkId" value="CAI007" /></td>
 		<td class="left">2-3. 민원행정 및 제도개선</td>
 	</tr>
+	<tr ondblclick="javascript:fncSelectCai('CAI011')">
+		<td><input type="checkbox" name="delYn" title="checkField">
+			<input type="hidden" name="checkId" value="CAI011" /></td>
+		<td class="left">3-1. 처리시간 준수율(법정민원_광역, 기초)</td>
+	</tr>
 	<tr ondblclick="javascript:fncSelectCai('CAI008')">
 		<td><input type="checkbox" name="delYn" title="checkField">
 			<input type="hidden" name="checkId" value="CAI008" /></td>

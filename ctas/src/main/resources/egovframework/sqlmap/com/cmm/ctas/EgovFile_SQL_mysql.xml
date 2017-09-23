@@ -64,7 +64,7 @@
 		    ON D.ASSESS_FILE_ID = E.ATCH_FILE_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
-		 ORDER BY A2.ORGNZT_ID, A.CODE
+		 ORDER BY A2.ORGNZT_ID, A.CODE_DC
  	</select>
  	<select id="selectUploadGrp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT SUM(D.RATING_SCORE) SUM
@@ -99,7 +99,7 @@
 		   /*AND A.CODE != 'CAI010' /*고정제거*/
 		   ${items2}
 		 GROUP BY A.CODE_NM
-		 ORDER BY A.CODE
+		 ORDER BY A.CODE_DC
  	</select>
 	<select id="selectStatsGrp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT COUNT(D.RATING_SCORE) COUNT
@@ -317,16 +317,16 @@
 		  FROM (
 		       SELECT O.ORGNZT_ID
 		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) > 0 
-                            AND SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) < 10
-                             OR CNT < 9
+                            AND SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) < 11 /*추가시 수정*/
+                             OR CNT < 10 /*추가시 수정*/
                            THEN 1 
                       ELSE 0 END UPLOAD_PROGRESS_CNT
-		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 10 AND CNT = 9 THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
+		            , CASE WHEN SUM(CASE WHEN A.ASSESS_FILE_ID != '' THEN 1 ELSE 0 END) = 11 /*추가시 수정*/ AND CNT = 10 /*추가시 수정*/ THEN 1 ELSE 0 END UPLOAD_COMPLETE_CNT
 		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) > 0 
-                            AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 10
+                            AND SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) < 11 /*추가시 수정*/
                            THEN 1 
                       ELSE 0 END RATING_PROGRESS_CNT
-		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) = 10 THEN 1 ELSE 0 END RAING_COMPLETE_CNT
+		            , CASE WHEN SUM(CASE WHEN A.RATING_SCORE > 0 THEN 1 ELSE 0 END) = 11 /*추가시 수정*/ THEN 1 ELSE 0 END RAING_COMPLETE_CNT
 		         FROM comtnorgnztinfo O
 		         LEFT OUTER JOIN ASSESSMENT A
 		           ON 1=1

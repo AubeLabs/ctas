@@ -195,8 +195,8 @@ FROM(
             UPDATE COMTNEMPLYRINFO 
             SET EMPLYR_ID           = #{emplyrId}        , 
                 USER_NM           = #{emplyrNm}        ,
-                PASSWORD_HINT       = #{passwordHint}    ,
-                PASSWORD_CNSR       = #{passwordCnsr}    ,
+                /*PASSWORD_HINT       = {passwordHint}    ,*/
+                /*PASSWORD_CNSR       = {passwordCnsr}    ,*/
                 /*EMPL_NO             = {emplNo}          ,*/
                 /*IHIDNUM             = {ihidnum}         ,*/
                 /*SEXDSTN_CODE        = {sexdstnCode}     ,*/

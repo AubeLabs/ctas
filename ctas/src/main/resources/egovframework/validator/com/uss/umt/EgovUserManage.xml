@@ -30,7 +30,7 @@
             <field property="password" depends="required, password1, password2, password3, password4">
                 <arg0 key="비밀번호" resource="false"/>
             </field>
-            
+            <!-- 
             <field property="passwordHint" depends="required">
                 <arg0 key="비밀번호힌트" resource="false"/>
             </field>
@@ -43,6 +43,7 @@
                 <var-value>100</var-value>
                 </var>
             </field>
+             -->
             <!-- 
             <field property="ihidnum" depends="required, ihidnum">
                 <arg0 key="주민등록번호" resource="false"/>

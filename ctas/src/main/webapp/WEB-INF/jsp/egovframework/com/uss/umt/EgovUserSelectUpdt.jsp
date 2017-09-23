@@ -135,7 +135,7 @@ function fn_egov_dn_info_setting(dn) {
 				<div><form:errors path="emplyrNm" cssClass="error" /></div> 
 			</td>
 		</tr>
-		<!-- 비밀번호힌트 -->
+		<%-- <!-- 비밀번호힌트 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.passHit"/></c:set>
 		<tr>
 			<th><label for="passwordHint">${title}</label> <span class="pilsu">*</span></th>
@@ -155,7 +155,7 @@ function fn_egov_dn_info_setting(dn) {
 				<form:input path="passwordCnsr" id="passwordCnsr" title="${title} ${inputTxt}" cssClass="txaIpUmt" size="50" maxlength="100" />
 				<div><form:errors path="passwordCnsr" cssClass="error"/></div>
 			</td>
-		</tr>
+		</tr> --%>
 		<%-- <!-- 소속기관코드 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.insttCode"/></c:set>
 		<tr>

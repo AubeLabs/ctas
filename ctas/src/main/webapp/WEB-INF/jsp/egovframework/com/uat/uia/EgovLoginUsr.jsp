@@ -200,6 +200,10 @@ function fnLoginTypeSelect(objName){
 		}
 
 }
+function lol(dn){
+	document.loginForm.dn.value = dn;
+	document.loginForm.submit();
+}
 function press() {
 
     if (event.keyCode==13) {

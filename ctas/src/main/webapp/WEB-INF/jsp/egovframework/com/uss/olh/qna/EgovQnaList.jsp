@@ -73,6 +73,16 @@ function fn_egov_inquire_qnadetail(qaId) {
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
+		    <li>
+		    	진행상태&nbsp;:&nbsp;&nbsp;
+		    	<select name="searchSttus" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
+					<option value=""  <c:if test="${searchVO.searchSttus == ''}">selected="selected"</c:if> >전체</option>
+					<option value="1"  <c:if test="${searchVO.searchSttus == '1'}">selected="selected"</c:if> >접수대기</option>
+					<option value="2"  <c:if test="${searchVO.searchSttus == '2'}">selected="selected"</c:if> >접수</option>
+					<option value="3"  <c:if test="${searchVO.searchSttus == '3'}">selected="selected"</c:if> >완료</option>
+				</select>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+		    </li>
 			<li>
 				<select name="searchCnd" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
 					<option value="0"  <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if> ><spring:message code="table.reger" /></option><!-- 작성자 -->

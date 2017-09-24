@@ -111,7 +111,8 @@
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<input type="submit" class="s_submit" value="<spring:message code="button.reply" />" title="<spring:message code="title.reply" /> <spring:message code="input.button" />" />
-		<span class="btn_s"><a href="<c:url value='/uss/olh/qna/selectQnaAnswerList.do' />"  title="<spring:message code="title.list" /> <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
+		<!-- <c:url value='/uss/olh/qna/selectQnaAnswerList.do' /> -->
+		<span class="btn_s"><a href="javascript:history.back(-1);"  title="<spring:message code="title.list" /> <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
 	</div><div style="clear:both;"></div>
 	
 </div>

@@ -68,7 +68,7 @@ function fn_egov_inquire_qnadetail(qaId) {
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
-<form name="qnaForm" action="<c:url value='/uss/olh/qna/selectQnaList.do'/>" method="post" onSubmit="fn_egov_search_qna(); return false;"> 
+<form name="qnaForm" action="<c:url value='/uss/olh/qna/selectQnaList.do'/>" method="post" > 
 <div class="board">
 	<h1>${pageTitle} <spring:message code="title.list" /></h1>
 	<!-- 하단 버튼 -->

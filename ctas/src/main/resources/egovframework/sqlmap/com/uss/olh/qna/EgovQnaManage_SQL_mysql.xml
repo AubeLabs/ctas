@@ -72,14 +72,17 @@
 			FROM 	COMTNQAINFO A
 			LEFT OUTER JOIN COMTCCMMNDETAILCODE B
 			ON		B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
-			WHERE	1=1   			
-							
+			WHERE 	1=1   			
+			  AND 1=CASE WHEN #{searchSttus} = '' THEN 1
+			             WHEN #{searchSttus} = QNA_PROCESS_STTUS_CODE THEN 1
+			        END
 			<if test="searchCnd == 0">AND
 				WRTER_NM LIKE CONCAT('%', #{searchWrd}, '%')
 			</if>
 			<if test="searchCnd == 1">AND
 				QESTN_SJ LIKE CONCAT('%', #{searchWrd}, '%')
 			</if>
+			
 			ORDER BY QA_ID DESC			
 			LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}	
 	</select>
@@ -89,7 +92,9 @@
 			SELECT 	COUNT(*) totcnt
 			FROM 	COMTNQAINFO
 			WHERE 	1=1
-					
+			  AND 1=CASE WHEN #{searchSttus} = '' THEN 1
+			             WHEN #{searchSttus} = QNA_PROCESS_STTUS_CODE THEN 1
+			        END
 			<if test="searchCnd == 0">AND
 				WRTER_NM LIKE CONCAT('%', #{searchWrd}, '%')
 			</if>
@@ -220,7 +225,9 @@
 			LEFT OUTER JOIN COMTCCMMNDETAILCODE B
 			ON		B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE                               						                               			
 			WHERE	1=1   			
-							
+			  AND 1=CASE WHEN #{searchSttus} = '' THEN 1
+			             WHEN #{searchSttus} = QNA_PROCESS_STTUS_CODE THEN 1
+			        END
 			<if test="searchCnd == 0">AND
 				WRTER_NM LIKE CONCAT('%', #{searchWrd}, '%')
 			</if>
@@ -238,7 +245,9 @@
 			LEFT OUTER JOIN COMTCCMMNDETAILCODE B
 			ON		B.CODE_ID ='COM028' AND A.QNA_PROCESS_STTUS_CODE = B.CODE            
 			WHERE 	1=1
-					
+			  AND 1=CASE WHEN #{searchSttus} = '' THEN 1
+			             WHEN #{searchSttus} = QNA_PROCESS_STTUS_CODE THEN 1
+			        END
 			<if test="searchCnd == 0">AND
 				WRTER_NM LIKE CONCAT('%', #{searchWrd}, '%')
 			</if>

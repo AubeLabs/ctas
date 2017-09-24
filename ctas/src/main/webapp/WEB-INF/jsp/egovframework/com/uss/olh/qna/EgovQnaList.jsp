@@ -41,8 +41,8 @@ function fn_egov_init(){
  * 페이징 처리 함수
  ******************************************************** */
 function fn_egov_select_linkPage(pageNo){
-	document.qnaForm.pageIndex.value = pageNo;
-	document.qnaForm.action = "<c:url value='/uss/olh/qna/selectQnaList.do'/>";
+	//document.qnaForm.pageIndex.value = pageNo;
+	document.qnaForm.action = "<c:url value='/uss/olh/qna/selectQnaList.do?pageIndex="+pageNo+"'/>";
    	document.qnaForm.submit();
 }
 /*********************************************************

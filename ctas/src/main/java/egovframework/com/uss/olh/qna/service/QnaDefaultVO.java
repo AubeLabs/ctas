@@ -25,6 +25,9 @@ public class QnaDefaultVO implements Serializable {
 
 	private static final long serialVersionUID = -6690473803320520100L;
 
+	/** 추가 : 진행상태 */
+	private String searchSttus = "";
+	
 	/** 검색조건 */
 	private String searchCnd = "";
 
@@ -51,6 +54,17 @@ public class QnaDefaultVO implements Serializable {
 
 	/** recordCountPerPage */
 	private int recordCountPerPage = 10;
+
+	
+	
+	
+	public String getSearchSttus() {
+		return searchSttus;
+	}
+
+	public void setSearchSttus(String searchSttus) {
+		this.searchSttus = searchSttus;
+	}
 
 	/**
 	 * searchCnd attribute 를 리턴한다.

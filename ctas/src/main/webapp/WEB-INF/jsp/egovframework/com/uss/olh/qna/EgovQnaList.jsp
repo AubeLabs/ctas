@@ -49,7 +49,8 @@ function fn_egov_select_linkPage(pageNo){
  * 조회 처리 함수
  ******************************************************** */
 function fn_egov_search_qna(){
-	document.qnaForm.pageIndex.value = 1;
+	//document.qnaForm.pageIndex.value = 1;
+	document.qnaForm.action = "<c:url value='/uss/olh/qna/selectQnaList.do?pageIndex=1'/>";
 	document.qnaForm.submit();
 }
 /* ********************************************************
@@ -75,7 +76,7 @@ function fn_egov_inquire_qnadetail(qaId) {
 		<ul>
 		    <li>
 		    	진행상태&nbsp;:&nbsp;&nbsp;
-		    	<select name="searchSttus" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
+		    	<select name="searchSttus" onchange="fn_egov_search_qna();" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
 					<option value=""  <c:if test="${searchVO.searchSttus == ''}">selected="selected"</c:if> >전체</option>
 					<option value="1"  <c:if test="${searchVO.searchSttus == '1'}">selected="selected"</c:if> >접수대기</option>
 					<option value="2"  <c:if test="${searchVO.searchSttus == '2'}">selected="selected"</c:if> >접수</option>

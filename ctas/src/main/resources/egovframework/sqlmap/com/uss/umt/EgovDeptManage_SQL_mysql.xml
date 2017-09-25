@@ -15,9 +15,7 @@
                    ORGNZT_DC
               FROM COMTNORGNZTINFO
              WHERE 1=1
-            <if test="searchCondition == 1">AND
-                ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
-            </if>
+               AND ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             <![CDATA[
             ORDER BY ORGNZT_ID DESC
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
@@ -29,9 +27,7 @@
             SELECT COUNT(*) totcnt
             FROM COMTNORGNZTINFO
             WHERE 1=1
-            <if test="searchCondition == 1">AND
-                ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
-            </if>
+              AND ORGNZT_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
     </select>
     
     <select id="selectDeptManage" resultMap="deptManageVO">

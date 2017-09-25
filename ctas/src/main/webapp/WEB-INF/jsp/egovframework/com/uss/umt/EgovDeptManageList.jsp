@@ -35,7 +35,7 @@
 
 <script type="text/javaScript" language="javascript" defer="defer">
 function fncSelectDeptManageList(pageNo){
-    document.listForm.searchCondition.value = "1";
+    //document.listForm.searchCondition.value = "1";
     document.listForm.pageIndex.value = pageNo;
     document.listForm.action = "<c:url value='/uss/umt/dpt/selectDeptManageList.do'/>";
     document.listForm.submit();
@@ -56,7 +56,7 @@ function fncAddDeptManageInsert() {
 }
 
 function linkPage(pageNo){
-    document.listForm.searchCondition.value = "1";
+    //document.listForm.searchCondition.value = "1";
     document.listForm.pageIndex.value = pageNo;
     document.listForm.action = "<c:url value='/uss/umt/dpt/selectDeptManageList.do'/>";
     document.listForm.submit();
@@ -116,8 +116,8 @@ function press() {
 	</c:if>
 	<c:forEach var="deptManage" items="${deptManageList}" varStatus="status">
 	<tr>
-		<td><a href="<c:url value='/uss/umt/dpt/getDeptManage.do'/>?pageIndex=${deptManageVO.pageIndex}&searchKeyword=${deptManageVO.searchKeyword}&orgnztId=${deptManage.orgnztId}"><c:out value="${deptManage.orgnztId}"/></a></td>
-		<td class="left"><a href="<c:url value='/uss/umt/dpt/getDeptManage.do'/>?pageIndex=${deptManageVO.pageIndex}&searchKeyword=${deptManageVO.searchKeyword}&orgnztId=${deptManage.orgnztId}"><c:out value="${deptManage.orgnztNm}"/></a></td>
+		<td><a href="<c:url value='/uss/umt/dpt/getDeptManage.do'/>?orgnztId=${deptManage.orgnztId}"><c:out value="${deptManage.orgnztId}"/></a></td>
+		<td class="left"><a href="<c:url value='/uss/umt/dpt/getDeptManage.do'/>?orgnztId=${deptManage.orgnztId}"><c:out value="${deptManage.orgnztNm}"/></a></td>
 		<td class="left"><c:out value="${deptManage.orgnztDc}"/></td>
 	</tr>
 	</c:forEach>

@@ -306,7 +306,7 @@ function press() {
 					<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if>	<%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
 				</c:if>
 				<c:if test="${uploadInfo.CNT == 1}">
-					<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>
+					<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]
 				</c:if>
 				</a>
 					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">

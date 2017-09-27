@@ -301,7 +301,13 @@ function press() {
 			<!-- 실적증빙 -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL && uploadInfo.RN != '010'}">
 				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
-				<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if><%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
+				<!-- 실적증빙이 1개이상이면 줄임('10글자'...)사용  -->
+				<c:if test="${uploadInfo.CNT != 1}">
+					<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if>	<%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>
+				</c:if>
+				<c:if test="${uploadInfo.CNT == 1}">
+					<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>
+				</c:if>
 				</a>
 					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
 						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 

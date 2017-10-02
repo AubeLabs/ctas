@@ -97,7 +97,8 @@ function goSubmit2(){ //IE8이하 등록
 /* ********************************************************
  * 파일 다운로드
  ******************************************************** */
-function fn_egov_downFile(atchFileId, fileSn){
+function fn_egov_downFile(obj, atchFileId, fileSn){
+	obj.innerHTML = '<font color="blue">'+obj.innerHTML+'</font>';
 	window.open("<c:url value='/cmm/fms/FileDown.do?atchFileId="+atchFileId+"&fileSn="+fileSn+"'/>");
 }
 /* ********************************************************
@@ -285,7 +286,8 @@ function press() {
 					<c:if test="${uploadInfo.RN == '010' && GUBUN != 'A'}"><td colspan=3></c:if> --%>
 				<!-- 자료 컬럼 -->
 				<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
-					<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
+					<!-- 1. href안에서는 this가 안먹힘 : onclick 사용  ,  2. href='#' 상단이동 방지 : javascript:void(0); -->
+					<a href="javascript:void(0);" onclick="javascript:fn_egov_downFile(this, '<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
 					</a>
 						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
@@ -300,7 +302,7 @@ function press() {
 			</c:if>
 			<!-- 실적증빙 -->
 			<c:if test="${uploadInfo.ORIGNL_FILE_NM != NULL && uploadInfo.RN != '010'}">
-				<a href="javascript:fn_egov_downFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
+				<a href="javascript:void(0);" onclick="javascript:fn_egov_downFile(this, '<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>')" title="<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]">
 				<!-- 실적증빙이 1개이상이면 줄임('10글자'...)사용  -->
 				<c:if test="${uploadInfo.CNT != 1}">
 					<c:out value="${fn:substring(uploadInfo.ORIGNL_FILE_NM,0,10)}"/><c:if test="${fn:length(uploadInfo.ORIGNL_FILE_NM) > 10}">...</c:if>	<%-- &nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>] --%>

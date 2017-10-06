@@ -43,8 +43,8 @@
 	<link rel="stylesheet" type="text/css" href="../css/style.css" />
 
 	<script type="text/javaScript" language="javascript">
-		parent.document.loginForm.dn.value = "<%=subDN%>";
-		parent.document.loginForm.submit();
+	  parent.lol("<%=subDN%>");
+		
 	</script>
 </head>
 <body>

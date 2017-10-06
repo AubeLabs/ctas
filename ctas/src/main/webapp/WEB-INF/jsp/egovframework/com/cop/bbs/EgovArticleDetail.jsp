@@ -201,10 +201,13 @@ function fn_egov_select_commentList(pageNo) {
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>
 		</c:if>
-		<form name="formList" action="<c:url value='/cop/bbs/selectArticleList.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
+		
+		<!-- 목록 버튼 : 이전페이지로 변경    asis: <c:url value='/cop/bbs/selectArticleList.do'/> -->
+		<form name="formList" action="javascript:history.back(-1);" method="post" style="float:left; margin:0 0 0 3px;">
 			<input type="submit" class="s_submit" value="<spring:message code="button.list" />">
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>
+
 		<!-- 스크랩 버튼 삭제 -->
 		<%-- <form name="formScrap" action="<c:url value='/cop/scp/insertArticleScrapView.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
 			<input type="submit" class="s_submit" value="<spring:message code="button.scrap" />">

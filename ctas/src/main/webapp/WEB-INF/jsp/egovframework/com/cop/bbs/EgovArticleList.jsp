@@ -46,8 +46,8 @@ function fn_egov_excel(){
  * 페이징 처리 함수
  ******************************************************** */
 function fn_egov_select_linkPage(pageNo){
-	document.articleForm.pageIndex.value = pageNo;
-	document.articleForm.action = "<c:url value='/cop/bbs/selectArticleList.do'/>";
+	//document.articleForm.pageIndex.value = pageNo;
+	document.articleForm.action = "<c:url value='/cop/bbs/selectArticleList.do?pageIndex="+pageNo+"'/>";
    	document.articleForm.submit();
 }
 /*********************************************************

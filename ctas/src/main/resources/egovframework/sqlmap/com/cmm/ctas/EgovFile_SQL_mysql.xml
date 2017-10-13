@@ -43,7 +43,8 @@
 			 , CASE WHEN IFNULL(D.RATING_SCORE, '') = '' THEN 1 ELSE 0 END FLAG2 /*평가여부-평가되면파일변경불가*/
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
-		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
+		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} = 'UP' AND A2.ORGNZT_DC = #{SRCHORG} THEN 1
+		    		  WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
 					  WHEN #{SRCHORG} != 'init' AND #{ORGID} = '' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
 		              WHEN #{GRPID} = 'GROUP_00000000000001' AND A2.ORGNZT_ID = #{ORG} THEN 1
 		         END
@@ -70,7 +71,8 @@
 		SELECT SUM(D.RATING_SCORE) SUM
 		  FROM comtccmmndetailcode A
 		  JOIN comtnorgnztinfo A2
-		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
+		    ON 1=CASE WHEN #{SRCHORG} != 'init' AND #{ORGID} = 'UP' AND A2.ORGNZT_DC = #{SRCHORG} THEN 1
+		    		  WHEN #{SRCHORG} != 'init' AND #{ORGID} != '' AND A2.ORGNZT_ID = #{ORGID} THEN 1
 					  WHEN #{SRCHORG} != 'init' AND #{ORGID} = '' AND A2.ORGNZT_NM LIKE CONCAT('%',#{SRCHORG},'%') THEN 1
 		              WHEN #{GRPID} = 'GROUP_00000000000001' AND A2.ORGNZT_ID = #{ORG} THEN 1
 		         END
@@ -303,6 +305,40 @@
               					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
 		        ON ORGNZT_ID = C_ORGNZT_ID
 		     WHERE ORGNZT_ID != 'ORGNZT_0000000000000'
+			 ORDER BY SRCH ${ordCol} ${ordTyp}
+		]]>
+ 	</select>
+ 	
+ 	<select id="selectOrgListUp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT ORGNZT_DC AS ORG_CODE
+			     , ORGNZT_DC AS ORG_NM
+			     , SUM(ASSESS_FILE_CNT) AS ASSESS_FILE_CNT
+			     , SUM(ATCH_FILE_CNT) AS ATCH_FILE_CNT
+			     , SUM(SCORE_CNT) AS SCORE_CNT
+			     , SUM(SCORE_SUM) AS SCORE_SUM
+			     , CASE WHEN #{searchKeyword} != '' AND ORGNZT_DC LIKE CONCAT('%',#{searchKeyword},'%') THEN 1 ELSE 2 END SRCH
+			     , REPLACE(ORGNZT_DC, #{searchKeyword}, '<font color="blue">${searchKeyword}</font>') AS ORG_NM2
+			  FROM (
+					SELECT ORGNZT_ID AS ORG_CODE,
+						   ORGNZT_NM AS ORG_NM,
+						   ASSESS_FILE_CNT,
+			               ATCH_FILE_CNT,
+			               SCORE_CNT,
+			               SCORE_SUM,
+						   ORGNZT_DC
+			          FROM COMTNORGNZTINFO A
+			          LEFT OUTER JOIN (SELECT ORGNZT_ID B_ORGNZT_ID, COUNT(ATCH_FILE_ID) ATCH_FILE_CNT FROM ASSESS_ATCH_FILE GROUP BY ORGNZT_ID) B
+			            ON ORGNZT_ID = B_ORGNZT_ID
+			          LEFT OUTER JOIN (SELECT ORGNZT_ID C_ORGNZT_ID
+			          					    , COUNT(IF(ASSESS_FILE_ID='',NULL,ASSESS_FILE_ID)) ASSESS_FILE_CNT
+			          					    , COUNT(RATING_SCORE) SCORE_CNT
+			          					    , SUM(RATING_SCORE) SCORE_SUM
+			          					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
+				        ON ORGNZT_ID = C_ORGNZT_ID
+				     WHERE ORGNZT_ID != 'ORGNZT_0000000000000'
+				   )A
+			 GROUP BY ORGNZT_DC
 			 ORDER BY SRCH ${ordCol} ${ordTyp}
 		]]>
  	</select>

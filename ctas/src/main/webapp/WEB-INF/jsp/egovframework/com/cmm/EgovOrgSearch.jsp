@@ -63,18 +63,26 @@ function fncSelectDeptList(pageNo){
     document.listForm.pageIndex.value = pageNo;
     document.listForm.submit();
 }
-
+//더블클릭으로선택
 function fncSelectDept(deptCode, deptNm) {
-	if("${GUBUN}" == 1){
+	if("${GUBUN}" == 1){//인증서등록
 		opener.document.mber.orgId.value = deptCode;
 		opener.document.mber.orgNm.value = deptNm;
-	}else if("${GUBUN}" == 2){
-		opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+deptCode+"'";
+	}else if("${GUBUN}" == 2){//현황
+		if(document.listForm.upYnChk.checked){
+			opener.document.ctasForm.items1.value = "AND A2.ORGNZT_DC='"+deptCode+"'";
+		}else{
+			opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+deptCode+"'";
+		}
 		opener.document.ctasForm.select1.value = deptNm;
 	    //opener.goSearch();
-	}else{
+	}else{//평정
 	    opener.document.ctasForm.srchOrg.value = deptNm;
-	    opener.document.ctasForm.orgId.value = deptCode;
+		if(document.listForm.upYnChk.checked){
+			opener.document.ctasForm.orgId.value = "UP";
+		}else{
+			opener.document.ctasForm.orgId.value = deptCode;
+		}
 	    opener.goSearch();
 	}
     window.close();
@@ -85,6 +93,8 @@ function linkPage(pageNo){
     document.listForm.pageIndex.value = pageNo;
     document.listForm.submit();
 }
+
+//체크할때마다 실행 : 체크상태저장
 function CheckedEvt(obj, cd){
 	var chkChg = document.getElementById("chkChg");
 	if(obj.checked){
@@ -93,6 +103,8 @@ function CheckedEvt(obj, cd){
 		chkChg.value = chkChg.value.replace("'"+cd+"'", "");
 	}
 }
+
+//확인버튼
 function fncSelectDeptConfirm() {
 	var checkField = document.listForm.delYn;
     var checkFieldCd = document.listForm.checkId;
@@ -101,6 +113,8 @@ function fncSelectDeptConfirm() {
 
 	var org_cd;
 	var org_nm;
+	
+	//IN절 변수 초기값 ''
 	var inItems="''";
 	var notInItems="''";
 	
@@ -120,28 +134,41 @@ function fncSelectDeptConfirm() {
 				alert("선택된 항목이 없습니다.");
 				return;
 			}
-			if("${GUBUN}" == 2){
-				if(checkField.length == checkCount){
+			if("${GUBUN}" == 2){//현황
+				if(checkField.length == checkCount){//전체체크인경우
 					opener.document.ctasForm.items1.value = "";
 					opener.document.ctasForm.select1.value = "전체";
 					window.close();
 					return;
-				}else if(inItems.length <= notInItems.length){
-					opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID IN("+inItems+")";
-				}else {
-					opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID NOT IN("+notInItems+")";
+				}else if(inItems.length <= notInItems.length){//짧은 sql문을 사용한다. notin절이 길경우 in절사용
+					if(document.listForm.upYnChk.checked){
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_DC IN("+inItems+")";
+					}else{
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID IN("+inItems+")";
+					}
+				}else {//짧은 sql문을 사용한다. in절이 길경우 notin절사용
+					if(document.listForm.upYnChk.checked){
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_DC NOT IN("+notInItems+")";
+					}else{
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID NOT IN("+notInItems+")";
+					}
 				}
-				opener.document.ctasForm.select1.value = org_nm+(checkCount>1?" 외 "+(checkCount-1)+"개 기관":"");
+				var orgGb = document.listForm.upYnChk.checked==true?"(상위기관) ":"";
+				opener.document.ctasForm.select1.value = orgGb+org_nm+(checkCount>1?" 외 "+(checkCount-1)+"개 기관":"");
 				window.close();
 				return;
 			}else{
-				if(checkCount == 1) {
-					if("${GUBUN}" == 1){
+				if(checkCount == 1) { //인증서등록과 평정에서는 다중체크 허용안함
+					if("${GUBUN}" == 1){ //인증서등록
 						opener.document.mber.orgId.value = org_cd;
 						opener.document.mber.orgNm.value = org_nm;
-					}else{
+					}else{ //평정
 		             	opener.document.ctasForm.srchOrg.value = org_nm;
-		             	opener.document.ctasForm.orgId.value = org_cd;
+		        		if(document.listForm.upYnChk.checked){
+		        			opener.document.ctasForm.orgId.value = "UP";
+		        		}else{
+		        			opener.document.ctasForm.orgId.value = org_cd;
+		        		}
 		                opener.goSearch();
 					}
 	             	
@@ -158,12 +185,20 @@ function fncSelectDeptConfirm() {
 					opener.document.mber.orgId.value = document.listForm.checkId.value;
 					opener.document.mber.orgNm.value = document.listForm.checkNm.value;
 				}else if("${GUBUN}" == 2){
-					opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+document.listForm.checkId.value+"'";
+					if(document.listForm.upYnChk.checked){
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_DC='"+document.listForm.checkId.value+"'";
+					}else{
+						opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+document.listForm.checkId.value+"'";
+					}
 					opener.document.ctasForm.select1.value = document.listForm.checkNm.value;
 				    //opener.goSearch();
 				}else{
-				    opener.document.ctasForm.srchOrg.value = document.listForm.checkNm.value;
-				    opener.document.ctasForm.orgId.value = document.listForm.checkId.value;
+					opener.document.ctasForm.srchOrg.value = document.listForm.checkNm.value;
+					if(document.listForm.upYnChk.checked){
+						opener.document.ctasForm.orgId.value = "UP";
+					}else{
+						opener.document.ctasForm.orgId.value = document.listForm.checkId.value;
+					}
 				    opener.goSearch();
 				}
 			    window.close();
@@ -242,6 +277,8 @@ function getChecked(){
     	}
     }
 }
+
+//현황인경우 오름차순
 function setChecked(){
 
 	var chkChg = document.getElementById("chkChg");
@@ -249,6 +286,7 @@ function setChecked(){
 	var checkField = document.listForm.delYn;
 	var checkFieldCd = document.listForm.checkId;
 	
+	//값이 있다면 : 정렬상태만 변경인경우
 	if(chkChg.value != ""){
 		if(checkField) {
 			if(checkField.length > 1) {
@@ -262,6 +300,7 @@ function setChecked(){
 		return;
 	}
 	
+	//전체인경우
 	if(str == ""){
 		document.listForm.checkAll.checked = true;
 		fncCheckAll();
@@ -269,6 +308,7 @@ function setChecked(){
 		return;
 	}
 
+	//
 	if(checkField) {
 		if(str.indexOf("NOT IN") == -1){//IN절일때는 찾으면(-1이아닌경우) 체크
 	        if(checkField.length > 1) {
@@ -299,14 +339,22 @@ function setOrd(){
 	td.innerHTML = hdStr+(typ==""?'▲':'▼');
 }
 function fn_init(){
-	if('${GUBUN}' != 1 ) {
+	if('${GUBUN}' != 1 ) {//인증서등록이 아닌경우
 		setOrd();
 	}
-	if('${GUBUN}' == 2) {
+	if('${GUBUN}' == 2) {//현황인경우 체크상태만들기
 		setChecked();
 	}
 }
-
+function upChk(){
+	//alert(document.listForm.upYnChk.checked);
+	if(document.listForm.upYnChk.checked){
+		document.getElementById("upYn").value = 1;
+	}else{
+		document.getElementById("upYn").value = 0;
+	}
+	fnSearch(document.forms[0]);
+}
 </script>
 </head>
 <body onload="fn_init()">
@@ -321,6 +369,11 @@ function fn_init(){
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
+			<!-- 상위기관 체크박스 -->
+			<c:if test="${GUBUN != '1'}">
+				<li style="margin-top:4px;"><input name="upYnChk" type="checkbox" onclick="upChk()" <c:if test="${ctasVO.upYn == '1'}">checked</c:if>  /></li>
+				<li><div style="line-height:4px;">&nbsp;</div><div>&nbsp;상위기관&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+			</c:if>
 			<li><div style="line-height:4px;">&nbsp;</div><div>기관명 : </div></li><!-- 기관명 -->
 			<!-- 검색키워드 및 조회버튼 -->
 			<li>
@@ -334,6 +387,8 @@ function fn_init(){
 	<input name="ordCol" id="ordCol" type="hidden" value="<c:out value="${ctasVO.ordCol}"/>">
 	<input name="ordTyp" id="ordTyp" type="hidden" value="<c:out value="${ctasVO.ordTyp}"/>">
 	<input name="chkChg" id="chkChg" type="hidden" value="<c:out value="${ctasVO.chkChg}"/>">
+	<!-- 상위기관여부 -->
+	<input name="upYn" id="upYn" type="hidden" value="<c:out value="${ctasVO.upYn}"/>">
 	
 	<!-- 목록영역 -->
 	<table class="board_list" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">

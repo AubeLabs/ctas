@@ -53,13 +53,25 @@ public class CtasVO implements Serializable {
   private String ordCol = "";
   private String ordTyp = "";
   private String chkChg = "";
+  private String upYn = "";
   //사용안함
   private String gubun1= "";
   private String gubun2= "";
   private String test= "";
 
 
+
   
+public String getUpYn() {
+	return upYn;
+}
+
+
+public void setUpYn(String upYn) {
+	this.upYn = upYn;
+}
+
+
 public String getChkChg() {
 	return chkChg;
 }

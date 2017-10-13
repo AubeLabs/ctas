@@ -28,6 +28,7 @@ package egovframework.com.cmm.web;
  */
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -351,7 +352,11 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     	hm.put("ordCol", ordCol);
     	hm.put("ordTyp", ordTyp);
     	
-    	List orgList = CtasService.selectOrgList(hm);
+    	List orgList = new ArrayList();
+    	if(vo.getUpYn().toString().equals("1"))
+    		orgList = CtasService.selectOrgListUp(hm);
+    	else // vo.getUpYn().toString().equals("0")
+    		orgList = CtasService.selectOrgList(hm);
     	
         model.addAttribute("orgList", orgList);
         model.addAttribute("GUBUN", vo.getGUBUN());

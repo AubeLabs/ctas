@@ -256,7 +256,15 @@ public class EgovFileDownloadController {
         buffRead.close();
         // 로그파일 쓰기
         BufferedWriter buffWrite = new BufferedWriter(new FileWriter(fLog));
-        String Text = strText + "\r\n" + today + "\t" + loginVO.getOrgnztId()+ "\t" + loginVO.getGroupId()+ "\t" + srchOrg+ "\t" + orgId;
+        String Text = strText + "\r\n"
+        			+ today + "\t"
+        			+ loginVO.getIp()+ "\t"
+        			+ loginVO.getId()+ "\t"
+        			+ loginVO.getOrgnztNm()+ " : "
+        			+ loginVO.getOrgnztId()+ "\t"
+        			+ loginVO.getGroupId()+ "\t"
+        			+ srchOrg+ "\t"
+        			+ orgId;
         buffWrite.write(Text, 0, Text.length());
         // 로그파일 닫기
         buffWrite.flush();

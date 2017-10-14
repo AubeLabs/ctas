@@ -308,7 +308,7 @@ public class EgovFileDownloadController {
 				f= new File(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString());
 				if(f.exists()){
 					fileCopy(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString()
-							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\(2. 실적증빙_"+hm.get("SEQ_NO").toString()+") "+hm.get("ORIGNL_FILE_NM").toString());
+							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\(2. 실적증빙_"+hm.get("FILE_SEQ_NO").toString()+") "+hm.get("ORIGNL_FILE_NM").toString());
 				}
 			}
 		}

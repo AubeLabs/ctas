@@ -234,6 +234,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		
 		//초기화
 		if(ctasVO.getSrchOrg().equals("init")) ctasVO.setSrchOrg("");
+		ctasVO.setGUBUN(ctasVO.getOrgId());//일괄다운로드시 기존 조회조건 사용
 		ctasVO.setOrgId("");
 		
 		

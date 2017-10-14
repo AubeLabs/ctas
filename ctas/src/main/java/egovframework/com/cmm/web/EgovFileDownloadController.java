@@ -2,10 +2,14 @@ package egovframework.com.cmm.web;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
@@ -219,7 +223,6 @@ public class EgovFileDownloadController {
 	@RequestMapping(value = "/cmm/fms/FileDown2.do")
 	public void cvplFileDownload2(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		System.out.println("ENTIRE DOWN START");
 		String srchOrg = URLDecoder.decode( (String) commandMap.get("srchOrg") ,"UTF-8");
 		String orgId   = URLDecoder.decode( (String) commandMap.get("orgId")   ,"UTF-8");
 		Map hm = new HashMap();
@@ -233,11 +236,34 @@ public class EgovFileDownloadController {
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
         String today = (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(date));
-        System.out.println(today);
-        
-        String ZIP_FROM_PATH = "C:\\ctas\\"+today;
+
+        // 로그파일 불러오기
+ 		String logFilePath = "C:\\ctas\\fileDownLog.txt";
+ 		File fLog = new File(logFilePath);
+        if (fLog.exists() == false)
+        {
+        	fLog.createNewFile();
+        }
+         
+        // 로그파일 읽기 
+        String strText = "";  
+        int nBuffer; 
+        BufferedReader buffRead = new BufferedReader(new FileReader(fLog));  
+        while ((nBuffer = buffRead.read()) != -1)  
+        {
+            strText += (char)nBuffer;
+        }
+        buffRead.close();
+        // 로그파일 쓰기
+        BufferedWriter buffWrite = new BufferedWriter(new FileWriter(fLog));
+        String Text = strText + "\r\n" + today + "\t" + loginVO.getOrgnztId()+ "\t" + loginVO.getGroupId()+ "\t" + srchOrg+ "\t" + orgId;
+        buffWrite.write(Text, 0, Text.length());
+        // 로그파일 닫기
+        buffWrite.flush();
+        buffWrite.close();
         
 		//조회된 리스트로 파일만들기
+        String ZIP_FROM_PATH = "C:\\ctas\\"+today;
 		File f = new File(ZIP_FROM_PATH);
 		deleteDirectory(f);//초기화
 		f.mkdir();
@@ -310,38 +336,27 @@ public class EgovFileDownloadController {
 	}
 	
 	 //파일을 복사하는 메소드
-	 public static void fileCopy(String inFileName, String outFileName) {
-	  try {
-	   /*FileInputStream fis = new FileInputStream(inFileName);
-	   FileOutputStream fos = new FileOutputStream(outFileName);
-	   
-	   int data = 0;
-	   while((data=fis.read())!=-1) {
-	    fos.write(data);
-	   }
-	   fis.close();
-	   fos.close();*/
-		  FileInputStream inputStream = new FileInputStream(inFileName);         
-		  FileOutputStream outputStream = new FileOutputStream(outFileName);
+	public static void fileCopy(String inFileName, String outFileName) {
+		try{
+			FileInputStream inputStream = new FileInputStream(inFileName);         
+			FileOutputStream outputStream = new FileOutputStream(outFileName);
 		   
-		  FileChannel fcin =  inputStream.getChannel();
-		  FileChannel fcout = outputStream.getChannel();
+			FileChannel fcin =  inputStream.getChannel();
+			FileChannel fcout = outputStream.getChannel();
 		   
-		  long size = fcin.size();
-		  fcin.transferTo(0, size, fcout);
+			long size = fcin.size();
+			fcin.transferTo(0, size, fcout);
 		   
-		  fcout.close();
-		  fcin.close();
+			fcout.close();
+			fcin.close();
 		   
-		  outputStream.close();
-		  inputStream.close();
-
-	   
-	  } catch (IOException e) {
-	   e.printStackTrace();
-	  }
-	 }
-	 
+			outputStream.close();
+			inputStream.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+             
 	 //파일삭제 	출처: http://moonlighting.tistory.com/129 [주경야근]
 	 public static boolean deleteDirectory(File path) { 
 		 if(!path.exists()) { 

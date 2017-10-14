@@ -74,7 +74,7 @@ function fncSelectDept(deptCode, deptNm) {
 		}else{
 			opener.document.ctasForm.items1.value = "AND A2.ORGNZT_ID='"+deptCode+"'";
 		}
-		opener.document.ctasForm.select1.value = deptNm;
+		opener.document.ctasForm.select1.value = (document.listForm.upYnChk.checked==true?"(상위기관) ":"")+deptNm;
 	    //opener.goSearch();
 	}else{//평정
 	    opener.document.ctasForm.srchOrg.value = deptNm;

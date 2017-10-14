@@ -4,11 +4,20 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.CtasService;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovBasicLogger;
@@ -19,6 +28,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -185,4 +196,219 @@ public class EgovFileDownloadController {
 			}
 		}
 	}
+
+	
+	
+	/**
+	 * 일괄다운로드
+	 *
+	 * @param commandMap
+	 * @param response
+	 * @throws Exception
+	 */
+
+	/** ZIP_FROM_PATH : 압축대상경로 */
+	static String ZIP_FROM_PATH = "C:\\ctas\\down";
+	
+	@Resource(name = "CtasService")
+    private CtasService CtasService;
+	
+	@RequestMapping(value = "/cmm/fms/FileDown2.do")
+	public void cvplFileDownload2(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String srchOrg = URLDecoder.decode( (String) commandMap.get("srchOrg") ,"UTF-8");
+		String orgId   = URLDecoder.decode( (String) commandMap.get("orgId")   ,"UTF-8");
+		Map hm = new HashMap();
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		hm.put("ORG", loginVO.getOrgnztId());
+		hm.put("GRPID", loginVO.getGroupId());
+		hm.put("SRCHORG", srchOrg);
+		hm.put("ORGID", orgId);
+		List uploadList = CtasService.selectUploadList(hm);//조회된조건으로 SELECT
+		
+		//조회된 리스트로 파일만들기
+		File f = new File(ZIP_FROM_PATH);
+		deleteDirectory(f);//초기화
+		f.mkdir();
+		String level1 = ""; //기관명[폴더]
+		String level2 = ""; //지표명[폴더]
+		String level3 = ""; //자료[파일]
+		for(int i = 0 ; i < uploadList.size() ; i++){
+			hm = (HashMap) uploadList.get(i);
+			//1.기관명 폴더 생성
+			if(!hm.get("ORGNZT_NM").toString().equals(level1)){
+				level1 = hm.get("ORGNZT_NM").toString();
+				f= new File(ZIP_FROM_PATH + "\\" + level1);
+				f.mkdir();
+			}
+			//2.지표명 폴더 생성
+			if(!hm.get("CODE_NM").toString().equals(level2)){
+				level2 = hm.get("CODE_NM").toString();
+				f= new File(ZIP_FROM_PATH + "\\" + level1 + "\\" + level2);
+				f.mkdir();
+			}
+			//3.파일복사	upload경로의 파일을 down경로로 복사
+			//3-1.자료파일
+			if(hm.get("ATCH_FILE_ID2") != null){
+				f= new File(hm.get("FILE_STRE_COURS2").toString()+"\\"+hm.get("STRE_FILE_NM2").toString());
+				if(!hm.get("ATCH_FILE_ID2").toString().equals(level3) && f.exists()){
+					level3 = hm.get("ATCH_FILE_ID2").toString();
+					fileCopy(hm.get("FILE_STRE_COURS2").toString()+"\\"+hm.get("STRE_FILE_NM2").toString()
+							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\"+hm.get("ORIGNL_FILE_NM2").toString());
+				}
+			}
+			//3-2.실적증빙파일
+			if(hm.get("ATCH_FILE_ID") != null){
+				f= new File(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString());
+				if(f.exists()){
+					fileCopy(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString()
+							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\"+hm.get("ORIGNL_FILE_NM").toString());
+				}
+			}
+		}
+		
+		//zip파일생성
+		createZipFile(ZIP_FROM_PATH,ZIP_FROM_PATH,"전체.zip");
+		
+		//다운 : FileDown.do 로직
+		File uFile = new File(ZIP_FROM_PATH, "전체.zip");
+		
+		String mimetype = "application/x-msdownload";
+		response.setContentType(mimetype);
+		
+		//다운이름지정
+		setDisposition("전체.zip", request, response);
+
+		BufferedInputStream in = null;
+		BufferedOutputStream out = null;
+		try {
+			in = new BufferedInputStream(new FileInputStream(uFile));
+			out = new BufferedOutputStream(response.getOutputStream());
+
+			FileCopyUtils.copy(in, out);
+			out.flush();
+		} catch (IOException ex) {
+			// 다음 Exception 무시 처리
+			// Connection reset by peer: socket write error
+			EgovBasicLogger.ignore("IO Exception", ex);
+		} finally {
+			EgovResourceCloseHelper.close(in, out);
+			deleteDirectory(new File(ZIP_FROM_PATH));
+		}
+	}
+	
+	 //파일을 복사하는 메소드	출처: http://blowmj.tistory.com/entry/JAVA-파일의-복사-이동-삭제-생성-존재여부-확인 [블로가 되어 날아보자]
+	 public static void fileCopy(String inFileName, String outFileName) {
+	  try {
+	   FileInputStream fis = new FileInputStream(inFileName);
+	   FileOutputStream fos = new FileOutputStream(outFileName);
+	   
+	   int data = 0;
+	   while((data=fis.read())!=-1) {
+	    fos.write(data);
+	   }
+	   fis.close();
+	   fos.close();
+	   
+	  } catch (IOException e) {
+	   e.printStackTrace();
+	  }
+	 }
+	 
+	 //파일삭제 	출처: http://moonlighting.tistory.com/129 [주경야근]
+	 public static boolean deleteDirectory(File path) { 
+		 if(!path.exists()) { 
+			 return false; 
+		} 
+		 File[] files = path.listFiles(); 
+		 for (File file : files) { 
+			 if (file.isDirectory()) { 
+				 deleteDirectory(file); 
+			} else { 
+				file.delete(); 
+			} 
+		} 
+		 return path.delete(); 
+	}
+
+	
+	/**
+     * 디렉토리 및 파일을 압축한다.
+     * @param path 압축할 디렉토리 및 파일
+     * @param toPath 압축파일을 생성할 경로
+     * @param fileName 압축파일의 이름
+     */
+    public static void createZipFile(String path, String toPath, String fileName) {
+ 
+        File dir = new File(path);
+        String[] list = dir.list();
+        String _path;
+ 
+        if (!dir.canRead() || !dir.canWrite())
+            return;
+ 
+        int len = list.length;
+ 
+        if (path.charAt(path.length() - 1) != '/')
+            _path = path + "/";
+        else
+            _path = path;
+ 
+        try {
+            ZipOutputStream zip_out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(toPath+"/"+fileName), 2048));
+ 
+            for (int i = 0; i < len; i++)
+                zip_folder("",new File(_path + list[i]), zip_out);
+ 
+            zip_out.close();
+ 
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+        	System.out.println(e.getMessage());
+        } finally {
+ 
+ 
+        }
+    }
+ 
+    /**
+     * ZipOutputStream를 넘겨 받아서 하나의 압축파일로 만든다.
+     * @param parent 상위폴더명
+     * @param file 압축할 파일
+     * @param zout 압축전체스트림
+     * @throws IOException
+     */
+    private static void zip_folder(String parent, File file, ZipOutputStream zout) throws IOException {
+        byte[] data = new byte[2048];
+        int read;
+ 
+        if (file.isFile()) {
+            ZipEntry entry = new ZipEntry(parent + file.getName());
+            zout.putNextEntry(entry);
+            BufferedInputStream instream = new BufferedInputStream(new FileInputStream(file));
+ 
+            while ((read = instream.read(data, 0, 2048)) != -1)
+                zout.write(data, 0, read);
+ 
+            zout.flush();
+            zout.closeEntry();
+            instream.close();
+ 
+        } else if (file.isDirectory()) {
+            String parentString = file.getPath().replace(ZIP_FROM_PATH,"");
+            parentString = parentString.substring(0,parentString.length() - file.getName().length());
+            ZipEntry entry = new ZipEntry(parentString+file.getName()+"/");
+            zout.putNextEntry(entry);
+ 
+            String[] list = file.list();
+            if (list != null) {
+                int len = list.length;
+                for (int i = 0; i < len; i++) {
+                    zip_folder(entry.getName(),new File(file.getPath() + "/" + list[i]), zout);
+                }
+            }
+        }
+    }
+
 }

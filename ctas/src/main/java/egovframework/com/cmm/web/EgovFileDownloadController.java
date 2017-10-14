@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -308,10 +309,10 @@ public class EgovFileDownloadController {
 		System.out.println("ENTIRE DOWN END");
 	}
 	
-	 //파일을 복사하는 메소드	출처: http://blowmj.tistory.com/entry/JAVA-파일의-복사-이동-삭제-생성-존재여부-확인 [블로가 되어 날아보자]
+	 //파일을 복사하는 메소드
 	 public static void fileCopy(String inFileName, String outFileName) {
 	  try {
-	   FileInputStream fis = new FileInputStream(inFileName);
+	   /*FileInputStream fis = new FileInputStream(inFileName);
 	   FileOutputStream fos = new FileOutputStream(outFileName);
 	   
 	   int data = 0;
@@ -319,7 +320,22 @@ public class EgovFileDownloadController {
 	    fos.write(data);
 	   }
 	   fis.close();
-	   fos.close();
+	   fos.close();*/
+		  FileInputStream inputStream = new FileInputStream(inFileName);         
+		  FileOutputStream outputStream = new FileOutputStream(outFileName);
+		   
+		  FileChannel fcin =  inputStream.getChannel();
+		  FileChannel fcout = outputStream.getChannel();
+		   
+		  long size = fcin.size();
+		  fcin.transferTo(0, size, fcout);
+		   
+		  fcout.close();
+		  fcin.close();
+		   
+		  outputStream.close();
+		  inputStream.close();
+
 	   
 	  } catch (IOException e) {
 	   e.printStackTrace();

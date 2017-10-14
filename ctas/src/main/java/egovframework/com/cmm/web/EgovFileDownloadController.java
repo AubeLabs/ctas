@@ -223,6 +223,7 @@ public class EgovFileDownloadController {
 	@RequestMapping(value = "/cmm/fms/FileDown2.do")
 	public void cvplFileDownload2(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		// 1. 조회된조건으로 SELECT
 		String srchOrg = URLDecoder.decode( (String) commandMap.get("srchOrg") ,"UTF-8");
 		String orgId   = URLDecoder.decode( (String) commandMap.get("orgId")   ,"UTF-8");
 		Map hm = new HashMap();
@@ -231,20 +232,20 @@ public class EgovFileDownloadController {
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", srchOrg);
 		hm.put("ORGID", orgId);
-		List uploadList = CtasService.selectUploadList(hm);//조회된조건으로 SELECT
+		List uploadList = CtasService.selectUploadList(hm);
 		
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
         String today = (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(date));
 
-        // 로그파일 불러오기
+        // 2. 파일다운로드 로그 작성
+        // 로그파일 생성
  		String logFilePath = "C:\\ctas\\fileDownLog.txt";
  		File fLog = new File(logFilePath);
         if (fLog.exists() == false)
         {
         	fLog.createNewFile();
         }
-         
         // 로그파일 읽기 
         String strText = "";  
         int nBuffer; 
@@ -270,7 +271,7 @@ public class EgovFileDownloadController {
         buffWrite.flush();
         buffWrite.close();
         
-		//조회된 리스트로 파일만들기
+		// 3. 조회된 리스트로 파일만들기
         String ZIP_FROM_PATH = "C:\\ctas\\"+today;
 		File f = new File(ZIP_FROM_PATH);
 		deleteDirectory(f);//초기화
@@ -299,7 +300,7 @@ public class EgovFileDownloadController {
 				if(!hm.get("ATCH_FILE_ID2").toString().equals(level3) && f.exists()){
 					level3 = hm.get("ATCH_FILE_ID2").toString();
 					fileCopy(hm.get("FILE_STRE_COURS2").toString()+"\\"+hm.get("STRE_FILE_NM2").toString()
-							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\"+hm.get("ORIGNL_FILE_NM2").toString());
+							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\(1. 자료) "+hm.get("ORIGNL_FILE_NM2").toString());
 				}
 			}
 			//3-2.실적증빙파일
@@ -307,21 +308,21 @@ public class EgovFileDownloadController {
 				f= new File(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString());
 				if(f.exists()){
 					fileCopy(hm.get("FILE_STRE_COURS").toString()+"\\"+hm.get("STRE_FILE_NM").toString()
-							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\"+hm.get("ORIGNL_FILE_NM").toString());
+							, ZIP_FROM_PATH + "\\" + level1 + "\\" + level2+"\\(2. 실적증빙_"+hm.get("SEQ_NO").toString()+") "+hm.get("ORIGNL_FILE_NM").toString());
 				}
 			}
 		}
 		
-		//zip파일생성
+		// 4. zip파일생성
 		createZipFile(ZIP_FROM_PATH,ZIP_FROM_PATH,"전체.zip");
 		
-		//다운 : FileDown.do 로직
+		// 5. 다운 : FileDown.do 로직
 		File uFile = new File(ZIP_FROM_PATH, "전체.zip");
 		
 		String mimetype = "application/x-msdownload";
 		response.setContentType(mimetype);
 		
-		//다운이름지정
+		// 다운이름지정
 		setDisposition("전체.zip", request, response);
 
 		BufferedInputStream in = null;
@@ -340,7 +341,6 @@ public class EgovFileDownloadController {
 			EgovResourceCloseHelper.close(in, out);
 			deleteDirectory(new File(ZIP_FROM_PATH));
 		}
-		System.out.println("ENTIRE DOWN END");
 	}
 	
 	 //파일을 복사하는 메소드
@@ -365,7 +365,7 @@ public class EgovFileDownloadController {
 		}
 	}
              
-	 //파일삭제 	출처: http://moonlighting.tistory.com/129 [주경야근]
+	 //폴더삭제 : 재귀삭제 	출처: http://moonlighting.tistory.com/129 [주경야근]
 	 public static boolean deleteDirectory(File path) { 
 		 if(!path.exists()) { 
 			 return false; 

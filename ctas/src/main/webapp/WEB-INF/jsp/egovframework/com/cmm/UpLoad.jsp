@@ -192,6 +192,16 @@ function press() {
     	return false;
     }
 }
+function DOWN(){
+	//조회된 조건세팅	encodeURI(encodeURIComponent(한글로넘기고자하는파라미터))
+	var srchOrg = encodeURI(encodeURIComponent(document.getElementById("dSrchOrg").value));
+	var orgId = encodeURI(encodeURIComponent(document.getElementById("dOrgId").value));
+	if(srchOrg == ""){
+		alert("조회를 수행하세요.");
+		return;
+	}
+	window.open("<c:url value='/cmm/fms/FileDown2.do?srchOrg="+srchOrg+"&orgId="+orgId+"'/>");
+}
 </script>
 </head>
 <body onload="fn_egov_init()">
@@ -207,6 +217,9 @@ function press() {
 	<input name="fileSn" id="fileSn" type="hidden" value="">
 	<input name="fileStreCours" id="fileStreCours" type="hidden" value="">
 	<input name="streFileNm" id="streFileNm" type="hidden" value="">
+	
+	<input name="dSrchOrg" id="dSrchOrg" type="hidden" value="<c:out value="${ctasVO.srchOrg}"/>">
+	<input name="dOrgId" id="dOrgId" type="hidden" value="<c:out value="${ctasVO.GUBUN}"/>">
 	
 	<div class="board">
 	<h1 class="circle_chck">
@@ -232,6 +245,7 @@ function press() {
 					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
 					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
 					<input type="button" class="c_btn" onClick="RATING();return false;" value="<spring:message code="button.save" />" title="<spring:message code="button.save" /> <spring:message code="input.button" />" />
+					<input type="button" class="c_btn" onClick="DOWN();return false;" value="일괄다운" title="일괄다운" />
 				</li>
 			</ul>
 		</div>

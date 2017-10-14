@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,7 +210,7 @@ public class EgovFileDownloadController {
 	 */
 
 	/** ZIP_FROM_PATH : 압축대상경로 */
-	static String ZIP_FROM_PATH = "C:\\ctas\\down";
+	//static String ZIP_FROM_PATH = "C:\\ctas\\down";
 	
 	@Resource(name = "CtasService")
     private CtasService CtasService;
@@ -227,6 +229,13 @@ public class EgovFileDownloadController {
 		hm.put("ORGID", orgId);
 		List uploadList = CtasService.selectUploadList(hm);//조회된조건으로 SELECT
 		
+		Calendar calendar = Calendar.getInstance();
+        java.util.Date date = calendar.getTime();
+        String today = (new SimpleDateFormat("yyyyMMddHHmmssSSS").format(date));
+        System.out.println(today);
+        
+        String ZIP_FROM_PATH = "C:\\ctas\\"+today;
+        
 		//조회된 리스트로 파일만들기
 		File f = new File(ZIP_FROM_PATH);
 		deleteDirectory(f);//초기화
@@ -360,7 +369,7 @@ public class EgovFileDownloadController {
             ZipOutputStream zip_out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(toPath+"/"+fileName), 2048));
  
             for (int i = 0; i < len; i++)
-                zip_folder("",new File(_path + list[i]), zip_out);
+                zip_folder("",new File(_path + list[i]), zip_out, path);
  
             zip_out.close();
  
@@ -381,7 +390,7 @@ public class EgovFileDownloadController {
      * @param zout 압축전체스트림
      * @throws IOException
      */
-    private static void zip_folder(String parent, File file, ZipOutputStream zout) throws IOException {
+    private static void zip_folder(String parent, File file, ZipOutputStream zout, String ZIP_FROM_PATH) throws IOException {
         byte[] data = new byte[2048];
         int read;
  
@@ -407,7 +416,7 @@ public class EgovFileDownloadController {
             if (list != null) {
                 int len = list.length;
                 for (int i = 0; i < len; i++) {
-                    zip_folder(entry.getName(),new File(file.getPath() + "/" + list[i]), zout);
+                    zip_folder(entry.getName(),new File(file.getPath() + "/" + list[i]), zout, ZIP_FROM_PATH);
                 }
             }
         }

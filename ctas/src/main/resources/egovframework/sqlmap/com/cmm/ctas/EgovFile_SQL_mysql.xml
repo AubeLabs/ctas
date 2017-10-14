@@ -10,6 +10,7 @@
 		     , A2.ORGNZT_ID
 		     , A2.ORGNZT_NM
 		     , B.SEQ_NO
+		     , LPAD(B.SEQ_NO, 2, 0) FILE_SEQ_NO
 		     , CASE WHEN B.SEQ_NO = B2.MN THEN 1 END MN
 		     , CASE WHEN B.SEQ_NO = B2.MX THEN 1 END MX
 		     , B2.CNT

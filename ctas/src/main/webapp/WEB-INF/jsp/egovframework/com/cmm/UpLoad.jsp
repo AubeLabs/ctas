@@ -201,6 +201,7 @@ function DOWN(){
 		return;
 	}
 	window.open("<c:url value='/cmm/fms/FileDown2.do?srchOrg="+srchOrg+"&orgId="+orgId+"'/>");
+
 }
 </script>
 </head>
@@ -243,9 +244,10 @@ function DOWN(){
 					<input name="srchOrg" id="srchOrg" type="text" value="<c:out value='${ctasVO.srchOrg}' />" size="22" title="기관" onkeypress="return press();"  />
 					<input name="orgId" id="orgId" type="hidden" value="<c:out value="${ctasVO.orgId}"/>">
 					<input type="button" class="s_btn" onClick="fncSelectOrgPop();return false;" value="기관찾기" title="기관찾기" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" class="s_btn" onClick="goSearch();return false;" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" /> <spring:message code="input.button" />" />
+					<input type="button" class="s_btn" onClick="DOWN();return false;" value="일괄다운" title="일괄다운" />
 					<input type="button" class="c_btn" onClick="RATING();return false;" value="<spring:message code="button.save" />" title="<spring:message code="button.save" /> <spring:message code="input.button" />" />
-					<input type="button" class="c_btn" onClick="DOWN();return false;" value="일괄다운" title="일괄다운" />
 				</li>
 			</ul>
 		</div>

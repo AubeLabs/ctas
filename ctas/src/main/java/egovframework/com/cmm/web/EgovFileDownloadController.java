@@ -216,6 +216,7 @@ public class EgovFileDownloadController {
 	@RequestMapping(value = "/cmm/fms/FileDown2.do")
 	public void cvplFileDownload2(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		System.out.println("ENTIRE DOWN START");
 		String srchOrg = URLDecoder.decode( (String) commandMap.get("srchOrg") ,"UTF-8");
 		String orgId   = URLDecoder.decode( (String) commandMap.get("orgId")   ,"UTF-8");
 		Map hm = new HashMap();
@@ -295,6 +296,7 @@ public class EgovFileDownloadController {
 			EgovResourceCloseHelper.close(in, out);
 			deleteDirectory(new File(ZIP_FROM_PATH));
 		}
+		System.out.println("ENTIRE DOWN END");
 	}
 	
 	 //파일을 복사하는 메소드	출처: http://blowmj.tistory.com/entry/JAVA-파일의-복사-이동-삭제-생성-존재여부-확인 [블로가 되어 날아보자]

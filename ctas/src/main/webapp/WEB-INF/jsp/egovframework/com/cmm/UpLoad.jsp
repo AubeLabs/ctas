@@ -349,8 +349,8 @@ function DOWN(){
 					<td>
 						<!-- 자료 버튼 -->
 						<div class="egov_file_box">
+						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
 								<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								<c:choose>
@@ -385,8 +385,8 @@ function DOWN(){
 						<!-- 실적증빙 버튼 -->
 						<c:if test="${uploadInfo.RN != '010'}">
 						<div class="egov_file_box">
+						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
 								<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								실적증빙			

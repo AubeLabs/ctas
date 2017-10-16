@@ -35,4 +35,5 @@ public interface CtasService {
 	List selectOrgListUp(Map map);
 	HashMap selectAllStatus();
 	List selectChkList(Map map);
+	List selectDtList(Map map);
 }

@@ -69,6 +69,7 @@ if ('${GUBUN}' == 'A' && (Browser.ie8 || Browser.ie7 || Browser.ie6)) {
  ******************************************************** */
 function fn_egov_init(){
 	//alert('GUBUN:${GUBUN}');
+	//alert('${DtList.DT_CD} ${DtList.DT_DC} ${DtList.DT_ST} ${DtList.DT_ED}');
 }
 /* ********************************************************
  * 파일첨부 버튼클릭시
@@ -157,11 +158,13 @@ function fncSelectOrgPop() {
  ******************************************************** */
 var str = "";
 function setting(obj, org, pkstr, flag){
+	/*
 	if(flag == 0){
 		alert("해당지표의 평가대상파일이 없습니다.");
 		obj.value = "";
 		return;
 	}
+	*/
 	obj.value = obj.value.replace(/^\s+|\s+$/g,""); //trim
 	var arrRow = str.split("；");
 	str = "";
@@ -306,7 +309,8 @@ function DOWN(){
 					<a href="javascript:void(0);" onclick="javascript:fn_egov_downFile(this, '<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>')">
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
 					</a>
-						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
+						<!-- 평가되지않았고, 업로드기간에 X버튼활성 -->
+						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && (DtList.DT_CD == 'DT001' || DtList.DT_CD == 'DT004')}">
 							<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
 							     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS2}"/>','<c:out value="${uploadInfo.STRE_FILE_NM2}"/>','${uploadInfo.ORIGNL_FILE_NM2}');" 
 							     alt="<spring:message code="title.attachedFileDelete" />">
@@ -327,7 +331,8 @@ function DOWN(){
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE}"/>]
 				</c:if>
 				</a>
-					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL}">
+					<!-- 평가되지않았고, 업로드기간에 X버튼활성 -->
+					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && (DtList.DT_CD == 'DT001' || DtList.DT_CD == 'DT004')}">
 						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
 						     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS}"/>','<c:out value="${uploadInfo.STRE_FILE_NM}"/>','${uploadInfo.ORIGNL_FILE_NM}');" 
 						     alt="<spring:message code="title.attachedFileDelete" />">
@@ -344,42 +349,77 @@ function DOWN(){
 					<td>
 						<!-- 자료 버튼 -->
 						<div class="egov_file_box">
-						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
-							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('등록된 파일을 먼저삭제하세요.');" >
-							<c:choose>
-							<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
-							<c:otherwise>자료제출</c:otherwise>
-							</c:choose>							
-							</label>
-						</c:if>
-						<c:if test="${uploadInfo.ORIGNL_FILE_NM2 == NULL}">
-							<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" >
-							<c:choose>
-							<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
-							<c:otherwise>자료제출</c:otherwise>
-							</c:choose>
-							</label>
-							<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', this);">
-						</c:if>
+						<c:choose>
+							<!-- 평가기간, 이의신청기간은 업로드 불가 -->
+							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
+								<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
+								<c:choose>
+								<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
+								<c:otherwise>자료제출</c:otherwise>
+								</c:choose>							
+								</label>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${uploadInfo.ORIGNL_FILE_NM2 != NULL}">
+									<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="if(${uploadInfo.FLAG2} == 0) alert('평가된 지표는 등록 할 수 없습니다.'); else alert('등록된 파일을 먼저삭제하세요.');" >
+									<c:choose>
+									<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
+									<c:otherwise>자료제출</c:otherwise>
+									</c:choose>							
+									</label>
+								</c:if>
+								<c:if test="${uploadInfo.ORIGNL_FILE_NM2 == NULL}">
+									<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" >
+									<c:choose>
+									<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
+									<c:otherwise>자료제출</c:otherwise>
+									</c:choose>
+									</label>
+									<input type="file" name="file0${uploadInfo.RN}" id="egovfile0${uploadInfo.RN}" onclick="javascript:makeFileAttachment('0${uploadInfo.RN}', this);">
+								</c:if>
+							</c:otherwise>
+						</c:choose>
 						</div>
 						<div id="egovComFileList0${uploadInfo.RN}" style="display:none;"></div>
 						
 						<!-- 실적증빙 버튼 -->
 						<c:if test="${uploadInfo.RN != '010'}">
 						<div class="egov_file_box">
-						<c:if test="${uploadInfo.FLAG2 == 0}">
-							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('평가된 지표는 등록 할 수 없습니다.');">실적증빙</label> 
-						</c:if>
-						<c:if test="${uploadInfo.FLAG2 == 1}">
-							<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}">실적증빙</label> 
-							<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', this);">
-						</c:if>
+						<c:choose>
+							<!-- 평가기간, 이의신청기간은 업로드 불가 -->
+							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
+								<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
+								실적증빙			
+								</label>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${uploadInfo.FLAG2 == 0}">
+									<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('평가된 지표는 등록 할 수 없습니다.');">실적증빙</label> 
+								</c:if>
+								<c:if test="${uploadInfo.FLAG2 == 1}">
+									<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}">실적증빙</label> 
+									<input type="file" name="file1${uploadInfo.RN}" id="egovfile1${uploadInfo.RN}" onclick="javascript:makeFileAttachment('1${uploadInfo.RN}', this);">
+								</c:if>
+							</c:otherwise>
+						</c:choose>
 						</div>
 						<div id="egovComFileList1${uploadInfo.RN}" style="display:none;"></div>
 						</c:if>
 					</td>
 					<td>
-						${uploadInfo.RATING_SCORE}
+						<!-- 1차업로드기간, 평가기간 제외 점수보이기 -->
+						<c:if test="${GUBUN == 'A'}">
+							<c:if test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT002'}">
+								${uploadInfo.RATING_SCORE}
+							</c:if>
+							<!-- 평가기간 -->
+							<c:if test="${DtList.DT_CD == 'DT002'}">
+								평가중
+							</c:if>
+						</c:if>
+						<c:if test="${GUBUN != 'A'}">
+							${uploadInfo.RATING_SCORE}
+						</c:if>
 					</td>
 					</c:if>
 					<!-- 점수입력컬럼 -->
@@ -400,7 +440,21 @@ function DOWN(){
 		<c:if test="${fn:length(uploadList) != 0}">
 			<tr>
 				<td colspan=4>합계</td>
-				<td id="SUM">${uploadGrp.SUM}</td>
+				<td id="SUM">
+					<c:if test="${GUBUN == 'A'}">
+						<!-- 1차업로드기간, 평가기간 제외 점수보이기 -->
+						<c:if test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT002'}">
+							${uploadGrp.SUM}
+						</c:if>
+						<!-- 평가기간 -->
+						<c:if test="${DtList.DT_CD == 'DT002'}">
+							평가중
+						</c:if>
+					</c:if>
+					<c:if test="${GUBUN != 'A'}">
+						${uploadGrp.SUM}
+					</c:if>
+				</td>
 			</tr>
 		</c:if>
 	</tbody>

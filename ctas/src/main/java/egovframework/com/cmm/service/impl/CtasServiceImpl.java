@@ -106,4 +106,9 @@ public class CtasServiceImpl extends EgovAbstractServiceImpl implements CtasServ
 	public List selectChkList(Map map) {
 		return CtasDAO.selectChkList(map);
 	}
+	
+	@Override
+	public List selectDtList(Map map) {
+		return CtasDAO.selectDtList(map);
+	}
 }

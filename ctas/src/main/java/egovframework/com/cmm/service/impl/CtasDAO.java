@@ -67,4 +67,8 @@ public class CtasDAO extends EgovComAbstractDAO {
 	public List selectChkList(Map map) {
 		return list("CtasUpload.selectChkList", map);
 	}
+	
+	public List selectDtList(Map map) {
+		return list("CtasUpload.selectDtList", map);
+	}
 }

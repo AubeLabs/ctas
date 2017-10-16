@@ -351,7 +351,7 @@ function DOWN(){
 						<div class="egov_file_box">
 						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
+							<c:when test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT004'}">
 								<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								<c:choose>
 								<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
@@ -387,7 +387,7 @@ function DOWN(){
 						<div class="egov_file_box">
 						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<c:when test="${DtList.DT_CD == 'DT002' || DtList.DT_CD == 'DT003'}">
+							<c:when test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT004'}">
 								<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								실적증빙			
 								</label>
@@ -409,7 +409,7 @@ function DOWN(){
 					<td>
 						<!-- 1차업로드기간, 평가기간 제외 점수보이기 -->
 						<c:if test="${GUBUN == 'A'}">
-							<c:if test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT002'}">
+							<c:if test="${DtList.DT_CD != 'DT002'}">
 								${uploadInfo.RATING_SCORE}
 							</c:if>
 							<!-- 평가기간 -->
@@ -443,7 +443,7 @@ function DOWN(){
 				<td id="SUM">
 					<c:if test="${GUBUN == 'A'}">
 						<!-- 1차업로드기간, 평가기간 제외 점수보이기 -->
-						<c:if test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT002'}">
+						<c:if test="${DtList.DT_CD != 'DT002'}">
 							${uploadGrp.SUM}
 						</c:if>
 						<!-- 평가기간 -->

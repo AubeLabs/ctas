@@ -285,12 +285,15 @@ public class EgovFileDownloadController {
 			//1.기관명 폴더 생성
 			if(!hm.get("ORGNZT_NM").toString().equals(level1)){
 				level1 = hm.get("ORGNZT_NM").toString();
+				level2 = "";
+				level3 = "";
 				f= new File(ZIP_FROM_PATH + "\\" + level1);
 				f.mkdir();
 			}
 			//2.지표명 폴더 생성
 			if(!hm.get("CODE_NM").toString().equals(level2)){
 				level2 = hm.get("CODE_NM").toString();
+				level3 = "";
 				f= new File(ZIP_FROM_PATH + "\\" + level1 + "\\" + level2);
 				f.mkdir();
 			}

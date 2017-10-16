@@ -390,4 +390,17 @@
 		]]>
  	</select>
  	
+ 	<select id="selectDtList" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT   CODE DT_CD
+				   , CODE_DC DT_DC
+				   , DATE_FORMAT(SUBSTR(CODE_NM,1,8), '%Y-%m-%d') DT_ST
+				   , DATE_FORMAT(SUBSTR(CODE_NM,10), '%Y-%m-%d') DT_ED
+			  FROM comtccmmndetailcode
+			 WHERE CODE_ID = 'CTA002'
+			   AND DATE_FORMAT(SYSDATE(), '%Y%m%d') BETWEEN SUBSTR(CODE_NM,1,8) AND SUBSTR(CODE_NM,10)
+			 ORDER BY CODE
+		]]>
+ 	</select>
+ 	
 </mapper>

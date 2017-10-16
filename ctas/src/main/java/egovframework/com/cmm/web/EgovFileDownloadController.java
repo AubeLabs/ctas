@@ -281,6 +281,7 @@ public class EgovFileDownloadController {
 		String level3 = ""; //자료[파일]
 		for(int i = 0 ; i < uploadList.size() ; i++){
 			hm = (HashMap) uploadList.get(i);
+			if(hm.get("ATCH_FILE_ID2") == null && hm.get("ATCH_FILE_ID") == null) continue;
 			//1.기관명 폴더 생성
 			if(!hm.get("ORGNZT_NM").toString().equals(level1)){
 				level1 = hm.get("ORGNZT_NM").toString();

@@ -310,7 +310,7 @@ function DOWN(){
 					<c:out value="${uploadInfo.ORIGNL_FILE_NM2}"/>&nbsp;[<c:out value="${uploadInfo.FILE_SIZE2}"/>]
 					</a>
 						<!-- 평가되지않았고, 업로드기간에 X버튼활성 -->
-						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && (DtList.DT_CD == 'DT001' || DtList.DT_CD == 'DT004')}">
+						<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && DtList.DT_CD == 'DT001'}">
 							<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
 							     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID2}"/>','<c:out value="${uploadInfo.FILE_SN2}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS2}"/>','<c:out value="${uploadInfo.STRE_FILE_NM2}"/>','${uploadInfo.ORIGNL_FILE_NM2}');" 
 							     alt="<spring:message code="title.attachedFileDelete" />">
@@ -332,7 +332,7 @@ function DOWN(){
 				</c:if>
 				</a>
 					<!-- 평가되지않았고, 업로드기간에 X버튼활성 -->
-					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && (DtList.DT_CD == 'DT001' || DtList.DT_CD == 'DT004')}">
+					<c:if test="${GUBUN == 'A' && uploadInfo.RATING_SCORE == NULL && DtList.DT_CD == 'DT001'}">
 						<img src="<c:url value='/images/egovframework/com/cmm/btn/btn_del.png' />" class="cursor" 
 						     onClick="fn_egov_deleteFile('<c:out value="${uploadInfo.ATCH_FILE_ID}"/>','<c:out value="${uploadInfo.FILE_SN}"/>','<c:out value="${uploadInfo.FILE_STRE_COURS}"/>','<c:out value="${uploadInfo.STRE_FILE_NM}"/>','${uploadInfo.ORIGNL_FILE_NM}');" 
 						     alt="<spring:message code="title.attachedFileDelete" />">
@@ -351,7 +351,7 @@ function DOWN(){
 						<div class="egov_file_box">
 						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<c:when test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT004'}">
+							<c:when test="${DtList.DT_CD != 'DT001'}">
 								<label for="egovfile0${uploadInfo.RN}" id="file_label0${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								<c:choose>
 								<c:when test="${uploadInfo.RN == '010'}">&nbsp;명&nbsp;&nbsp;부&nbsp;</c:when>
@@ -387,7 +387,7 @@ function DOWN(){
 						<div class="egov_file_box">
 						<!-- 평가기간, 이의신청기간은 업로드 불가 -->
 						<c:choose>
-							<c:when test="${DtList.DT_CD != 'DT001' && DtList.DT_CD != 'DT004'}">
+							<c:when test="${DtList.DT_CD != 'DT001'}">
 								<label for="egovfile1${uploadInfo.RN}" id="file_label1${uploadInfo.RN}" onClick="alert('${DtList.DT_DC}에는 업로드 할수 없습니다.\n(${DtList.DT_DC} : ${DtList.DT_ST} ~ ${DtList.DT_ED})');" >
 								실적증빙			
 								</label>

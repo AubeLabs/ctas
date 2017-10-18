@@ -229,6 +229,8 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", ctasVO.getSrchOrg());
 		hm.put("ORGID", ctasVO.getOrgId());
+    	hm.put("USRID", loginVO.getId());
+    	
 		List uploadList = CtasService.selectUploadList(hm);
 		HashMap uploadGrp = CtasService.selectUploadGrp(hm);
 		HashMap DtList = (HashMap) CtasService.selectDtList(hm).get(0);
@@ -354,6 +356,10 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
     	String ordTyp = vo.getOrdCol().equals("")?"":vo.getOrdTyp()+", ORG_NM";
     	hm.put("ordCol", ordCol);
     	hm.put("ordTyp", ordTyp);
+    	
+
+    	hm.put("GRPID", user==null?"":user.getGroupId());
+    	hm.put("USRID", user==null?"":user.getId());
     	
     	List orgList = new ArrayList();
     	if(vo.getUpYn().toString().equals("1"))

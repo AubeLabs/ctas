@@ -232,6 +232,7 @@ public class EgovFileDownloadController {
 		hm.put("GRPID", loginVO.getGroupId());
 		hm.put("SRCHORG", srchOrg);
 		hm.put("ORGID", orgId);
+		hm.put("USRID", loginVO.getId());
 		List uploadList = CtasService.selectUploadList(hm);
 		
 		Calendar calendar = Calendar.getInstance();

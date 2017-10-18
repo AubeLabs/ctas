@@ -64,8 +64,11 @@
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
 		  LEFT OUTER JOIN COMTNFILEDETAIL E
 		    ON D.ASSESS_FILE_ID = E.ATCH_FILE_ID
+		  LEFT OUTER JOIN assess_orgnzt_mapping F
+		    ON A2.ORGNZT_ID = F.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
+		   AND ((#{GRPID}='GROUP_00000000000002'  AND F.EMPLYR_ID = #{USRID}) OR (#{GRPID}!='GROUP_00000000000002'))
 		 ORDER BY A2.ORGNZT_ID, A.CODE_DC
  	</select>
  	<select id="selectUploadGrp" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -80,8 +83,11 @@
 		  LEFT OUTER JOIN ASSESSMENT D
 		    ON A.CODE = D.AI_CD
 		   AND A2.ORGNZT_ID = D.ORGNZT_ID
+		  LEFT OUTER JOIN assess_orgnzt_mapping F
+		    ON A2.ORGNZT_ID = F.ORGNZT_ID
 		 WHERE A.CODE_ID = 'CTA001'
 		   AND A2.ORGNZT_ID != 'ORGNZT_0000000000000'
+		   AND ((#{GRPID}='GROUP_00000000000002'  AND F.EMPLYR_ID = #{USRID}) OR (#{GRPID}!='GROUP_00000000000002'))
  	</select>
  	
 	<select id="selectStatsList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -288,7 +294,7 @@
 	
 	<select id="selectOrgList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		<![CDATA[
-			SELECT ORGNZT_ID AS ORG_CODE,
+			SELECT A.ORGNZT_ID AS ORG_CODE,
 				   ORGNZT_NM AS ORG_NM,
 				   ASSESS_FILE_CNT,
                    ATCH_FILE_CNT,
@@ -305,7 +311,10 @@
               					    , SUM(RATING_SCORE) SCORE_SUM
               					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
 		        ON ORGNZT_ID = C_ORGNZT_ID
-		     WHERE ORGNZT_ID != 'ORGNZT_0000000000000'
+		      LEFT OUTER JOIN assess_orgnzt_mapping D
+		        ON A.ORGNZT_ID = D.ORGNZT_ID
+		     WHERE A.ORGNZT_ID != 'ORGNZT_0000000000000'
+		       AND ((#{GRPID}='GROUP_00000000000002'  AND D.EMPLYR_ID = #{USRID}) OR (#{GRPID}!='GROUP_00000000000002'))
 			 ORDER BY SRCH ${ordCol} ${ordTyp}
 		]]>
  	</select>
@@ -321,7 +330,7 @@
 			     , CASE WHEN #{searchKeyword} != '' AND ORGNZT_DC LIKE CONCAT('%',#{searchKeyword},'%') THEN 1 ELSE 2 END SRCH
 			     , REPLACE(ORGNZT_DC, #{searchKeyword}, '<font color="blue">${searchKeyword}</font>') AS ORG_NM2
 			  FROM (
-					SELECT ORGNZT_ID AS ORG_CODE,
+					SELECT A.ORGNZT_ID AS ORG_CODE,
 						   ORGNZT_NM AS ORG_NM,
 						   ASSESS_FILE_CNT,
 			               ATCH_FILE_CNT,
@@ -337,7 +346,10 @@
 			          					    , SUM(RATING_SCORE) SCORE_SUM
 			          					 FROM ASSESSMENT GROUP BY ORGNZT_ID) C
 				        ON ORGNZT_ID = C_ORGNZT_ID
-				     WHERE ORGNZT_ID != 'ORGNZT_0000000000000'
+				      LEFT OUTER JOIN assess_orgnzt_mapping D
+		        		ON A.ORGNZT_ID = D.ORGNZT_ID
+				     WHERE A.ORGNZT_ID != 'ORGNZT_0000000000000'
+				       AND ((#{GRPID}='GROUP_00000000000002'  AND D.EMPLYR_ID = #{USRID}) OR (#{GRPID}!='GROUP_00000000000002'))
 				   )A
 			 GROUP BY ORGNZT_DC
 			 ORDER BY SRCH ${ordCol} ${ordTyp}

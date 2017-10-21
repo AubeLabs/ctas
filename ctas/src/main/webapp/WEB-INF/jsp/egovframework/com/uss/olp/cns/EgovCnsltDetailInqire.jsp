@@ -156,8 +156,8 @@ function fn_egov_passwordConfirm(){
 			<th>${title} </th>
 			<td class="cnt">
 		    	<div style="float:left;"><c:out value="${result.emailAdres}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-		    	<div style="float:left;"><input name="emailAnswerAt" type="checkbox"  disabled <c:if test="${result.emailAnswerAt == 'Y'}">checked</c:if> title="<spring:message code="comUssOlpCns.regist.emailAt"/>"></div>
-		    	<div style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="comUssOlpCns.regist.emailAt"/></div>
+		    	<%-- <div style="float:left;"><input name="emailAnswerAt" type="checkbox"  disabled <c:if test="${result.emailAnswerAt == 'Y'}">checked</c:if> title="<spring:message code="comUssOlpCns.regist.emailAt"/>"></div>
+		    	<div style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;<spring:message code="comUssOlpCns.regist.emailAt"/></div> --%>
 		    	<div style="clear:both;"></div>
 			</td>
 		</tr>

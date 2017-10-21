@@ -134,6 +134,11 @@ public class EgovCnsltManageController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		searchVO.setLoginUniqId(loginVO.getUniqId());
+		searchVO.setGroupId(loginVO.getGroupId());
+		
         List<?> CnsltList = cnsltManageService.selectCnsltList(searchVO);
         model.addAttribute("resultList", CnsltList);
 

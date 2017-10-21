@@ -49,6 +49,27 @@ public class CnsltManageDefaultVO implements Serializable {
 
     /** recordCountPerPage */
     private int recordCountPerPage = 10;
+    
+    private String loginUniqId = "";
+	private String groupId = "";
+
+	
+	
+	public String getLoginUniqId() {
+		return loginUniqId;
+	}
+
+	public void setLoginUniqId(String loginUniqId) {
+		this.loginUniqId = loginUniqId;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
 
 	/**
 	 * searchCondition attribute 를 리턴한다.

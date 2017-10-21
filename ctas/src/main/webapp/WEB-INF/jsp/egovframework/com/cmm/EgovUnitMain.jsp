@@ -18,7 +18,7 @@ var selectedMenu = "";
 
 <frameset frameborder="0" framespacing="0" rows="130, *">
 	<frame name="_top" src="<c:url value='/EgovTop.do' />" scrolling="no" title="헤더">
-		<frameset frameborder="0" framespacing="0" cols="0%, 90%">
+		<frameset frameborder="0" framespacing="0" cols="10%, 80%">
 			<frame name="_left" src="<c:url value='/EgovLeft.do' />" scrolling="yes" title="메뉴페이지">
 			<frame name="_content" src="<c:url value='/EgovContent.do' />" title="메인페이지">
 		</frameset>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>▒▒▒  민원서비스 종합평가  ▒▒▒</title>
+<title>민원서비스 종합평가</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css" />
 
 <script language="javascript">
@@ -19,13 +19,13 @@ function fncGoAfterErrorPage(){
 	<%-- <p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="168" height="48" /></p> --%>
 	<div style="border: ppx solid #666; padding: 20px;">
 		<!-- Xss(Cross Site Scripting) Error -->
-		<p style="color:red; margin-bottom: 8px; ">Database Processing  Error</p> 
+		<p style="color:red; margin-bottom: 8px; ">UpLoad Processing  Error</p> 
 
 		<div class="boxType1" style="width: 700px;">
 			<div class="box">
 				<div class="error">
 					<p class="title">UpLoad Processing  Error</p>
-					<p class="cont mb20">용량	<br /></p>
+					<p class="cont mb20">${exception.message}<br /></p>
 					<span class="btn_style1 blue"><a href="javascript:fncGoAfterErrorPage();">이전 페이지</a></span>
 				</div>
 			</div>

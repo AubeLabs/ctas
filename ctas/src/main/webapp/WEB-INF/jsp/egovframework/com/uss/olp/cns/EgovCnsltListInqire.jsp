@@ -229,6 +229,7 @@ function fn_egov_inquire_cnsltdetail(cnsltId) {
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
+			<c:if test="${searchVO.groupId != 'GROUP_00000000000001'}">
 			<li>
 				<select name="searchCondition" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
 					<option selected value=''>--<spring:message code="input.select" />--</option>
@@ -236,9 +237,12 @@ function fn_egov_inquire_cnsltdetail(cnsltId) {
 					<option value="cnsltSj"  <c:if test="${searchVO.searchCondition == 'cnsltSj'}">selected="selected"</c:if> ><spring:message code="comUssOlpCns.searchCondition.cnsltSj" /></option><!-- 상담제목 -->
 				</select>
 			</li>
+			</c:if>
 			<!-- 검색키워드 및 조회버튼 -->
 			<li>
+			<c:if test="${searchVO.groupId != 'GROUP_00000000000001'}">
 				<input class="s_input" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${searchVO.searchKeyword}"/>'  maxlength="155" >
+			</c:if>
 				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
 				<span class="btn_b"><a href="<c:url value='/uss/olp/cns/CnsltDtlsRegistView.do' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
 			</li>
@@ -268,11 +272,12 @@ function fn_egov_inquire_cnsltdetail(cnsltId) {
 		<col style="width: 9%;">
 		<col style="width: ;">
 		
+		<col style="width: 20%;">
 		<col style="width: 10%;">
 		<col style="width: 13%;">
 		
-		<col style="width: 15%;">
-		<col style="width: 10%;">
+		<%-- <col style="width: 15%;"> --%>
+		<%-- <col style="width: 10%;"> --%>
 	</colgroup>
 	<thead>
 	<tr>
@@ -280,10 +285,11 @@ function fn_egov_inquire_cnsltdetail(cnsltId) {
 		
 		<th class="board_th_link"><spring:message code="comUssOlpCns.list.cnsltSj" /></th><!-- 상담제목 -->
 
+		<th>기관</th><!-- 기관 -->
 		<th><spring:message code="table.reger" /></th><!-- 작성자 -->
 		<th><spring:message code="table.regdate" /></th><!-- 작성일자 -->
-		<th><spring:message code="comUssOlpCns.list.qnaProcessSttusCodeNm" /></th><!-- 진행상태 -->
-		<th><spring:message code="comUssOlpCns.list.hit" /></th><!-- 조회수 -->
+		<%-- <th><spring:message code="comUssOlpCns.list.qnaProcessSttusCodeNm" /></th><!-- 진행상태 --> --%>
+		<%-- <th><spring:message code="comUssOlpCns.list.hit" /></th><!-- 조회수 --> --%>
 	</tr>
 	</thead>
 	<tbody class="ov">
@@ -304,10 +310,11 @@ function fn_egov_inquire_cnsltdetail(cnsltId) {
 	    </form>
 		<%-- <a href="<c:url value='/uss/olp/cns/CnsltInqireCoUpdt.do'/>?pageIndex=${searchVO.pageIndex}&cnsltId=${resultInfo.cnsltId}&passwordConfirmAt="><c:out value="${resultInfo.cnsltSj}"/></a> --%>
 		</td>
+		<td><c:out value="${resultInfo.orgnztNm}"/></td>
 		<td><c:out value="${resultInfo.wrterNm}"/></td>
 		<td><c:out value="${fn:substring(resultInfo.writngDe, 0, 10)}"/></td>
-		<td><c:out value="${resultInfo.qnaProcessSttusCodeNm}"/></td>
-		<td><c:out value="${resultInfo.inqireCo}"/></td>
+		<%-- <td><c:out value="${resultInfo.qnaProcessSttusCodeNm}"/></td>
+		<td><c:out value="${resultInfo.inqireCo}"/></td> --%>
 	  </tr>
 	</c:forEach>
 	</tbody>

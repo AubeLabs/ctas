@@ -180,7 +180,7 @@ function fn_egov_check_file(flag) {
 			<th><label for="cnsltCn">${title}</label> </th>
 			<td class="nopd">
 				<input name="emailAdres" 	type="text" size="30" value="<c:out value='${result.emailAdres}'/>" maxlength="30" title="${title} ${inputTxt}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input name="emailAnswerAt" type="checkbox" value="Y" title="<spring:message code="comUssOlpCns.regist.emailAt"/>"><spring:message code="comUssOlpCns.regist.emailAt"/><!-- 이메일답변여부 -->
+				<%-- <input name="emailAnswerAt" type="checkbox" value="Y" title="<spring:message code="comUssOlpCns.regist.emailAt"/>"><spring:message code="comUssOlpCns.regist.emailAt"/><!-- 이메일답변여부 --> --%>
 			</td>
 		</tr>
 		<!-- 상담제목 -->

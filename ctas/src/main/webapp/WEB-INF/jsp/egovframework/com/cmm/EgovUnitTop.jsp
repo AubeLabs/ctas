@@ -90,6 +90,8 @@
 			parent._content.location.href = "${pageContext.request.contextPath}/uss/olh/qna/selectQnaAnswerList.do";
 		}else if(objName == "9"){	// 자료실
 			parent._content.location.href = "${pageContext.request.contextPath}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000011";
+		}else if(objName == "10"){	// 이의신청
+			parent._content.location.href = "${pageContext.request.contextPath}/uss/olp/cns/CnsltListInqire.do";
 		}
 	}
 	function menuDspl(param1, param2){
@@ -166,9 +168,10 @@
 		<ul id="menu">
 			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
 			<li><a href="javascript:fnMenuSelect(1,1);">자료제출</a></li>
-			<li><a href="javascript:fnMenuSelect(2,2);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(3,3);">Q&A</a></li>
-			<li><a href="javascript:fnMenuSelect(9,4);">자료실</a></li>
+			<li><a href="javascript:fnMenuSelect(10,2);">이의신청</a></li>
+			<li><a href="javascript:fnMenuSelect(2,3);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,4);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(9,5);">자료실</a></li>
 		</ul>
 	</c:if>
 	<c:if test="${loginVO != null && loginVO.getGroupId() == 'GROUP_00000000000002' }">
@@ -184,13 +187,14 @@
 		<ul id="menu">
 			<li><a href="javascript:fnMenuSelect(0,0);">HOME</a></li>
 			<li><a href="javascript:fnMenuSelect(4,1);">평정실시</a></li>
-			<li><a href="javascript:fnMenuSelect(5,2);">기관별현황</a></li>
-			<li><a href="javascript:fnMenuSelect(2,3);">공지사항</a></li>
-			<li><a href="javascript:fnMenuSelect(3,4);">Q&A</a></li>
-			<li><a href="javascript:fnMenuSelect(8,5);">Q&A답변</a></li>
-			<li><a href="javascript:fnMenuSelect(9,6);">자료실</a></li>
-			<li><a href="javascript:fnMenuSelect(6,7);">기관관리</a></li>
-			<li><a href="javascript:fnMenuSelect(7,8);">기관담당자</a></li>
+			<li><a href="javascript:fnMenuSelect(10,2);">이의신청</a></li>
+			<li><a href="javascript:fnMenuSelect(5,3);">기관별현황</a></li>
+			<li><a href="javascript:fnMenuSelect(2,4);">공지사항</a></li>
+			<li><a href="javascript:fnMenuSelect(3,5);">Q&A</a></li>
+			<li><a href="javascript:fnMenuSelect(8,6);">Q&A답변</a></li>
+			<li><a href="javascript:fnMenuSelect(9,7);">자료실</a></li>
+			<li><a href="javascript:fnMenuSelect(6,8);">기관관리</a></li>
+			<li><a href="javascript:fnMenuSelect(7,9);">기관담당자</a></li>
 		</ul>
 	</c:if>
 
@@ -207,6 +211,7 @@
 		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
 			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
 			<option value="1">자료제출</option>
+			<option value="10">이의신청</option>
 			<option value="2">공지사항</option>
 			<option value="3">Q&A</option>
 			<option value="9">자료실</option>
@@ -225,6 +230,7 @@
 		<select style="margin-left:13px;background: #f5f5f5;" id="selectMenu" name="selectMenu" title="메뉴선택" onchange="test(this);">
 			<option value="0"<c:if test="1==1">selected="selected"</c:if>>HOME</option>
 			<option value="4">평정실시</option>
+			<option value="10">이의신청</option>
 			<option value="5">기관별현황</option>
 			<option value="2">공지사항</option>
 			<option value="3">Q&A</option>

@@ -44,7 +44,7 @@ FROM(
         </if>
         </if>
         
-        ORDER BY sbscrbDe DESC
+        ORDER BY orgnztNm /*sbscrbDe DESC*/
         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     

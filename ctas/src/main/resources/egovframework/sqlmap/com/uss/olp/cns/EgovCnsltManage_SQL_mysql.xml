@@ -62,7 +62,8 @@
 	</select>
 
 	<select id="selectCnsltList" parameterType="egovframework.com.uss.olp.cns.service.CnsltManageDefaultVO" resultType="egovMap">
-			SELECT 	C.CNSLT_ID, C.CNSLT_SJ, C.CNSLT_CN, C.OTHBC_AT, C.WRITNG_PASSWORD,
+			SELECT 	(SELECT MAX(FRST_REGIST_PNTTM) FROM COMTNCNSLTLIST WHERE WRTER_NM = C.WRTER_NM) MXDT,
+			        C.CNSLT_ID, C.CNSLT_SJ, C.CNSLT_CN, C.OTHBC_AT, C.WRITNG_PASSWORD,
 					C.AREA_NO, C.MIDDLE_TELNO, C.END_TELNO, C.FRST_MBTLNUM, C.MIDDLE_MBTLNUM, C.END_MBTLNUM,
 					C.EMAIL_ADRES, C.EMAIL_ANSWER_AT, C.WRTER_NM , DATE_FORMAT(C.WRITNG_DE,'%Y-%m-%d')	WRITNG_DE,
 					C.RDCNT  INQIRE_CO,
@@ -84,7 +85,7 @@
 			<if test="groupId == 'GROUP_00000000000001'">AND
 				C.FRST_REGISTER_ID = #{loginUniqId}
 			</if>
-			ORDER BY FRST_REGIST_PNTTM DESC
+			ORDER BY MXDT /*FRST_REGIST_PNTTM*/ DESC
 			LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
